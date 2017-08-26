@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { Constants } from 'expo';
 import colors from '../../src/utils/colors';
 
 const { turquoise, white } = colors;
@@ -15,7 +16,8 @@ module.exports = StyleSheet.create({
         backgroundColor: turquoise,
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingTop: Constants.statusBarHeight,
     },
 
     titleWrapper: {

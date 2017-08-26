@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, ActivityIndicator } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 import customstyles from '../../../assets/styles/customstyles';
 import customtext from '../../utils/customtext';
 import customcolors from '../../utils/colors';
@@ -10,27 +11,21 @@ const { loading } = customtext;
 const { white } = customcolors;
 
 export default class splashscreen extends Component {
-    constructor(props) {
-        super();
-        this.state = {
-            animating: true
-        };
+    static navigationOptions = {
+        header: null,
     }
+    componentDidMount() {
+        const resetAction = NavigationActions.reset({
+            index: 0,
+            actions: [
+                NavigationActions.navigate({ routeName: 'LoginPage'})
+            ]
+        })
 
-    closeActivityIndicator () {
-        var navigator = this.props.navigator;
         setTimeout(() => {
-            this.setState({
-                animating: false
-            }),
-            
-            navigator.replace({
-                id: 'LoginPage'
-            })
-        }, 3000);
+            this.props.navigation.dispatch(resetAction)
+        }, 3000)
     }
-
-    componentDidMount = () => this.closeActivityIndicator();
     
     componentWillUnmount() {
         // clear the interval
@@ -38,7 +33,6 @@ export default class splashscreen extends Component {
     }
     
     render() {
-        const animating = this.state.animating;
         return (
             <View style={wrapper}>
                 <View style={titleWrapper}>
@@ -46,8 +40,7 @@ export default class splashscreen extends Component {
                 </View>
 
                 <View style={splashscreenLoadingWrapper}>
-                    <ActivityIndicator animating={animating} 
-                        color={white}
+                    <ActivityIndicator color={white}
                         size="large"
                         style={splashscreenLoading} />
                 </View>
