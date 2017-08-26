@@ -2,7 +2,8 @@
  * Created by VikramV on 2017/08/22
  */
 export default {
-    white: '#000000',
+    white: '#ffffff',
     red: '#EF5350',
-    turquoise: '#1abc9c'
+    turquoise: '#1abc9c',
+    black: "#000000"
 }

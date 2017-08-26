@@ -38,5 +38,17 @@ module.exports = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingBottom: 20
+    },
+
+    splashscreenLoading: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 80
+    },
+
+    splashscreenLoadingWrapper: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 70
     }
 });
