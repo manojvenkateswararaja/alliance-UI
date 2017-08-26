@@ -1,16 +1,23 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, ActivityIndicator } from 'react-native';
+import { Text, View, StyleSheet, ActivityIndicator, Image } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import customstyles from '../../../assets/styles/customstyles';
 import customtext from '../../utils/customtext';
 import customcolors from '../../utils/colors';
 
-const { wrapper, titleWrapper, title, subtitleWrapper, 
-        subtitle, splashscreenLoading, splashscreenLoadingWrapper } = customstyles;
+const { wrapper, 
+        titleWrapper, 
+        title, 
+        subtitleWrapper, 
+        subtitle, 
+        splashscreenLoading, 
+        splashscreenLoadingWrapper,
+        loginscreenLogoContainer,
+        loginscreenLogo } = customstyles;
 const { loading } = customtext;
 const { white } = customcolors;
 
-export default class splashscreen extends Component {
+export default class SplashScreen extends Component {
     static navigationOptions = {
         header: null,
     }
@@ -36,6 +43,12 @@ export default class splashscreen extends Component {
         return (
             <View style={wrapper}>
                 <View style={titleWrapper}>
+                    <View style={loginscreenLogoContainer}>
+                        <Image
+                            style={loginscreenLogo}
+                            source={require('../../../assets/images/logo.png')}
+                        />
+                    </View>
                     <Text style={title}>Marine Insurance</Text>
                 </View>
 
