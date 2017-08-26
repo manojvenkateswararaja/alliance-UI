@@ -1,6 +1,6 @@
 {
   "name": "alliance-ui",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Marine Insurance Application",
   "author": "RapidQube Digital Solutions Pvt. Ltd",
   "private": true,
@@ -8,6 +8,10 @@
   "dependencies": {
     "expo": "^20.0.0",
     "react": "16.0.0-alpha.12",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-20.0.0.tar.gz"
+    "react-native": "https://github.com/expo/react-native/archive/sdk-20.0.0.tar.gz",
+    "react-native-material-textfield": "^0.9.0",
+    "react-native-material-ui": "^1.12.0",
+    "react-native-vector-icons": "^4.3.0",
+    "react-navigation": "^1.0.0-beta.11"
   }
 }

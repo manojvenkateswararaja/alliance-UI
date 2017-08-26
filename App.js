@@ -1,16 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Splash from './src/components/SplashScreen/splashscreen'
-import styles from './assets/styles/customstyles';
-
-const { container } = styles;
+import { View } from 'react-native';
+import Navigator from './src/utils/navigator';
 
 export default class App extends React.Component {
   render() {
-    return (
-      <View style={container}>
-        <Splash />
-      </View>
-    );
+    return <Navigator />
   }
 }

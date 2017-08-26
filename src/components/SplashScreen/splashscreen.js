@@ -17,11 +17,25 @@ export default class splashscreen extends Component {
         };
     }
 
-    closeActivityIndicator = () => setTimeout(() => this.setState({ 
-      animating: false 
-    }), 3000)
+    closeActivityIndicator () {
+        var navigator = this.props.navigator;
+        setTimeout(() => {
+            this.setState({
+                animating: false
+            }),
+            
+            navigator.replace({
+                id: 'LoginPage'
+            })
+        }, 3000);
+    }
 
     componentDidMount = () => this.closeActivityIndicator();
+    
+    componentWillUnmount() {
+        // clear the interval
+        clearInterval(this.autoRefreshHandler);
+    }
     
     render() {
         const animating = this.state.animating;
