@@ -8,6 +8,5 @@ export default {
     black: '#000000',
     alizarin: '#e74c3c',
     clouds: '#ecf0f1',
-    emerald: '#2ecc71',
-    transparent: "#00ffffff"
+    emerald: '#2ecc71'
 }

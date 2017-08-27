@@ -5,7 +5,6 @@ import colors from '../../src/utils/colors';
 const { turquoise,
         white, 
         emerald,
-        transparent,
         clouds
      } = colors;
 
@@ -103,7 +102,7 @@ module.exports = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         paddingBottom: 20,
-        paddingTop: 20
+        paddingTop: 20,
     },
 
     loginscreenCreateAccountText: {

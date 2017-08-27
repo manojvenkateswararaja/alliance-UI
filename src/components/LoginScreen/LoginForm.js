@@ -36,6 +36,7 @@ export default class LoginForm extends Component {
         this.onChangeText = this.onChangeText.bind(this);
         this.onSubmitUserName = this.onSubmitUserName.bind(this);
         this.onSubmitPassword = this.onSubmitPassword.bind(this);
+        this.onBlur = this.onBlur.bind(this);
         this.onAccessoryPress = this.onAccessoryPress.bind(this);
 
         this.usernameRef = this.updateRef.bind(this, 'username');
@@ -50,6 +51,15 @@ export default class LoginForm extends Component {
       };
     }
     
+    validateEmail(value) {
+        let regex = /\w[-._\w]*@[-._\w]*\w\.\w{2,5}/;
+        if (regex.test(value) === true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     onAccessoryPress() {
         this.setState(({ secureTextEntry }) => ({ secureTextEntry: !secureTextEntry }));
     }
@@ -60,6 +70,28 @@ export default class LoginForm extends Component {
 
     onSubmitPassword() {
         this.password.focus();
+    }
+
+    onBlur() {
+        let errors = {};
+        
+        ['username', 'password']
+        .forEach((name) => {
+            let value = this[name].value();
+            
+            if (!value) {
+                errors[name] = 'Should not be empty';
+            } else {
+                if (name === 'password' && value.length < 6) {
+                    errors[name] = 'Too short';
+                }
+                if (name === 'username' && !this.validateEmail(value)) {
+                    errors[name] = 'Invalid Email ID';
+                }
+            }
+        });
+        
+        this.setState({ errors });
     }
 
     onFocus() {
@@ -80,9 +112,9 @@ export default class LoginForm extends Component {
         ['username', 'password']
         .map((name) => ({ name, ref: this[name] }))
         .forEach(({ name, ref }) => {
-          if (ref.isFocused()) {
-            this.setState({ [name]: text });
-          }
+            if (ref.isFocused()) {
+                this.setState({ [name]: text });
+            }
         });
     }
 
@@ -90,17 +122,20 @@ export default class LoginForm extends Component {
         let errors = {};
 
         ['username', 'password']
-            .forEach((name) => {
-                let value = this[name].value();
+        .forEach((name) => {
+            let value = this[name].value();
 
-                if (!value) {
-                    errors[name] = 'Should not be empty';
-                } else {
-                    if ('password' === name && value.length < 6) {
-                        errors[name] = 'Too short';
-                    }
+            if (!value) {
+                errors[name] = 'Should not be empty';
+            } else {
+                if ('password' === name && value.length < 6) {
+                    errors[name] = 'Too short';
                 }
-            });
+                if ('username' === name && !regex.test(value)) {
+                    errors[name] = 'Invalid Email ID';
+                }
+            }
+        });
 
         this.setState({ errors });
     }
@@ -148,6 +183,7 @@ export default class LoginForm extends Component {
                     error={errors.username}
                     tintColor={white}
                     textColor={white}
+                    onBlur={this.onBlur}
                 />
 
                 <TextField
@@ -166,6 +202,7 @@ export default class LoginForm extends Component {
                     renderAccessory={this.renderPasswordAccessory}
                     tintColor={white}
                     textColor={white}
+                    onBlur={this.onBlur}
                 />
 
                 <View style={loginscreenLoginContainer}>

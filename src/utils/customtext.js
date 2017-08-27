@@ -5,7 +5,7 @@ export default {
     // Common
     loading: 'Loading...',
     app_name: 'Marine Insurance',
-
+    
     // Slash Screen
     splash_footer_line1: 'Powered by',
     splash_footer_line2: 'RapidQube Digital Solutions Pvt. Ltd.',
