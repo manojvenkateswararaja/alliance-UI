@@ -2,7 +2,12 @@ import { StyleSheet } from 'react-native';
 import { Constants } from 'expo';
 import colors from '../../src/utils/colors';
 
-const { turquoise, white, alizarin } = colors;
+const { turquoise,
+        white, 
+        emerald,
+        transparent,
+        clouds
+     } = colors;
 
 module.exports = StyleSheet.create({
     container: {
@@ -29,9 +34,6 @@ module.exports = StyleSheet.create({
         color: white,
         fontSize: 35,
         fontWeight: 'bold',
-        textAlign: 'center',
-        opacity: 0.9,
-        marginTop: 10
     },
 
     subtitle: {
@@ -59,7 +61,7 @@ module.exports = StyleSheet.create({
 
     loginscreenContainer: {
         flex: 1,
-        backgroundColor: alizarin
+        backgroundColor: emerald
     },
 
     loginscreenLogoContainer: {
@@ -71,5 +73,45 @@ module.exports = StyleSheet.create({
     loginscreenLogo: {
         width: 100,
         height: 100
+    },
+
+    loginTitle: {
+        color: white,
+        textAlign: 'center',
+        opacity: 0.9,
+        marginTop: 10,
+        width: 160
+    },
+
+    loginscreenInputContainer: {
+        marginHorizontal: 4,
+        marginVertical: 8,
+        paddingHorizontal: 8
+    },
+
+    loginscreenLoginContainer: {
+        paddingTop: 20
+    },
+
+    loginscreenCreateAccountContainer: {
+        flex: 1
+    },
+
+    loginscreenCreateAccountWrapper: {
+        backgroundColor: 'transparent',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingBottom: 20,
+        paddingTop: 20
+    },
+
+    loginscreenCreateAccountText: {
+        color: clouds
+    },
+
+    loginscreenCreateAccountLinkText: {
+        color: white,
+        marginLeft: 5,
     }
 });

@@ -3,8 +3,8 @@
  */
 
 import { StackNavigator } from 'react-navigation'; // 1.0.0-beta.11
-import SplashScreen from '../components/SplashScreen/splashscreen';
-import LoginScreen from '../components/LoginScreen/loginscreen'
+import SplashScreen from '../components/SplashScreen/SplashScreen';
+import LoginScreen from '../components/LoginScreen/LoginScreen'
 
 
 export const Navigator  = StackNavigator({

@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, ActivityIndicator, Image } from 'react-native';
+import { Text, 
+         View, 
+         StyleSheet, 
+         ActivityIndicator, 
+         Image 
+        } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import customstyles from '../../../assets/styles/customstyles';
 import customtext from '../../utils/customtext';
@@ -13,8 +18,12 @@ const { wrapper,
         splashscreenLoading, 
         splashscreenLoadingWrapper,
         loginscreenLogoContainer,
-        loginscreenLogo } = customstyles;
-const { loading } = customtext;
+        loginscreenLogo 
+    } = customstyles;
+const { app_name,
+        splash_footer_line1,
+        splash_footer_line2 
+    } = customtext;
 const { white } = customcolors;
 
 export default class SplashScreen extends Component {
@@ -49,7 +58,7 @@ export default class SplashScreen extends Component {
                             source={require('../../../assets/images/logo.png')}
                         />
                     </View>
-                    <Text style={title}>Marine Insurance</Text>
+                    <Text style={title}>{app_name}</Text>
                 </View>
 
                 <View style={splashscreenLoadingWrapper}>
@@ -59,8 +68,8 @@ export default class SplashScreen extends Component {
                 </View>
 
                 <View style={subtitleWrapper}>
-                    <Text style={subtitle}>Powered by</Text>
-                    <Text style={subtitle}>RapidQube Digital Solutions Pvt. Ltd.</Text>
+                    <Text style={subtitle}>{splash_footer_line1}</Text>
+                    <Text style={subtitle}>{splash_footer_line2}</Text>
                 </View>
             </View>
         );

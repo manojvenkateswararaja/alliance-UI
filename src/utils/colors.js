@@ -3,8 +3,11 @@
  */
 export default {
     white: '#ffffff',
-    red: '#EF5350',
+    red: '#ef5350',
     turquoise: '#1abc9c',
-    black: "#000000",
-    alizarin: "#e74c3c"
+    black: '#000000',
+    alizarin: '#e74c3c',
+    clouds: '#ecf0f1',
+    emerald: '#2ecc71',
+    transparent: "#00ffffff"
 }
