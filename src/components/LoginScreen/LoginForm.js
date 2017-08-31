@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { View, 
          Text,
+         StyleSheet, 
+         ActivityIndicator, 
+         Image, 
+         KeyboardAvoidingView, 
          TouchableOpacity
      } from 'react-native';
 import { TextField } from 'react-native-material-textfield';
@@ -9,6 +13,7 @@ import { RaisedTextButton } from 'react-native-material-buttons';
 import customtext from '../../utils/customtext';
 import customstyles from '../../../assets/styles/customstyles';
 import colors from '../../utils/colors';
+import { NavigationActions } from 'react-navigation';
 
 const { username_label,
         password_label,
@@ -38,10 +43,10 @@ export default class LoginForm extends Component {
         this.onSubmitPassword = this.onSubmitPassword.bind(this);
         this.onBlur = this.onBlur.bind(this);
         this.onAccessoryPress = this.onAccessoryPress.bind(this);
-
+        this.onForward = this.onForward.bind(this);
+        
         this.usernameRef = this.updateRef.bind(this, 'username');
         this.passwordRef = this.updateRef.bind(this, 'password');
-
         this.renderPasswordAccessory = this.renderPasswordAccessory.bind(this);
 
         this.state = {
@@ -161,7 +166,10 @@ export default class LoginForm extends Component {
             />
         );
     }
-
+    onForward(){
+        console.log("Registerpage");
+        this.props.navigation.navigate('RegisterPage');
+    }
     render() {
         let { errors = {}, secureTextEntry, ...data } = this.state;
         let { username = 'username' } = data;
@@ -218,7 +226,8 @@ export default class LoginForm extends Component {
                     <Text style={loginscreenCreateAccountText}>
                         {create_account_text}
                     </Text>
-                    <TouchableOpacity activeOpacity={.5}>
+                    <TouchableOpacity activeOpacity={.5}
+                    onPress={this.onForward}>
                         <View>
                             <Text style={loginscreenCreateAccountLinkText}>
                                 {create_account_link}

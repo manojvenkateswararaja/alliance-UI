@@ -4,10 +4,12 @@
 
 import { StackNavigator } from 'react-navigation'; // 1.0.0-beta.11
 import SplashScreen from '../components/SplashScreen/SplashScreen';
-import LoginScreen from '../components/LoginScreen/LoginScreen'
+import LoginScreen from '../components/LoginScreen/LoginScreen';
+import RegisterScreen from '../components/RegisterScreen/RegisterScreen';
 
 
 export const Navigator  = StackNavigator({
   SplashPage: {screen: SplashScreen},
-  LoginPage: {screen: LoginScreen}
+  LoginPage: {screen: LoginScreen},
+  RegisterPage: {screen: RegisterScreen}
 });
