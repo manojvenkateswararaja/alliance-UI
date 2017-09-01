@@ -176,7 +176,7 @@ export default class LoginScreen extends Component {
 
     onRegistration(){
         console.log("Registerpage");
-        // this.props.navigation.navigate('RegisterPage');
+        this.props.navigation.navigate('RegisterPage');
     }
     
     static navigationOptions = {
@@ -226,7 +226,7 @@ export default class LoginScreen extends Component {
                         onFocus={this.onFocus}
                         onChangeText={this.onChangeText}
                         onSubmitEditing={this.onSubmitPassword}
-                        returnKeyType='done'
+                        returnKeyType='next'
                         label={password_label}
                         error={errors.password}
                         renderAccessory={this.renderPasswordAccessory}
