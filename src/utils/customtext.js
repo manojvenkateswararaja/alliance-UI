@@ -16,5 +16,7 @@ export default {
     password_label: 'Password',
     login_label: 'LOGIN',
     create_account_text: "Don't have an account?",
-    create_account_link: 'Create Account'
+    create_account_link: 'Create Account',
+
+    value_true: false
 }

@@ -5,7 +5,9 @@ import { Text,
          ActivityIndicator, 
          Image, 
          KeyboardAvoidingView ,
-         TouchableOpacity } from 'react-native';
+         TouchableOpacity,
+         ScrollView
+        } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import customstyles from '../../../assets/styles/customstyles';
 import customtext from '../../utils/customtext';
@@ -27,7 +29,8 @@ const { username_label,
         password_label,
         login_label,
         create_account_text,
-        create_account_link
+        create_account_link,
+        value_true
       } = customtext;
 const { loginscreenInputContainer,
         loginscreenContainer,
@@ -40,6 +43,7 @@ const { white,
         turquoise,
         red
       } = colors;
+
 export default class RegisterScreen extends Component {
   constructor() {
     super();
@@ -58,6 +62,7 @@ export default class RegisterScreen extends Component {
     this.phoneRef = this.updateRef.bind(this, 'phone');
     this.emailRef = this.updateRef.bind(this, 'email');
     this.onChangeText = this.onChangeText.bind(this);
+    this.onDropdownChange = this.onDropdownChange.bind(this);
     
     
     this.passwordRef = this.updateRef.bind(this, 'password');
@@ -70,6 +75,7 @@ export default class RegisterScreen extends Component {
         password: '',
         usertype:'',
         secureTextEntry: true,
+        value_true: false
   };
   this.state = {
     // usertype: "Select Usertype",
@@ -97,9 +103,11 @@ onSubmitLastName(){
 onSubmitPhone(){
   this.phone.focus();
 }
+
 onSubmitEmail() {
   this.email.focus();
 }
+
 onSubmitPassword() {
   this.password.focus();
 }
@@ -145,6 +153,7 @@ onFocus() {
   }
   this.setState({ errors });
 }
+
 onChangeText(text) {
   ['fname','lname','phone', 'email','password']
   .map((name) => ({ name, ref: this[name] }))
@@ -154,6 +163,16 @@ onChangeText(text) {
       }
   });
 }
+
+onDropdownChange(text) {
+  console.log("Dropdown: " + text);
+  if (text === "CNF Agents") {
+  this.setState({ value_true: true });
+  } else {
+    this.setState({ value_true: false });
+  }
+}
+
 onSubmitRegister() {
   
   let errors = new Object;
@@ -162,7 +181,7 @@ onSubmitRegister() {
   .forEach((name) => {
       let a = i++;
       let value = this[name].value();
-      console.log(name + " " + value);
+      console.log(name + " " + vavalue_truelue);
       if (!value) {
           errors[name] = 'Should not be empty';
       } else {
@@ -189,8 +208,7 @@ onSubmitRegister() {
             } 
             
   });
-  console.log("6g"+JSON.stringify(errors));
-  console.log("342 " + errors);
+ 
   if (errors === null || errors === 'null' || errors === 'undefined'
       || !errors ) {
     console.log("Success");
@@ -234,7 +252,7 @@ static navigationOptions = {
     
     return (
       <KeyboardAvoidingView behavior="padding" style={loginscreenContainer}>
-                
+          <ScrollView>            
                 <View style={loginscreenInputContainer}>
                     <TextField
                         ref={this.fnameRef}
@@ -287,6 +305,7 @@ static navigationOptions = {
                         textColor={white}
                         onBlur={this.onBlur}
                     />
+
                     <TextField
                         ref={this.emailRef}
                         value={data.email}
@@ -331,17 +350,33 @@ static navigationOptions = {
                         autoCorrect={false}
                         enablesReturnKeyAutomatically={true}
                         onFocus={this.onFocus}
-                        onChangeText={this.onChangeText}
+                        onChangeText={this.onDropdownChange}
                         returnKeyType='next'
                         label="Select Usertype"
                         tintColor={white}
                         textColor={red}
-                        onBlur={this.onBlur}
                         style={container1}
                        
                      />
                      <View>
-                     {this.state.value ? <Text style={{ color: 'red' }}>{this.state.errorMessage}</Text> : null}
+                     {this.state.value_true && 
+                      <TextField
+                        ref={this.emailRef}
+                        value={data.email}
+                        keyboardType='email-address'
+                        autoCapitalize='none'
+                        autoCorrect={false}
+                        enablesReturnKeyAutomatically={true}
+                        onFocus={this.onFocus}
+                        onChangeText={this.onChangeText}
+                        onSubmitEditing={this.onSubmitEmail}
+                        returnKeyType='next'
+                        label="Email"
+                        error={errors.email}
+                        tintColor={white}
+                        textColor={white}
+                    />
+                     }
                      <TextField
                         ref={this.passwordRef}
                         value={data.password}
@@ -371,7 +406,7 @@ static navigationOptions = {
                     </View>
                      
                 </View>
-               
+               </ScrollView>
             </KeyboardAvoidingView>
     );
 }
