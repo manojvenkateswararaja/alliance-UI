@@ -13,10 +13,14 @@ import colors from '../../utils/colors';
 import { TextField } from 'react-native-material-textfield';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import { RaisedTextButton } from 'react-native-material-buttons';
+import { Dropdown } from 'react-native-material-dropdown';
+
+
 const { 
         loginscreenLogoContainer,
         loginscreenLogo,
-        loginTitle 
+        loginTitle ,
+        container1
       } = customstyles;
 const { login_welcome } = customtext;
 const { username_label,
@@ -33,11 +37,13 @@ const { loginscreenInputContainer,
         loginscreenLoginContainer
       } = customstyles;
 const { white,
-        turquoise
+        turquoise,
+        red
       } = colors;
 export default class RegisterScreen extends Component {
   constructor() {
     super();
+    
     this.onFocus = this.onFocus.bind(this);
     this.onChangeText = this.onChangeText.bind(this);
     this.onSubmitEmail = this.onSubmitEmail.bind(this);
@@ -46,6 +52,7 @@ export default class RegisterScreen extends Component {
     this.onAccessoryPress = this.onAccessoryPress.bind(this);
     this.onSubmitRegister = this.onSubmitRegister.bind(this);
     
+    this.usertypeRef = this.updateRef.bind(this, 'usertype');
     this.fnameRef = this.updateRef.bind(this, 'fname');
     this.lnameRef = this.updateRef.bind(this, 'lname');
     this.phoneRef = this.updateRef.bind(this, 'phone');
@@ -61,7 +68,13 @@ export default class RegisterScreen extends Component {
         phone: '',
         email: '',
         password: '',
+        usertype:'',
         secureTextEntry: true,
+  };
+  this.state = {
+    // usertype: "Select Usertype",
+    name: 'Cyan',
+    code: 'A700',
   };
 }
 validateEmail(value) {
@@ -90,6 +103,7 @@ onSubmitEmail() {
 onSubmitPassword() {
   this.password.focus();
 }
+
 onBlur() {
   let errors = {};
   
@@ -143,10 +157,10 @@ onChangeText(text) {
 onSubmitRegister() {
   
   let errors = new Object;
-   let i =0;
+  let i =0;
   ['fname', 'lname','phone', 'email','password']
   .forEach((name) => {
-     let a = i++;
+      let a = i++;
       let value = this[name].value();
       console.log(name + " " + value);
       if (!value) {
@@ -166,17 +180,24 @@ onSubmitRegister() {
               }
               if (name === 'password' && value.length < 6 ) {
                errors[name] = 'Too short';
-              }
-                
+              } 
               if(a=4){
                 console.log("value of a "+a);
                 this.props.navigation.navigate('LoginPage');
                 
               }     
-           }
+            } 
             
   });
-  
+  console.log("6g"+JSON.stringify(errors));
+  console.log("342 " + errors);
+  if (errors === null || errors === 'null' || errors === 'undefined'
+      || !errors ) {
+    console.log("Success");
+    this.props.navigation.navigate('LoginPage');
+  } else {
+    console.log("Failure");
+  }
   this.setState({ errors });
   
 }
@@ -208,6 +229,8 @@ static navigationOptions = {
     let { phone = 'phone' } = data;
     let { email = 'email' } = data;
     let { password = 'password' } = data;
+    let { usertype = 'usertype'  } = this.state;
+    
     
     return (
       <KeyboardAvoidingView behavior="padding" style={loginscreenContainer}>
@@ -298,8 +321,46 @@ static navigationOptions = {
                         tintColor={white}
                         textColor={white}
                         onBlur={this.onBlur}
-                    />
+                    /> 
                    
+                    <Dropdown 
+                        ref={this.usertypeRef}
+                        value={data.usertype}
+                        data={usertypeData}
+                        autoCapitalize='none'
+                        autoCorrect={false}
+                        enablesReturnKeyAutomatically={true}
+                        onFocus={this.onFocus}
+                        onChangeText={this.onChangeText}
+                        returnKeyType='next'
+                        label="Select Usertype"
+                        tintColor={white}
+                        textColor={red}
+                        onBlur={this.onBlur}
+                        style={container1}
+                       
+                     />
+                     <View>
+                     {this.state.value ? <Text style={{ color: 'red' }}>{this.state.errorMessage}</Text> : null}
+                     <TextField
+                        ref={this.passwordRef}
+                        value={data.password}
+                        secureTextEntry={secureTextEntry}
+                        autoCapitalize='none'
+                        autoCorrect={false}
+                        enablesReturnKeyAutomatically={true}
+                        onFocus={this.onFocus}
+                        onChangeText={this.onChangeText}
+                        onSubmitEditing={this.onSubmitPassword}
+                        returnKeyType='next'
+                        label={password_label}
+                        error={errors.password}
+                        renderAccessory={this.renderPasswordAccessory}
+                        tintColor={white}
+                        textColor={white}
+                        onBlur={this.onBlur}
+                    /> 
+                     </View>
                     <View style={loginscreenLoginContainer}>
                         <RaisedTextButton 
                             onPress={this.onSubmitRegister} 
@@ -315,3 +376,11 @@ static navigationOptions = {
     );
 }
 }
+
+const usertypeData = [
+  { value: 'Public Adjuster' },
+  { value: 'CNF Agents' },
+  { value: 'Direct Clients' },
+  { value: 'Claims Adjuster' },
+  { value: 'Examiner'},
+];

@@ -112,5 +112,8 @@ module.exports = StyleSheet.create({
     loginscreenCreateAccountLinkText: {
         color: white,
         marginLeft: 5,
+    },
+    container1:{
+        color:white
     }
 });
