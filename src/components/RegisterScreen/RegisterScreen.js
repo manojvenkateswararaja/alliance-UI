@@ -52,6 +52,9 @@ export default class RegisterScreen extends Component {
     this.onChangeText = this.onChangeText.bind(this);
     this.onSubmitEmail = this.onSubmitEmail.bind(this);
     this.onSubmitPassword = this.onSubmitPassword.bind(this);
+    this.onSubmitClaimsId= this.onSubmitClaimsId.bind(this);
+    this.onSubmitExaminerId= this.onSubmitExaminerId.bind(this);
+    this.onSubmitLicenseId= this.onSubmitLicenseId.bind(this);
     this.onBlur = this.onBlur.bind(this);
     this.onAccessoryPress = this.onAccessoryPress.bind(this);
     this.onSubmitRegister = this.onSubmitRegister.bind(this);
@@ -61,11 +64,13 @@ export default class RegisterScreen extends Component {
     this.lnameRef = this.updateRef.bind(this, 'lname');
     this.phoneRef = this.updateRef.bind(this, 'phone');
     this.emailRef = this.updateRef.bind(this, 'email');
-    this.onChangeText = this.onChangeText.bind(this);
+    this.passwordRef = this.updateRef.bind(this, 'password');
+    this.rpasswordRef = this.updateRef.bind(this, 'rpassword');
+    this.LicenseIdRef = this.updateRef.bind(this, 'LicenseId');
+    this.ClaimsIdRef = this.updateRef.bind(this, 'ClaimsId');
+    this.ExaminerIdRef = this.updateRef.bind(this, 'ExaminerId');
     this.onDropdownChange = this.onDropdownChange.bind(this);
     
-    
-    this.passwordRef = this.updateRef.bind(this, 'password');
     this.renderPasswordAccessory = this.renderPasswordAccessory.bind(this);
     this.state = {
         fname: '',
@@ -73,15 +78,19 @@ export default class RegisterScreen extends Component {
         phone: '',
         email: '',
         password: '',
+        rpassword: '',
         usertype:'',
+        LicenseId:'',
+        ClaimsId:'',
+        ExaminerId:'',
+        name: 'Cyan',
+        code: 'A700',
         secureTextEntry: true,
-        value_true: false
+        value_LicenseId: false,
+        value_ClaimsId: false,
+        value_ExaminerId: false,
   };
-  this.state = {
-    // usertype: "Select Usertype",
-    name: 'Cyan',
-    code: 'A700',
-  };
+ 
 }
 validateEmail(value) {
   let regex = /\w[-._\w]*@[-._\w]*\w\.\w{2,5}/;
@@ -89,6 +98,15 @@ validateEmail(value) {
       return true;
   } else {
       return false;
+  }
+}
+validateRpassword(value){
+  console.log("value"+value);
+  console.log("password"+this.state.password);
+  if (value !== this.state.password) {
+      return false;
+  } else {
+      return true;
   }
 }
 onAccessoryPress() {
@@ -111,13 +129,27 @@ onSubmitEmail() {
 onSubmitPassword() {
   this.password.focus();
 }
+onSubmitRpassword(){
+  this.rpassword.focus();
+}
+onSubmitExaminerId(){
+  this.ExaminerId.focus();
+}
+onSubmitLicenseId(){
+  this.LicenseId.focus();
+}
+onSubmitClaimsId(){
+  this.ClaimsId.focus();
+}
 
 onBlur() {
   let errors = {};
   
-  ['fname','lname','phone','email', 'password']
+  ['fname', 'lname','phone', 'email','password','rpassword' ]
   .forEach((name) => {
+      console.log("Name: " + name);
       let value = this[name].value();
+      console.log("Value: " + value);
       
       if (!value) {
           errors[name] = 'Should not be empty';
@@ -138,11 +170,25 @@ onBlur() {
             if (name === 'password' && value.length < 6) {
               errors[name] = 'Too short';
             }
+            // if (name === 'rpassword' && value.length < 6) {
+            //   errors[name] = 'Too short';
+            // }
+             if (name === 'rpassword' &&  !this.validateRpassword(value)) {
+              errors[name] = 'Password Must Match';
+            }
+            if (name === 'usertype') {
+              errors[name] = 'Usertype must be selected';
+            }
           }
   });
   
   this.setState({ errors });
 }
+
+isEmptyObject(object) {
+        return (Object.getOwnPropertyNames(object).length === 0);
+    }
+
 onFocus() {
   let { errors = {} } = this.state;
   for (let name in errors) {
@@ -155,7 +201,7 @@ onFocus() {
 }
 
 onChangeText(text) {
-  ['fname','lname','phone', 'email','password']
+  ['fname','lname','phone', 'email','password','rpassword', 'usertype']
   .map((name) => ({ name, ref: this[name] }))
   .forEach(({ name, ref }) => {
       if (ref.isFocused()) {
@@ -164,24 +210,60 @@ onChangeText(text) {
   });
 }
 
-onDropdownChange(text) {
-  console.log("Dropdown: " + text);
-  if (text === "CNF Agents") {
-  this.setState({ value_true: true });
-  } else {
-    this.setState({ value_true: false });
+onChangeText1(text) {
+  console.log("Test: "+ text);
+  /*console.log("value_LicenseId: "+ this.state.value_LicenseId);
+  if (this.state.value_LicenseId) {
+    this.setState({LicenseId: value});
   }
+  if (this.state.value_ExaminerId) {
+    this.setState({ExaminerId: value});
+  }
+  if (this.state.value_ClaimsId) {
+    this.setState({ClaimsId: value});
+  }*/
+}
+
+onDropdownChange(text1) {
+  //['LicenseId','ClaimsId','ExaminerId']
+  console.log("Dropdown: " + text1);
+  if (text1 === "Public Adjuster") {
+  this.setState({ value_LicenseId: true });
+  } else {
+    this.setState({ value_LicenseId: false });
+  }
+  if (text1 === "Claims Adjuster") {
+  this.setState({ value_ClaimsId: true });
+  } else {
+    this.setState({ value_ClaimsId: false });
+  }
+  if (text1 === "Examiner") {
+  this.setState({ value_ExaminerId: true });
+  } else {
+    this.setState({ value_ExaminerId: false });
+  }
+  this.setState({usertype: text1});
 }
 
 onSubmitRegister() {
   
   let errors = new Object;
   let i =0;
-  ['fname', 'lname','phone', 'email','password']
-  .forEach((name) => {
+  let test;
+    if (this.state.value_LicenseId) {
+        test = ['fname', 'lname','phone', 'email','password','rpassword', 'LicenseId' ];
+    }
+    if (this.state.value_ExaminerId) {
+        test = ['fname', 'lname','phone', 'email','password','rpassword', 'ExaminerId' ];
+    }
+    if (this.state.value_ClaimsId) {
+        test = ['fname', 'lname','phone', 'email','password','rpassword', 'ClaimsId' ];
+    }
+console.log("Test: " + test)
+  test.forEach((name) => {
       let a = i++;
       let value = this[name].value();
-      console.log(name + " " + vavalue_truelue);
+    
       if (!value) {
           errors[name] = 'Should not be empty';
       } else {
@@ -200,7 +282,13 @@ onSubmitRegister() {
               if (name === 'password' && value.length < 6 ) {
                errors[name] = 'Too short';
               } 
-              if(a=4){
+               if (name === 'rpassword' &&  !this.validateRpassword(value)) {
+              errors[name] = 'Password Must Match';
+            }
+            if (name==='LicenseId' && value.length<2) {
+              errors[name] = 'Invalid Number';
+            }
+              if(a=6){
                 console.log("value of a "+a);
                 this.props.navigation.navigate('LoginPage');
                 
@@ -217,7 +305,59 @@ onSubmitRegister() {
     console.log("Failure");
   }
   this.setState({ errors });
+
   
+  if (this.isEmptyObject(errors)) {
+  if (this.state.value_ClaimsId) {
+this.setState({userObject: {
+  fname: this.state.fname, 
+  lname: this.state.lname,
+  phone: this.state.phone,
+  ClaimsId: this.state.ClaimsId
+} 
+});
+}
+if (this.state.value_ExaminerId) {
+this.setState({userObject: {
+  fname: this.state.fname, 
+  lname: this.state.lname,
+  phone: this.state.phone,
+  ExaminerId: this.state.ExaminerId
+} 
+});
+}
+if (this.state.value_LicenseId) {
+  this.setState({userObject: {
+  fname: this.state.fname, 
+  lname: this.state.lname,
+  phone: this.state.phone,
+  LicenseId: this.state.LicenseId
+} 
+});
+}
+
+  return fetch('http://192.168.0.20:8082/registerUser', {
+  method: 'POST',
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({ 
+email: this.state.email,
+password:  this.state.password,
+
+userObject:this.state.userObject,
+usertype: this.state.usertype,
+ })
+})
+.then((response) => response.json())
+      .then((responseJson) => {
+        console.log("responseJson.message"+responseJson.message);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 }
 updateRef(name, ref) {
   this[name] = ref;
@@ -247,7 +387,11 @@ static navigationOptions = {
     let { phone = 'phone' } = data;
     let { email = 'email' } = data;
     let { password = 'password' } = data;
-    let { usertype = 'usertype'  } = this.state;
+    let { rpassword = 'rpassword' } = data;
+    let { LicenseId = 'LicenseId' } = data;
+    let { ClaimsId = 'ClaimsId' } = data;
+    let { ExaminerId = 'ExaminerId' } = data;
+    let { usertype = 'usertype'  } = data;
     
     
     return (
@@ -341,6 +485,24 @@ static navigationOptions = {
                         textColor={white}
                         onBlur={this.onBlur}
                     /> 
+                    <TextField
+                        ref={this.rpasswordRef}
+                        value={data.rpassword}
+                        secureTextEntry={secureTextEntry}
+                        autoCapitalize='none'
+                        autoCorrect={false}
+                        enablesReturnKeyAutomatically={true}
+                        onFocus={this.onFocus}
+                        onChangeText={this.onChangeText}
+                        onSubmitEditing={this.onSubmitRpassword}
+                        returnKeyType='next'
+                        label="Retype Password"
+                        error={errors.rpassword}
+                        renderAccessory={this.renderPasswordAccessory}
+                        tintColor={white}
+                        textColor={white}
+                        onBlur={this.onBlur}
+                    /> 
                    
                     <Dropdown 
                         ref={this.usertypeRef}
@@ -359,42 +521,62 @@ static navigationOptions = {
                        
                      />
                      <View>
-                     {this.state.value_true && 
+                     {this.state.value_LicenseId && 
                       <TextField
-                        ref={this.emailRef}
-                        value={data.email}
-                        keyboardType='email-address'
+                        ref={this.LicenseIdRef}
+                        value={data.LicenseId}
+                        keyboardType='numeric'
                         autoCapitalize='none'
                         autoCorrect={false}
                         enablesReturnKeyAutomatically={true}
                         onFocus={this.onFocus}
                         onChangeText={this.onChangeText}
-                        onSubmitEditing={this.onSubmitEmail}
+                        onSubmitEditing={this.onSubmitLicenseId}
                         returnKeyType='next'
-                        label="Email"
-                        error={errors.email}
+                        label="License Id"
+                        error={errors.LicenseId}
                         tintColor={white}
                         textColor={white}
                     />
                      }
-                     <TextField
-                        ref={this.passwordRef}
-                        value={data.password}
-                        secureTextEntry={secureTextEntry}
+                     </View>
+                      <View>
+                     {this.state.value_ClaimsId && 
+                      <TextField
+                        ref={this.ClaimsIdRef}
+                        value={data.ClaimsId}
+                        keyboardType='numeric'
                         autoCapitalize='none'
                         autoCorrect={false}
                         enablesReturnKeyAutomatically={true}
                         onFocus={this.onFocus}
                         onChangeText={this.onChangeText}
-                        onSubmitEditing={this.onSubmitPassword}
+                        onSubmitEditing={this.onSubmitClaimsId}
                         returnKeyType='next'
-                        label={password_label}
-                        error={errors.password}
-                        renderAccessory={this.renderPasswordAccessory}
+                        label="Claims Id"
                         tintColor={white}
                         textColor={white}
-                        onBlur={this.onBlur}
-                    /> 
+                    />
+                     }
+                     </View>
+                      <View>
+                     {this.state.value_ExaminerId && 
+                      <TextField
+                        ref={this.ExaminerIdRef}
+                        value={data.ExaminerId}
+                        keyboardType='numeric'
+                        autoCapitalize='none'
+                        autoCorrect={false}
+                        enablesReturnKeyAutomatically={true}
+                        onFocus={this.onFocus}
+                        onChangeText={this.onChangeText}
+                        onSubmitEditing={this.onSubmitExaminerId}
+                        returnKeyType='next'
+                        label="Examiner Id"
+                        tintColor={white}
+                        textColor={white}
+                    />
+                     }
                      </View>
                     <View style={loginscreenLoginContainer}>
                         <RaisedTextButton 
