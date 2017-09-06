@@ -8,5 +8,7 @@ export default {
     black: '#000000',
     alizarin: '#e74c3c',
     clouds: '#ecf0f1',
-    emerald: '#2ecc71'
+    emerald: '#2ecc71',
+    loading_blur: '#F5FCFF88',
+    nephritis: '#27ae60'
 }

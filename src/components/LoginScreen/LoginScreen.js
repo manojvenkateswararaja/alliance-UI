@@ -16,10 +16,10 @@ import { TextField } from 'react-native-material-textfield';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import { RaisedTextButton } from 'react-native-material-buttons';
 
-const { 
-        loginscreenLogoContainer,
+const { loginscreenLogoContainer,
         loginscreenLogo,
-        loginTitle 
+        loginTitle,
+        commonLoading
     } = customstyles;
 const { login_welcome } = customtext;
 const { username_label,
@@ -60,6 +60,7 @@ export default class LoginScreen extends Component {
             username: '',
             password: '',
             secureTextEntry: true,
+            loading_blur: false
       };
     }
     
@@ -132,6 +133,7 @@ export default class LoginScreen extends Component {
 
     onSubmitLogin() {
         let errors = {};
+        this.setState({loading_blur: true});
 
         ['username', 'password']
         .forEach((name) => {
@@ -143,11 +145,21 @@ export default class LoginScreen extends Component {
                 if ('password' === name && value.length < 6) {
                     errors[name] = 'Too short';
                 }
-                if ('username' === name && !regex.test(value)) {
+                if ('username' === name && !this.validateEmail(value)) {
                     errors[name] = 'Invalid Email ID';
                 }
             }
         });
+        
+        if(this.isEmptyObject(errors)) {
+            setTimeout(() => {
+                this.setState({loading_blur: false});
+                this.setState({userType : 'Direct Clients'});
+                this.props.navigation.navigate('HomePageClients');
+            }, 3000)
+        } else {
+            this.setState({loading_blur: false});
+        }
 
         this.setState({ errors });
     }
@@ -160,8 +172,7 @@ export default class LoginScreen extends Component {
         let { secureTextEntry } = this.state;
 
         let name = secureTextEntry?
-            'visibility':
-            'visibility-off';
+            'visibility': 'visibility-off';
 
         return (
             <MaterialIcon
@@ -175,10 +186,13 @@ export default class LoginScreen extends Component {
     }
 
     onRegistration(){
-        console.log("Registerpage");
         this.props.navigation.navigate('RegisterPage');
     }
     
+    isEmptyObject(object) {
+        return (Object.getOwnPropertyNames(object).length === 0);
+    }
+
     static navigationOptions = {
         header: null,
     }
@@ -262,6 +276,12 @@ export default class LoginScreen extends Component {
                 { /* Due to parent child relation of (this.props.navigation.navigate)
                  page is not navigating from LoginScreen to RegisterScreen */}
                 {/* <LoginForm /> */}
+
+                {this.state.loading_blur &&
+                    <View style={commonLoading}>
+                        <ActivityIndicator size='large' />
+                    </View>
+                }
             </KeyboardAvoidingView>
         );
     }

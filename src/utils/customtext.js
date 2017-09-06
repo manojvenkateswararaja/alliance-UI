@@ -18,5 +18,9 @@ export default {
     create_account_text: "Don't have an account?",
     create_account_link: 'Create Account',
 
-    value_true: false
+    // Home Screen
+    home_client_cnfAgents : ['Issued Policies', 'Saved Policies', 'New Policy', 
+                             'Claims Submission'],
+    home_client_directClients : ['My Policies', 'Saved Policies', 'New Policy', 
+    'Claims Submission']
 }

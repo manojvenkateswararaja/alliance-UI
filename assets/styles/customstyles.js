@@ -1,11 +1,13 @@
 import { StyleSheet } from 'react-native';
 import { Constants } from 'expo';
+import { Dimensions } from 'react-native';
 import colors from '../../src/utils/colors';
 
 const { turquoise,
         white, 
         emerald,
-        clouds
+        clouds,
+        nephritis
      } = colors;
 
 module.exports = StyleSheet.create({
@@ -113,7 +115,68 @@ module.exports = StyleSheet.create({
         color: white,
         marginLeft: 5,
     },
+
     container1:{
         color:white
-    }
+    },
+
+    commonLoading: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#F5FCFF88'
+    },
+
+    scrollContainer: {
+        flex: 1,
+        backgroundColor: emerald
+    },
+
+    scrollViewContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        padding: 2
+    },
+
+    scrollBox: {
+        margin: 2,
+        width: Dimensions.get('window').width / 2 -6,
+        height: 130,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: nephritis
+    },
+
+    scrollBoxText: {
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    
+    scrollImage: {
+        margin: 2,
+        width: Dimensions.get('window').width / 1,
+        height: 310,
+    },
+    
+    homeImageLayout: {
+        height: 310,
+        width: Dimensions.get('window').width / 1,
+        padding: 2
+    },
+
+    homeScrollImageContainer: {
+        flexGrow: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
+    homeScrollImageLogo: {
+        width: 50,
+        height: 50
+    },
 });
