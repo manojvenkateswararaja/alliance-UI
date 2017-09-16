@@ -3,20 +3,24 @@
  */
 export default {
     // Common
-    loading: 'Loading...',
-    app_name: 'Marine Insurance',
-    
-    // Slash Screen
-    splash_footer_line1: 'Powered by',
-    splash_footer_line2: 'RapidQube Digital Solutions Pvt. Ltd.',
-    
-    // Login Screen
-    login_welcome: 'Welcome to Marine Insurance Mobile App',
-    username_label: 'Email',
-    password_label: 'Password',
-    login_label: 'LOGIN',
-    create_account_text: "Don't have an account?",
-    create_account_link: 'Create Account',
+    loading : 'Loading...',
+    app_name : 'Marine Insurance',
 
-    value_true: false
+    // Slash Screen
+    splash_footer_line1 : 'Powered by',
+    splash_footer_line2 : 'RapidQube Digital Solutions Pvt. Ltd.',
+
+    // Login Screen
+    login_welcome : 'Welcome to Marine Insurance Mobile App',
+    username_label : 'Email',
+    password_label : 'Password',
+    login_label : 'LOGIN',
+    create_account_text : "Don't have an account?",
+    create_account_link : 'Create Account',
+
+    // Home Screen
+    home_client_cnfAgents : [
+        'Issued Policies', 'Saved Policies', 'New Policy', 'Claims Submission'
+    ],
+    home_client_directClients : ['My Policies', 'Saved Policies', 'New Policy', 'Claims Submission']
 }

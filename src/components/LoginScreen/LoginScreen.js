@@ -1,70 +1,83 @@
-import React, { Component } from 'react';
-import { Text,
-         View,
-         StyleSheet, 
-         ActivityIndicator, 
-         Image, 
-         KeyboardAvoidingView ,
-         TouchableOpacity
-        } from 'react-native';
-import { NavigationActions } from 'react-navigation';
+import React, {Component} from 'react';
+import {
+    Text,
+    View,
+    StyleSheet,
+    ActivityIndicator,
+    Image,
+    KeyboardAvoidingView,
+    TouchableOpacity
+} from 'react-native';
+import {NavigationActions} from 'react-navigation';
 import customstyles from '../../../assets/styles/customstyles';
 import customtext from '../../utils/customtext';
-// import LoginForm from './LoginForm';
 import colors from '../../utils/colors';
-import { TextField } from 'react-native-material-textfield';
+import {TextField} from 'react-native-material-textfield';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import { RaisedTextButton } from 'react-native-material-buttons';
+import {RaisedTextButton} from 'react-native-material-buttons';
+import Toast from 'react-native-root-toast';
 
-const { 
-        loginscreenLogoContainer,
-        loginscreenLogo,
-        loginTitle,
-        commonLoading 
-    } = customstyles;
-const { login_welcome } = customtext;
-const { username_label,
-    password_label,
-    login_label,
-    create_account_text,
-    create_account_link
- } = customtext;
-const { loginscreenInputContainer,
+const {loginscreenLogoContainer, loginscreenLogo, loginTitle, commonLoading} = customstyles;
+const {login_welcome} = customtext;
+const {username_label, password_label, login_label, create_account_text, create_account_link} = customtext;
+const {
+    loginscreenInputContainer,
     loginscreenContainer,
     loginscreenCreateAccountWrapper,
     loginscreenCreateAccountText,
     loginscreenCreateAccountLinkText,
     loginscreenLoginContainer
- } = customstyles;
-const { white,
-    turquoise
- } = colors;
+} = customstyles;
+const {white, turquoise} = colors;
 
 export default class LoginScreen extends Component {
     constructor() {
         super();
 
-        this.onFocus = this.onFocus.bind(this);
-        this.onSubmitLogin = this.onSubmitLogin.bind(this);
-        this.onChangeText = this.onChangeText.bind(this);
-        this.onSubmitUserName = this.onSubmitUserName.bind(this);
-        this.onSubmitPassword = this.onSubmitPassword.bind(this);
-        this.onBlur = this.onBlur.bind(this);
-        this.onAccessoryPress = this.onAccessoryPress.bind(this);
-        this.onRegistration = this.onRegistration.bind(this);
-        
-        this.usernameRef = this.updateRef.bind(this, 'username');
-        this.passwordRef = this.updateRef.bind(this, 'password');
-        this.renderPasswordAccessory = this.renderPasswordAccessory.bind(this);
+        this.onFocus = this
+            .onFocus
+            .bind(this);
+        this.onSubmitLogin = this
+            .onSubmitLogin
+            .bind(this);
+        this.onChangeText = this
+            .onChangeText
+            .bind(this);
+        this.onSubmitUserName = this
+            .onSubmitUserName
+            .bind(this);
+        this.onSubmitPassword = this
+            .onSubmitPassword
+            .bind(this);
+        this.onBlur = this
+            .onBlur
+            .bind(this);
+        this.onAccessoryPress = this
+            .onAccessoryPress
+            .bind(this);
+        this.onRegistration = this
+            .onRegistration
+            .bind(this);
+
+        this.usernameRef = this
+            .updateRef
+            .bind(this, 'username');
+        this.passwordRef = this
+            .updateRef
+            .bind(this, 'password');
+        this.renderPasswordAccessory = this
+            .renderPasswordAccessory
+            .bind(this);
 
         this.state = {
             username: '',
             password: '',
+            token: '',
             secureTextEntry: true,
             loading_blur: false
-      };
+        };
     }
-    
+
     validateEmail(value) {
         let regex = /\w[-._\w]*@[-._\w]*\w\.\w{2,5}/;
         if (regex.test(value) === true) {
@@ -75,24 +88,29 @@ export default class LoginScreen extends Component {
     }
 
     onAccessoryPress() {
-        this.setState(({ secureTextEntry }) => ({ secureTextEntry: !secureTextEntry }));
+        this.setState(({secureTextEntry}) => ({
+            secureTextEntry: !secureTextEntry
+        }));
     }
 
     onSubmitUserName() {
-        this.username.focus();
+        this
+            .username
+            .focus();
     }
 
     onSubmitPassword() {
-        this.password.focus();
+        this
+            .password
+            .focus();
     }
 
     onBlur() {
         let errors = {};
-        
-        ['username', 'password']
-        .forEach((name) => {
+
+        ['username', 'password'].forEach((name) => {
             let value = this[name].value();
-            
+
             if (!value) {
                 errors[name] = 'Should not be empty';
             } else {
@@ -104,12 +122,14 @@ export default class LoginScreen extends Component {
                 }
             }
         });
-        
-        this.setState({ errors });
+
+        this.setState({errors});
     }
 
     onFocus() {
-        let { errors = {} } = this.state;
+        let {
+            errors = {}
+        } = this.state;
 
         for (let name in errors) {
             let ref = this[name];
@@ -119,25 +139,23 @@ export default class LoginScreen extends Component {
             }
         }
 
-        this.setState({ errors });
+        this.setState({errors});
     }
 
     onChangeText(text) {
-        ['username', 'password']
-        .map((name) => ({ name, ref: this[name] }))
-        .forEach(({ name, ref }) => {
+        ['username', 'password'].map((name) => ({name, ref: this[name]})).forEach(({name, ref}) => {
             if (ref.isFocused()) {
-                this.setState({ [name]: text });
+                this.setState({[name]: text});
             }
         });
     }
 
     onSubmitLogin() {
+        var token;
         let errors = {};
         this.setState({loading_blur: true});
 
-        ['username', 'password']
-        .forEach((name) => {
+        ['username', 'password'].forEach((name) => {
             let value = this[name].value();
 
             if (!value) {
@@ -151,42 +169,88 @@ export default class LoginScreen extends Component {
                 }
             }
         });
-  if(this.isEmptyObject(errors)) {
+
+        if (this.isEmptyObject(errors)) {
+
             setTimeout(() => {
                 this.setState({loading_blur: false});
-                this.setState({userType : 'Direct Clients'});
-                this.props.navigation.navigate('HomePageClients');
+                this.setState({userType: 'Direct Clients'});
+
             }, 3000)
         } else {
             this.setState({loading_blur: false});
         }
 
-        this.setState({ errors });
-return fetch('http://192.168.0.20:8082/login', {
-  method: 'POST',
-  headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({ 
-email: this.state.username,
-password:  this.state.password
+        this.setState({errors});
+        return fetch('http://192.168.0.20:8082/login', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({email: this.state.username, password: this.state.password})
+        }).then((response) => response.json()).then((responseJson) => {
+            token = responseJson.token;
+            var message = responseJson.message;
 
- })
-})
-.then((response) => response.json())
-      .then((responseJson) => {
-        console.log("responseJson.message"+responseJson.message);
-         console.log("responseJson.token"+responseJson.token);
-          console.log("responseJson.userdetails"+responseJson.userdetails.rapidID);
-           console.log("responseJson.usertype"+responseJson.userdetails.usertype);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  
+            if (message === 'Logged in successfully') {
 
+                var userdetails = responseJson.userdetails;
+                var userType = userdetails.usertype;
 
+                var userObject = userdetails.userObject;
+
+                var policyHolderName = userObject.fname;
+
+                var email = userdetails.email;
+
+                let toast = Toast.show(message, {
+                    duration: Toast.durations.LONG,
+                    position: Toast.positions.CENTER
+                });
+                setTimeout(function () {
+                    Toast.hide(toast);
+                }, 1000);
+                if (userType === 'CNF Agents') {
+                    this
+                        .props
+                        .navigation
+                        .navigate('HomePageAgents', {
+                            token: token,
+                            userType: userType,
+                            policyHolderName: policyHolderName,
+                            email: email
+                        });
+                } else {
+                    this
+                        .props
+                        .navigation
+                        .navigate('HomePageClients', {
+                            token: token,
+                            userType: userType,
+                            policyHolderName: policyHolderName,
+                            email: email
+                        });
+
+                }
+            } else if (message === ' email or password wrong!' || message === 'user does not exist !') {
+                let toast = Toast.show(message, {
+                    duration: Toast.durations.LONG,
+                    position: Toast.positions.CENTER
+                });
+                setTimeout(function () {
+                    Toast.hide(toast);
+                }, 1000);
+                this
+                    .props
+                    .navigation
+                    .navigate('LoginPage');
+
+            }
+
+        }).catch((error) => {
+            console.error(error);
+        });
 
     }
 
@@ -195,46 +259,51 @@ password:  this.state.password
     }
 
     renderPasswordAccessory() {
-        let { secureTextEntry } = this.state;
+        let {secureTextEntry} = this.state;
 
-        let name = secureTextEntry?
-            'visibility':
-            'visibility-off';
+        let name = secureTextEntry
+            ? 'visibility'
+            : 'visibility-off';
 
-        return (
-            <MaterialIcon
-                size={24}
-                name={name}
-                color={TextField.defaultProps.baseColor}
-                onPress={this.onAccessoryPress}
-                suppressHighlighting
-            />
-        );
+        return (<MaterialIcon
+            size={24}
+            name={name}
+            color={TextField.defaultProps.baseColor}
+            onPress={this.onAccessoryPress}
+            suppressHighlighting/>);
     }
 
-    onRegistration(){
-        console.log("Registerpage");
-        this.props.navigation.navigate('RegisterPage');
+    onRegistration() {
+        this
+            .props
+            .navigation
+            .navigate('RegisterPage');
     }
+
     isEmptyObject(object) {
         return (Object.getOwnPropertyNames(object).length === 0);
     }
 
     static navigationOptions = {
-        header: null,
+        header: null
     }
-    
+
     render() {
-        let { errors = {}, secureTextEntry, ...data } = this.state;
-        let { username = 'username' } = data;
+        let {
+            errors = {},
+            secureTextEntry,
+            ...data
+        } = this.state;
+        let {
+            username = 'username'
+        } = data;
 
         return (
             <KeyboardAvoidingView behavior="padding" style={loginscreenContainer}>
                 <View style={loginscreenLogoContainer}>
                     <Image
                         style={loginscreenLogo}
-                        source={require('../../../assets/images/logo.png')}
-                    />
+                        source={require('../../../assets/images/logo.png')}/>
 
                     <Text style={loginTitle}>{login_welcome}</Text>
                 </View>
@@ -254,8 +323,7 @@ password:  this.state.password
                         error={errors.username}
                         tintColor={white}
                         textColor={white}
-                        onBlur={this.onBlur}
-                    />
+                        onBlur={this.onBlur}/>
 
                     <TextField
                         ref={this.passwordRef}
@@ -273,25 +341,21 @@ password:  this.state.password
                         renderAccessory={this.renderPasswordAccessory}
                         tintColor={white}
                         textColor={white}
-                        onBlur={this.onBlur}
-                    />
+                        onBlur={this.onBlur}/>
 
                     <View style={loginscreenLoginContainer}>
-                        <RaisedTextButton 
-                            onPress={this.onSubmitLogin} 
-                            title={login_label} 
-                            color={turquoise} 
-                            titleColor={white} 
-                        />
+                        <RaisedTextButton
+                            onPress={this.onSubmitLogin}
+                            title={login_label}
+                            color={turquoise}
+                            titleColor={white}/>
                     </View>
-                    
+
                     <View style={loginscreenCreateAccountWrapper}>
                         <Text style={loginscreenCreateAccountText}>
                             {create_account_text}
                         </Text>
-                        <TouchableOpacity 
-                            activeOpacity={.5}
-                            onPress={this.onRegistration}>
+                        <TouchableOpacity activeOpacity={.5} onPress={this.onRegistration}>
                             <View>
                                 <Text style={loginscreenCreateAccountLinkText}>
                                     {create_account_link}
@@ -300,14 +364,13 @@ password:  this.state.password
                         </TouchableOpacity>
                     </View>
                 </View>
-                { /* Due to parent child relation of (this.props.navigation.navigate)
+                {/* Due to parent child relation of (this.props.navigation.navigate)
                  page is not navigating from LoginScreen to RegisterScreen */}
                 {/* <LoginForm /> */}
-                    {this.state.loading_blur &&
-                    <View style={commonLoading}>
-                        <ActivityIndicator size='large' />
-                    </View>
-                }
+                {this.state.loading_blur && <View style={commonLoading}>
+                    <ActivityIndicator size='large'/>
+                </View>
+}
             </KeyboardAvoidingView>
         );
     }

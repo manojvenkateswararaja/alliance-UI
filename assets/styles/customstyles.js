@@ -1,27 +1,24 @@
-import { StyleSheet } from 'react-native';
-import { Constants } from 'expo';
+import {StyleSheet} from 'react-native';
+import {Constants} from 'expo';
+import {Dimensions} from 'react-native';
 import colors from '../../src/utils/colors';
 
-const { turquoise,
-        white, 
-        emerald,
-        clouds
-     } = colors;
+const {turquoise, white, emerald, clouds, nephritis} = colors;
 
 module.exports = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: turquoise,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
-    
+
     wrapper: {
         backgroundColor: turquoise,
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: Constants.statusBarHeight,
+        paddingTop: Constants.statusBarHeight
     },
 
     titleWrapper: {
@@ -32,7 +29,7 @@ module.exports = StyleSheet.create({
     title: {
         color: white,
         fontSize: 35,
-        fontWeight: 'bold',
+        fontWeight: 'bold'
     },
 
     subtitle: {
@@ -102,7 +99,7 @@ module.exports = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         paddingBottom: 20,
-        paddingTop: 20,
+        paddingTop: 20
     },
 
     loginscreenCreateAccountText: {
@@ -111,9 +108,83 @@ module.exports = StyleSheet.create({
 
     loginscreenCreateAccountLinkText: {
         color: white,
-        marginLeft: 5,
+        marginLeft: 5
     },
-    container1:{
-        color:white
+
+    container1: {
+        color: white
+    },
+
+    commonLoading: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#F5FCFF88'
+    },
+
+    scrollContainer: {
+        flex: 1,
+        backgroundColor: emerald
+    },
+
+    scrollViewContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        padding: 2
+    },
+
+    scrollBox: {
+        margin: 2,
+        width: Dimensions
+            .get('window')
+            .width / 2 - 6,
+        height: 130,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: nephritis
+    },
+
+    scrollBoxText: {
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    scrollImage: {
+        margin: 2,
+        width: Dimensions
+            .get('window')
+            .width / 1,
+        height: 310
+    },
+
+    homeImageLayout: {
+        height: 310,
+        width: Dimensions
+            .get('window')
+            .width / 1,
+        padding: 2
+    },
+    PaymentImageLayout: {
+        height: 310,
+        width: Dimensions
+            .get('window')
+            .width / 1,
+        padding: 2
+    },
+
+    homeScrollImageContainer: {
+        flexGrow: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
+    homeScrollImageLogo: {
+        width: 50,
+        height: 50
     }
 });

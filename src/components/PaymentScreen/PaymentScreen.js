@@ -1,0 +1,133 @@
+import React, {Component} from 'react';
+import {
+    Text,
+    View,
+    StyleSheet,
+    ActivityIndicator,
+    Image,
+    KeyboardAvoidingView,
+    TouchableOpacity,
+    ScrollView
+} from 'react-native';
+import {NavigationActions} from 'react-navigation';
+import customstyles from '../../../assets/styles/customstyles';
+import customtext from '../../utils/customtext';
+import colors from '../../utils/colors';
+import {TextField} from 'react-native-material-textfield';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import {RaisedTextButton} from 'react-native-material-buttons';
+import {MaterialDialog} from 'react-native-material-dialog';
+
+const {loginscreenLogoContainer, loginscreenLogo, loginTitle, container1, PaymentImageLayout} = customstyles;
+const {login_welcome} = customtext;
+const {
+    username_label,
+    password_label,
+    login_label,
+    create_account_text,
+    create_account_link,
+    value_true
+} = customtext;
+const {
+    loginscreenInputContainer,
+    loginscreenContainer,
+    loginscreenCreateAccountWrapper,
+    loginscreenCreateAccountText,
+    loginscreenCreateAccountLinkText,
+    loginscreenLoginContainer
+} = customstyles;
+const {white, turquoise, red} = colors;
+
+export default class PaymentPage extends Component {
+    constructor() {
+        super();
+
+    }
+
+    static navigationOptions = {
+        header: null
+    }
+    onSubmitConsignmentDetails(token, userType, policyHolderName, email, consignmentWeight, consignmentValue, modeofTransport, packingMode, consignmentType, contractType, policyType, invoiceNo, policyissuedate, policyenddate, voyagestartdate, voyageenddate, policyName, premiumAmount, sumInsured) {
+
+        return fetch('http://192.168.0.20:8082/consignmentDetail', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'x-access-token': token
+            },
+            body: JSON.stringify({
+                userType: userType,
+                policyHolderName: policyHolderName,
+                email: email,
+                consignmentWeight: consignmentWeight,
+                consignmentValue: consignmentValue,
+                modeofTransport: modeofTransport,
+                packingMode: packingMode,
+                consignmentType: consignmentType,
+                contractType: contractType,
+                policyType: policyType,
+                invoiceNo: invoiceNo,
+                policyissuedate: policyissuedate,
+                policyenddate: policyenddate,
+                voyagestartdate: voyagestartdate,
+                voyageenddate: voyageenddate,
+                policyName: policyName,
+                premiumAmount: premiumAmount,
+                sumInsured: sumInsured
+
+            })
+        }).then((response) => response.json()).then((responseJson) => {
+
+            var status = responseJson.status;
+            if (status === "success") {
+
+                this
+                    .props
+                    .navigation
+                    .navigate('FetchissuedPolicyPage', {token: token});
+
+            }
+        })
+    }
+
+    render() {
+        var {params} = this.props.navigation.state;
+        var token = params.token;
+        var userType = params.userType;
+        var policyHolderName = params.policyHolderName;
+        var email = params.email;
+        var consignmentWeight = params.consignmentWeight;
+        var consignmentValue = params.consignmentValue;
+        var modeofTransport = params.modeofTransport;
+        var packingMode = params.packingMode;
+        var consignmentType = params.consignmentType;
+        var contractType = params.contractType;
+        var policyType = params.policyType;
+        var invoiceNo = params.invoiceNo;
+        var policyissuedate = params.policyissuedate;
+        var policyenddate = params.policyenddate;
+        var voyagestartdate = params.voyagestartdate;
+        var voyageenddate = params.voyageenddate;
+        var policyName = params.policyName;
+        var premiumAmount = params.premiumAmount;
+        var sumInsured = params.sumInsured;
+
+        return (
+            <KeyboardAvoidingView behavior="padding" style={loginscreenContainer}>
+
+                <View style={loginscreenInputContainer}>
+                    <TouchableOpacity
+                        activeOpacity={.5}
+                        onPress={() => this.onSubmitConsignmentDetails(token, userType, policyHolderName, email, consignmentWeight, consignmentValue, modeofTransport, packingMode, consignmentType, contractType, policyType, invoiceNo, policyissuedate, policyenddate, voyagestartdate, voyageenddate, policyName, premiumAmount, sumInsured)}>
+
+                        <Image
+                            style={PaymentImageLayout}
+                            source={require('../../../assets/images/paymentgateway.png')}/>
+                    </TouchableOpacity>
+
+                </View>
+            </KeyboardAvoidingView>
+        );
+    }
+}
