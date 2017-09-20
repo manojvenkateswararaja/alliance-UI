@@ -19,6 +19,7 @@ import {RaisedTextButton} from 'react-native-material-buttons';
 import {Dropdown} from 'react-native-material-dropdown';
 import Toast from 'react-native-root-toast';
 
+
 const {loginscreenLogoContainer, loginscreenLogo, loginTitle, container1} = customstyles;
 const {login_welcome} = customtext;
 const {
@@ -38,6 +39,7 @@ const {
     loginscreenLoginContainer
 } = customstyles;
 const {white, turquoise, red} = colors;
+
 
 export default class RegisterScreen extends Component {
     constructor() {

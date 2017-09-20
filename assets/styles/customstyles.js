@@ -114,7 +114,7 @@ module.exports = StyleSheet.create({
     container1: {
         color: white
     },
-
+  
     commonLoading: {
         position: 'absolute',
         left: 0,

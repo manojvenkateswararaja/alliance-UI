@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {Text, View, ScrollView, Image, TouchableOpacity} from 'react-native';
 import customtext from '../../utils/customtext';
 import customstyles from '../../../assets/styles/customstyles';
+import environment from '../../utils/environment';
+import {NavigationActions} from 'react-navigation';
 
 const {home_client_cnfAgents, home_client_directClients} = customtext;
 
@@ -15,6 +17,7 @@ const {
         homeScrollImageContainer,
         homeScrollImageLogo
 } = customstyles;
+const { base_url } = environment;
 
 export default class HomeScreenClients extends Component {
         static navigationOptions = {
@@ -27,6 +30,7 @@ export default class HomeScreenClients extends Component {
                         .onSubmitNewPolicy
                         .bind(this);
         }
+       
         onSubmitNewPolicy(token, userType, policyHolderName, email) {
 
                 this
@@ -41,11 +45,19 @@ export default class HomeScreenClients extends Component {
         }
         onSubmitLogout() {
 
-                this
-                        .props
-                        .navigation
-                        .navigate('LoginPage');
+                const resetAction = NavigationActions.reset({
+                        index: 0,
+                        actions: [NavigationActions.navigate({routeName: 'LoginPage'})]
+                    })
+            
+                    setTimeout(() => {
+                        this
+                            .props
+                            .navigation
+                            .dispatch(resetAction)
+                    }, 1000)
         }
+        
         onSubmitMyPolicy(token) {
 
                 this
@@ -56,7 +68,7 @@ export default class HomeScreenClients extends Component {
         onSubmitSavedPolicy(token) {
                 var policyList;
 
-                return fetch('http://192.168.0.20:8082/fetchSavePolicy', {
+                return fetch(base_url + '/fetchSavePolicy', {
                         method: 'GET',
                         headers: {
                                 'Accept': 'application/json',

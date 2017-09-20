@@ -18,6 +18,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {RaisedTextButton} from 'react-native-material-buttons';
 import {MaterialDialog} from 'react-native-material-dialog';
 
+
 const {loginscreenLogoContainer, loginscreenLogo, loginTitle, container1} = customstyles;
 const {login_welcome} = customtext;
 const {

@@ -5,6 +5,7 @@ import customstyles from '../../../assets/styles/customstyles';
 import customtext from '../../utils/customtext';
 import customcolors from '../../utils/colors';
 
+
 const {
     wrapper,
     titleWrapper,

@@ -22,5 +22,38 @@ export default {
     home_client_cnfAgents : [
         'Issued Policies', 'Saved Policies', 'New Policy', 'Claims Submission'
     ],
-    home_client_directClients : ['My Policies', 'Saved Policies', 'New Policy', 'Claims Submission']
+    home_client_directClients : ['My Policies', 'Saved Policies', 'New Policy', 'Claims Submission'],
+     policytypeData : [
+        {
+          value: 'Single Transient Policy'
+        }, {
+          value: 'Multi Transient Policy'
+        }, {
+          value: 'Sales Turnover Policy'
+        }
+      ],
+      contracttypeData : [
+        {
+          value: 'CIF'
+        }, {
+          value: 'CIP'
+        }, {
+          value: 'CIS'
+        }, {
+          value: 'FOB'
+        }
+      ],
+     usertypeData : [
+        {
+          value: 'Public Adjuster'
+        }, {
+          value: 'CNF Agents'
+        }, {
+          value: 'Direct Clients'
+        }, {
+          value: 'Claims Adjuster'
+        }, {
+          value: 'Examiner'
+        }
+      ]
 }

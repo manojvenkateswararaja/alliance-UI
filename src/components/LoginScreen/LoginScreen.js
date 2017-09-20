@@ -16,6 +16,8 @@ import {TextField} from 'react-native-material-textfield';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {RaisedTextButton} from 'react-native-material-buttons';
 import Toast from 'react-native-root-toast';
+import environment from '../../utils/environment';
+
 
 const {loginscreenLogoContainer, loginscreenLogo, loginTitle, commonLoading} = customstyles;
 const {login_welcome} = customtext;
@@ -29,6 +31,8 @@ const {
     loginscreenLoginContainer
 } = customstyles;
 const {white, turquoise} = colors;
+const { base_url } = environment;
+
 
 export default class LoginScreen extends Component {
     constructor() {
@@ -104,7 +108,7 @@ export default class LoginScreen extends Component {
             .password
             .focus();
     }
-
+    
     onBlur() {
         let errors = {};
 
@@ -151,6 +155,7 @@ export default class LoginScreen extends Component {
     }
 
     onSubmitLogin() {
+        
         var token;
         let errors = {};
         this.setState({loading_blur: true});
@@ -182,7 +187,8 @@ export default class LoginScreen extends Component {
         }
 
         this.setState({errors});
-        return fetch('http://192.168.0.20:8082/login', {
+                
+        return fetch(base_url + '/login', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -251,8 +257,11 @@ export default class LoginScreen extends Component {
         }).catch((error) => {
             console.error(error);
         });
-
     }
+
+    
+
+    
 
     updateRef(name, ref) {
         this[name] = ref;

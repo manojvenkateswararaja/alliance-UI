@@ -15,6 +15,7 @@ import colors from '../../utils/colors';
 import {TextField} from 'react-native-material-textfield';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {RaisedTextButton} from 'react-native-material-buttons';
+import environment from '../../utils/environment';
 
 const {
     loginscreenLogoContainer,
@@ -43,6 +44,8 @@ const {
     loginscreenLoginContainer
 } = customstyles;
 const {white, turquoise, red} = colors;
+const { base_url } = environment;
+
 var token;
 var issuedPolicies;
 
@@ -63,7 +66,7 @@ export default class FetchissuedPolicyPage extends Component {
         var {params} = this.props.navigation.state;
         token = params.token;
 
-        return fetch('http://192.168.0.20:8082/fetchissuedpolicy', {
+        return fetch(base_url + '/fetchissuedpolicy', {
             method: 'GET',
             headers: {
 

@@ -18,6 +18,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {RaisedTextButton} from 'react-native-material-buttons';
 import {Dropdown} from 'react-native-material-dropdown';
 import Toast from 'react-native-root-toast';
+import environment from '../../utils/environment';
 
 const {loginscreenLogoContainer, loginscreenLogo, loginTitle, container1} = customstyles;
 const {login_welcome} = customtext;
@@ -27,7 +28,8 @@ const {
   login_label,
   create_account_text,
   create_account_link,
-  value_true
+  value_true,
+  usertypeData
 } = customtext;
 const {
   loginscreenInputContainer,
@@ -38,6 +40,7 @@ const {
   loginscreenLoginContainer
 } = customstyles;
 const {white, turquoise, red} = colors;
+const { base_url } = environment;
 
 export default class RegisterScreen extends Component {
   constructor() {
@@ -434,7 +437,7 @@ export default class RegisterScreen extends Component {
 
       }
 
-      return fetch('http://192.168.0.20:8082/registerUser', {
+      return fetch(base_url + '/registerUser', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -704,16 +707,4 @@ export default class RegisterScreen extends Component {
   }
 }
 
-const usertypeData = [
-  {
-    value: 'Public Adjuster'
-  }, {
-    value: 'CNF Agents'
-  }, {
-    value: 'Direct Clients'
-  }, {
-    value: 'Claims Adjuster'
-  }, {
-    value: 'Examiner'
-  }
-];
+

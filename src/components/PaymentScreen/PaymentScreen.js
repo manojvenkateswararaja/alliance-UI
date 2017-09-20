@@ -17,6 +17,7 @@ import {TextField} from 'react-native-material-textfield';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {RaisedTextButton} from 'react-native-material-buttons';
 import {MaterialDialog} from 'react-native-material-dialog';
+import environment from '../../utils/environment';
 
 const {loginscreenLogoContainer, loginscreenLogo, loginTitle, container1, PaymentImageLayout} = customstyles;
 const {login_welcome} = customtext;
@@ -37,6 +38,7 @@ const {
     loginscreenLoginContainer
 } = customstyles;
 const {white, turquoise, red} = colors;
+const { base_url } = environment;
 
 export default class PaymentPage extends Component {
     constructor() {
@@ -49,7 +51,7 @@ export default class PaymentPage extends Component {
     }
     onSubmitConsignmentDetails(token, userType, policyHolderName, email, consignmentWeight, consignmentValue, modeofTransport, packingMode, consignmentType, contractType, policyType, invoiceNo, policyissuedate, policyenddate, voyagestartdate, voyageenddate, policyName, premiumAmount, sumInsured) {
 
-        return fetch('http://192.168.0.20:8082/consignmentDetail', {
+        return fetch(base_url + '/consignmentDetail', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

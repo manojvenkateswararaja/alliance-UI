@@ -20,9 +20,10 @@ import {Dropdown} from 'react-native-material-dropdown';
 import CheckboxGroup from 'react-native-checkbox-group';
 import DatePicker from 'react-native-datepicker';
 import Moment from 'moment';
+import environment from '../../utils/environment';
 
 const {loginscreenLogoContainer, loginscreenLogo, loginTitle, container1} = customstyles;
-const {login_welcome} = customtext;
+const {login_welcome,policytypeData,contracttypeData} = customtext;
 const {
   username_label,
   password_label,
@@ -40,6 +41,7 @@ const {
   loginscreenLoginContainer
 } = customstyles;
 const {white, turquoise, red} = colors;
+const { base_url } = environment;
 
 export default class NewPoliciesScreen extends Component {
   constructor() {
@@ -250,7 +252,7 @@ export default class NewPoliciesScreen extends Component {
     var voyagestartdate = this.state.VoyagestartDate;
     var voyageenddate = this.state.VoyageendDate;
 
-    return fetch('http://192.168.0.20:8082/fetchPolicyQuotes', {
+    return fetch(base_url + '/fetchPolicyQuotes', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -564,28 +566,31 @@ export default class NewPoliciesScreen extends Component {
               textColor={white}
               onBlur={this.onBlur}/>
             <Text>
-              PolicyIssue Date</Text>
+              Policy Issue Date{'\n'}</Text>
             <View
               customStyles={{
               dateIcon: {
                 position: 'absolute',
                 left: 0,
                 top: 4,
-                marginLeft: 0
+                marginLeft: 0,
               },
               dateInput: {
                 marginLeft: 36
               }
+              
             }}>
 
               <DatePicker
                 style={{
-                width: 200
+                width: 335,
+               color: 'red'
               }}
                 date={this.state.PolicyissueDate}
                 mode="date"
-                placeholder1="policyissuedate"
-                format="DD-MM-YY"
+                placeholder="DD/MM/YYYY"
+                format="DD-MM-YYYY"
+                showIcon={false}
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
                 onDateChange={(PolicyissueDate) => {
@@ -594,7 +599,7 @@ export default class NewPoliciesScreen extends Component {
 
             </View>
             <Text>
-              PolicyEnd Date</Text>
+              Policy End Date{'\n'}</Text>
             <View
               customStyles={{
               dateIcon: {
@@ -610,12 +615,13 @@ export default class NewPoliciesScreen extends Component {
 
               <DatePicker
                 style={{
-                width: 200
+                width: 335
               }}
                 date={this.state.PolicyendDate}
                 mode="date"
-                placeholder2="policyenddate"
-                format="DD-MM-YY"
+                placeholder="DD/MM/YYYY"
+                format="DD-MM-YYYY"
+                showIcon={false}
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
                 onDateChange={(PolicyendDate) => {
@@ -624,7 +630,7 @@ export default class NewPoliciesScreen extends Component {
 
             </View>
             <Text>
-              VoyageStart Date</Text>
+              Voyage Start Date{'\n'}</Text>
             <View
               customStyles={{
               dateIcon: {
@@ -634,27 +640,29 @@ export default class NewPoliciesScreen extends Component {
                 marginLeft: 0
               },
               dateInput: {
-                marginLeft: 36
+                marginLeft: 36,
+                
               }
             }}>
 
               <DatePicker
                 style={{
-                width: 200
+                width: 335,
+                
               }}
                 date={this.state.VoyagestartDate}
                 mode="date"
-                placeholder3="voyagestartdate"
-                format="DD-MM-YY"
+                placeholder="DD/MM/YYYY"
+                format="DD-MM-YYYY"
+                showIcon={false}
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
                 onDateChange={(VoyagestartDate) => {
                 this.setState({VoyagestartDate: VoyagestartDate})
               }}/>
-
             </View>
             <Text>
-              VoyageEnd Date</Text>
+              Voyage End Date{'\n'}</Text>
             <View
               customStyles={{
               dateIcon: {
@@ -670,12 +678,13 @@ export default class NewPoliciesScreen extends Component {
 
               <DatePicker
                 style={{
-                width: 200
+                width: 335
               }}
                 date={this.state.VoyageendDate}
                 mode="date"
-                placeholder4="voyageenddate"
-                format="DD-MM-YY"
+                placeholder="DD/MM/YYYY"
+                format="DD-MM-YYYY"
+                showIcon={false}
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
                 onDateChange={(VoyageendDate) => {
@@ -698,23 +707,3 @@ export default class NewPoliciesScreen extends Component {
     );
   }
 }
-const policytypeData = [
-  {
-    value: 'Single Transient Policy'
-  }, {
-    value: 'Multi Transient Policy'
-  }, {
-    value: 'Sales Turnover Policy'
-  }
-];
-const contracttypeData = [
-  {
-    value: 'CIF'
-  }, {
-    value: 'CIP'
-  }, {
-    value: 'CIS'
-  }, {
-    value: 'FOB'
-  }
-];
