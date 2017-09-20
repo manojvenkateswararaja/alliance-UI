@@ -584,7 +584,7 @@ export default class NewPoliciesScreen extends Component {
               <DatePicker
                 style={{
                 width: 335,
-               color: 'red'
+               
               }}
                 date={this.state.PolicyissueDate}
                 mode="date"
