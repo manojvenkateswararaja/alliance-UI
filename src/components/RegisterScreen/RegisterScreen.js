@@ -29,7 +29,9 @@ const {
   create_account_text,
   create_account_link,
   value_true,
-  usertypeData
+  usertypeData,
+  login_account_text,
+  login_account_link
 } = customtext;
 const {
   loginscreenInputContainer,
@@ -37,7 +39,8 @@ const {
   loginscreenCreateAccountWrapper,
   loginscreenCreateAccountText,
   loginscreenCreateAccountLinkText,
-  loginscreenLoginContainer
+  loginscreenLoginContainer,
+  commonLoading
 } = customstyles;
 const {white, turquoise, red} = colors;
 const { base_url } = environment;
@@ -75,6 +78,9 @@ export default class RegisterScreen extends Component {
       .bind(this);
     this.onSubmitRegister = this
       .onSubmitRegister
+      .bind(this);
+      this.onLogin = this
+      .onLogin
       .bind(this);
 
     this.usertypeRef = this
@@ -201,7 +207,12 @@ export default class RegisterScreen extends Component {
       .ClaimsId
       .focus();
   }
-
+  onLogin(){
+    this
+    .props
+    .navigation
+    .navigate('LoginPage');
+  }
   onBlur() {
     let errors = {};
 
@@ -300,9 +311,10 @@ export default class RegisterScreen extends Component {
   }
 
   onSubmitRegister() {
-
+  var phone;
     let errors = new Object;
-
+    this.setState({loading_blur: true});
+    
     let test;
     if (this.state.value_LicenseId) {
       test = [
@@ -359,7 +371,7 @@ export default class RegisterScreen extends Component {
         if (name === 'lname' && value.length < 2) {
           errors[name] = 'Invalid lname';
         }
-        if (name === 'phone' && value.length < 10) {
+        if (name === 'phone' && value.length < 12) {
           errors[name] = 'Incorrect Phone Number';
         }
         if (name === 'email' && !this.validateEmail(value)) {
@@ -388,14 +400,17 @@ export default class RegisterScreen extends Component {
     if (errors === null || errors === 'null' || errors === 'undefined' || !errors) {
       console.log("Failure");
 
-    } else {
-      console.log("Success");
-      this
-        .props
-        .navigation
-        .navigate('LoginPage');
-    }
-
+    } 
+    if (this.isEmptyObject(errors)) {
+      
+                  setTimeout(() => {
+                      this.setState({loading_blur: false});
+      
+                  }, 3000)
+              } else {
+                  this.setState({loading_blur: false});
+              }
+      
     this.setState({errors});
 
     if (this.isEmptyObject(errors)) {
@@ -447,7 +462,7 @@ export default class RegisterScreen extends Component {
       }).then((response) => response.json()).then((responseJson) => {
 
         var message = responseJson.message;
-        if (message === 'User Registered Sucessfully !' || message === 'User Already Registered !') {
+        if (message === 'Please verify your emailid and phone no' ) {
           let toast = Toast.show(message, {
             duration: Toast.durations.LONG,
             position: Toast.positions.CENTER
@@ -455,6 +470,22 @@ export default class RegisterScreen extends Component {
           setTimeout(function () {
             Toast.hide(toast);
           }, 5000);
+          this
+          .props
+          .navigation
+          .navigate('OTPPage',{
+            phone:this.state.phone
+          });
+        }
+        if (message === 'User Already Registered !'||message === 'Internal Server Error !') {
+          let toast = Toast.show(message, {
+            duration: Toast.durations.LONG,
+            position: Toast.positions.CENTER
+          }, 1000);
+          setTimeout(function () {
+            Toast.hide(toast);
+          }, 5000);
+         
         }
 
       }).catch((error) => {
@@ -479,6 +510,10 @@ export default class RegisterScreen extends Component {
       onPress={this.onAccessoryPress}
       suppressHighlighting/>);
   }
+
+  isEmptyObject(object) {
+    return (Object.getOwnPropertyNames(object).length === 0);
+}
   static navigationOptions = {
     header: null
   }
@@ -694,14 +729,29 @@ export default class RegisterScreen extends Component {
             <View style={loginscreenLoginContainer}>
               <RaisedTextButton
                 onPress={this.onSubmitRegister}
-                title="Submit"
+                title="Register"
                 color={turquoise}
                 titleColor={white}/>
             </View>
-
+            <View style={loginscreenCreateAccountWrapper}>
+                        <Text style={loginscreenCreateAccountText}>
+                            {login_account_text}
+                        </Text>
+                        <TouchableOpacity activeOpacity={.5} onPress={this.onLogin}>
+                            <View>
+                                <Text style={loginscreenCreateAccountLinkText}>
+                                    {login_account_link}
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
           </View>
 
         </ScrollView>
+        {this.state.loading_blur && <View style={commonLoading}>
+                    <ActivityIndicator size='large'/>
+                </View>
+}
       </KeyboardAvoidingView>
     );
   }

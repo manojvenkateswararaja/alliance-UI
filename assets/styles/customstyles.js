@@ -78,13 +78,20 @@ module.exports = StyleSheet.create({
         marginTop: 10,
         width: 160
     },
+    loginTitle1:{
+        color: white,
+        textAlign: 'center',
+        opacity: 0.9,
+        marginTop: 5,
+        width: 350
+    },
 
     loginscreenInputContainer: {
         marginHorizontal: 4,
-        marginVertical: 8,
+        marginVertical: 30,
         paddingHorizontal: 8
     },
-
+   
     loginscreenLoginContainer: {
         paddingTop: 20
     },
@@ -148,7 +155,16 @@ module.exports = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: nephritis
     },
-
+    scrollBoxLogout: {
+        margin: 2,
+        width: Dimensions
+            .get('window')
+            .width / 1,
+        height: 90,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: nephritis
+    },
     scrollBoxText: {
         justifyContent: 'center',
         alignItems: 'center'
@@ -186,5 +202,29 @@ module.exports = StyleSheet.create({
     homeScrollImageLogo: {
         width: 50,
         height: 50
+    },
+    containerDate: {
+        width:335
+    },
+    FetchpolicyContainer:{
+        padding: 10,
+        margin: 2,
+        borderColor: '#4CAF50',
+        borderWidth: 1,
+        backgroundColor: '#d2f7f1'
+    },
+    PolicyQuotescontainer:{
+        padding: 10,
+        margin: 2,
+        borderColor: '#2a4944',
+        borderWidth: 1,
+        backgroundColor: '#d2f7f1'
+    },
+    SavedPoliciesContainer:{
+        padding: 10,
+        margin: 2,
+        borderColor: '#2a4944',
+        borderWidth: 1,
+        backgroundColor: '#d2f7f1'
     }
 });

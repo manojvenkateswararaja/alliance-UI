@@ -22,7 +22,7 @@ import DatePicker from 'react-native-datepicker';
 import Moment from 'moment';
 import environment from '../../utils/environment';
 
-const {loginscreenLogoContainer, loginscreenLogo, loginTitle, container1} = customstyles;
+const {loginscreenLogoContainer, loginscreenLogo, loginTitle, container1,containerDate} = customstyles;
 const {login_welcome,policytypeData,contracttypeData} = customtext;
 const {
   username_label,
@@ -38,7 +38,8 @@ const {
   loginscreenCreateAccountWrapper,
   loginscreenCreateAccountText,
   loginscreenCreateAccountLinkText,
-  loginscreenLoginContainer
+  loginscreenLoginContainer,
+  commonLoading
 } = customstyles;
 const {white, turquoise, red} = colors;
 const { base_url } = environment;
@@ -130,7 +131,8 @@ export default class NewPoliciesScreen extends Component {
       VoyageendDate: '',
       secureTextEntry: true,
       isChecked: false,
-      selectedvalue: ''
+      selectedvalue: '',
+      loading_blur: false
 
     };
 
@@ -312,7 +314,7 @@ export default class NewPoliciesScreen extends Component {
     var policyList;
 
     let errors = new Object;
-
+    this.setState({loading_blur: true});
     ['ConsignmentWeight', 'ConsignmentValue', 'ConsignmentType', 'PackingMode', 'InvoiceNo'].forEach((name) => {
 
       let value = this[name].value();
@@ -339,6 +341,15 @@ export default class NewPoliciesScreen extends Component {
       }
 
     });
+    if (this.isEmptyObject(errors)) {
+      
+                  setTimeout(() => {
+                      this.setState({loading_blur: false});
+      
+                  }, 3000)
+              } else {
+                  this.setState({loading_blur: false});
+              }
     if (errors === null || errors === 'null' || errors === 'undefined' || !errors) {
       console.log("failure");
 
@@ -346,6 +357,7 @@ export default class NewPoliciesScreen extends Component {
       console.log("Success");
       this.goToPolicyQoutesScreen(token, userType, policyHolderName, email)
     }
+ 
     this.setState({errors});
   }
   updateRef(name, ref) {
@@ -363,6 +375,9 @@ export default class NewPoliciesScreen extends Component {
       onPress={this.onAccessoryPress}
       suppressHighlighting/>);
   }
+  isEmptyObject(object) {
+    return (Object.getOwnPropertyNames(object).length === 0);
+}
   static navigationOptions = {
     header: null
   }
@@ -565,31 +580,16 @@ export default class NewPoliciesScreen extends Component {
               tintColor={white}
               textColor={white}
               onBlur={this.onBlur}/>
+              
             <Text>
               Policy Issue Date{'\n'}</Text>
-            <View
-              customStyles={{
-              dateIcon: {
-                position: 'absolute',
-                left: 0,
-                top: 4,
-                marginLeft: 0,
-              },
-              dateInput: {
-                marginLeft: 36
-              }
-              
-            }}>
-
+            <View>
               <DatePicker
-                style={{
-                width: 335,
-               color: 'red'
-              }}
                 date={this.state.PolicyissueDate}
                 mode="date"
                 placeholder="DD/MM/YYYY"
                 format="DD-MM-YYYY"
+                style={containerDate}
                 showIcon={false}
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
@@ -598,62 +598,33 @@ export default class NewPoliciesScreen extends Component {
               }}/>
 
             </View>
+
             <Text>
               Policy End Date{'\n'}</Text>
-            <View
-              customStyles={{
-              dateIcon: {
-                position: 'absolute',
-                left: 0,
-                top: 4,
-                marginLeft: 0
-              },
-              dateInput: {
-                marginLeft: 36
-              }
-            }}>
-
+            <View>
               <DatePicker
-                style={{
-                width: 335
-              }}
                 date={this.state.PolicyendDate}
                 mode="date"
                 placeholder="DD/MM/YYYY"
                 format="DD-MM-YYYY"
+                style={containerDate}
                 showIcon={false}
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
                 onDateChange={(PolicyendDate) => {
                 this.setState({PolicyendDate: PolicyendDate})
               }}/>
-
             </View>
+
             <Text>
               Voyage Start Date{'\n'}</Text>
-            <View
-              customStyles={{
-              dateIcon: {
-                position: 'absolute',
-                left: 0,
-                top: 4,
-                marginLeft: 0
-              },
-              dateInput: {
-                marginLeft: 36,
-                
-              }
-            }}>
-
+            <View>            
               <DatePicker
-                style={{
-                width: 335,
-                
-              }}
                 date={this.state.VoyagestartDate}
                 mode="date"
                 placeholder="DD/MM/YYYY"
                 format="DD-MM-YYYY"
+                style={containerDate}
                 showIcon={false}
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
@@ -661,36 +632,22 @@ export default class NewPoliciesScreen extends Component {
                 this.setState({VoyagestartDate: VoyagestartDate})
               }}/>
             </View>
+
             <Text>
               Voyage End Date{'\n'}</Text>
-            <View
-              customStyles={{
-              dateIcon: {
-                position: 'absolute',
-                left: 0,
-                top: 4,
-                marginLeft: 0
-              },
-              dateInput: {
-                marginLeft: 36
-              }
-            }}>
-
+            <View>
               <DatePicker
-                style={{
-                width: 335
-              }}
                 date={this.state.VoyageendDate}
                 mode="date"
                 placeholder="DD/MM/YYYY"
                 format="DD-MM-YYYY"
+                style={containerDate}
                 showIcon={false}
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
                 onDateChange={(VoyageendDate) => {
                 this.setState({VoyageendDate: VoyageendDate})
               }}/>
-
             </View>
 
             <View style={loginscreenLoginContainer}>
@@ -703,6 +660,10 @@ export default class NewPoliciesScreen extends Component {
 
           </View>
         </ScrollView>
+        {this.state.loading_blur && <View style={commonLoading}>
+                    <ActivityIndicator size='large'/>
+                </View>
+}
       </KeyboardAvoidingView>
     );
   }

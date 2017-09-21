@@ -23,6 +23,8 @@ export default {
         'Issued Policies', 'Saved Policies', 'New Policy', 'Claims Submission'
     ],
     home_client_directClients : ['My Policies', 'Saved Policies', 'New Policy', 'Claims Submission'],
+
+    //New policy Screen
      policytypeData : [
         {
           value: 'Single Transient Policy'
@@ -43,6 +45,8 @@ export default {
           value: 'FOB'
         }
       ],
+
+      //Register Screen
      usertypeData : [
         {
           value: 'Public Adjuster'
@@ -55,5 +59,7 @@ export default {
         }, {
           value: 'Examiner'
         }
-      ]
-}
+      ],
+      login_account_text : "Already Registered?",
+      login_account_link : 'LogIn Here!!',
+    }

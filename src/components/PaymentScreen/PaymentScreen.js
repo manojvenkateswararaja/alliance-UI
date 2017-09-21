@@ -35,7 +35,8 @@ const {
     loginscreenCreateAccountWrapper,
     loginscreenCreateAccountText,
     loginscreenCreateAccountLinkText,
-    loginscreenLoginContainer
+    loginscreenLoginContainer,
+    commonLoading
 } = customstyles;
 const {white, turquoise, red} = colors;
 const { base_url } = environment;
@@ -43,14 +44,17 @@ const { base_url } = environment;
 export default class PaymentPage extends Component {
     constructor() {
         super();
-
+this.state={
+    loading_blur: false
+}
     }
 
     static navigationOptions = {
         header: null
     }
     onSubmitConsignmentDetails(token, userType, policyHolderName, email, consignmentWeight, consignmentValue, modeofTransport, packingMode, consignmentType, contractType, policyType, invoiceNo, policyissuedate, policyenddate, voyagestartdate, voyageenddate, policyName, premiumAmount, sumInsured) {
-
+        var _id="59c0aad50532cd13b493f352"
+        this.setState({loading_blur: true});
         return fetch(base_url + '/consignmentDetail', {
             method: 'POST',
             headers: {
@@ -59,6 +63,7 @@ export default class PaymentPage extends Component {
                 'x-access-token': token
             },
             body: JSON.stringify({
+                _id:_id,
                 userType: userType,
                 policyHolderName: policyHolderName,
                 email: email,
@@ -83,14 +88,27 @@ export default class PaymentPage extends Component {
 
             var status = responseJson.status;
             if (status === "success") {
-
+                this.setState({loading_blur: false});
                 this
                     .props
                     .navigation
                     .navigate('FetchissuedPolicyPage', {token: token});
 
             }
-        })
+        });
+        if (this.isEmptyObject()) {
+            
+                        setTimeout(() => {
+                            this.setState({loading_blur: false});
+            
+                        }, 3000)
+                    } else {
+                        this.setState({loading_blur: false});
+                    }
+                   
+    }
+    isEmptyObject(object) {
+        return (Object.getOwnPropertyNames(object).length === 0);
     }
 
     render() {
@@ -129,6 +147,10 @@ export default class PaymentPage extends Component {
                     </TouchableOpacity>
 
                 </View>
+                {this.state.loading_blur && <View style={commonLoading}>
+                    <ActivityIndicator size='large'/>
+                </View>
+}
             </KeyboardAvoidingView>
         );
     }

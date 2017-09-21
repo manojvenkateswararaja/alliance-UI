@@ -198,7 +198,7 @@ export default class LoginScreen extends Component {
         }).then((response) => response.json()).then((responseJson) => {
             token = responseJson.token;
             var message = responseJson.message;
-
+            
             if (message === 'Logged in successfully') {
 
                 var userdetails = responseJson.userdetails;
@@ -258,10 +258,6 @@ export default class LoginScreen extends Component {
             console.error(error);
         });
     }
-
-    
-
-    
 
     updateRef(name, ref) {
         this[name] = ref;

@@ -33,7 +33,8 @@ const {
   loginscreenCreateAccountWrapper,
   loginscreenCreateAccountText,
   loginscreenCreateAccountLinkText,
-  loginscreenLoginContainer
+  loginscreenLoginContainer,
+  PolicyQuotescontainer
 } = customstyles;
 const {white, turquoise, red} = colors;
 var policyName,
@@ -87,10 +88,10 @@ export default class PolicyQuotesScreen extends Component {
         <View style={loginscreenInputContainer}>
 
           {policyList.map((item, index) => (
-            <View key={item.policyName} style={styles.item}>
+            <View key={item.policyName} style={PolicyQuotescontainer}>
               <TouchableOpacity onPress={() => this.getItem(item)}>
-                <Text>policyName: {item.policyName}</Text>
-                <Text>PremiumAmount: Rs. {item.premiumAmount}</Text>
+                <Text>policy Name: {item.policyName}</Text>
+                <Text>Premium Amount: Rs. {item.premiumAmount}</Text>
                 <Text>SumInsured: Rs. {item.sumInsured}</Text>
 
               </TouchableOpacity>
@@ -167,13 +168,4 @@ export default class PolicyQuotesScreen extends Component {
     );
   }
 }
-const styles = StyleSheet.create({
-  item: {
-    justifyContent: 'space-between',
-    padding: 10,
-    margin: 2,
-    borderColor: '#2a4944',
-    borderWidth: 1,
-    backgroundColor: '#d2f7f1'
-  }
-})
+

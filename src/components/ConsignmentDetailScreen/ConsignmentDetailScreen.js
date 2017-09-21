@@ -36,7 +36,8 @@ const {
     loginscreenCreateAccountWrapper,
     loginscreenCreateAccountText,
     loginscreenCreateAccountLinkText,
-    loginscreenLoginContainer
+    loginscreenLoginContainer,
+   
 } = customstyles;
 const {white, turquoise, red} = colors;
 
@@ -83,7 +84,6 @@ export default class RegisterScreen extends Component {
             ConsigneeName: '',
             ConsigneePhone: '',
             email: '',
-
             secureTextEntry: true
         };
 
@@ -147,9 +147,7 @@ export default class RegisterScreen extends Component {
         this.setState({errors});
     }
 
-    isEmptyObject(object) {
-        return (Object.getOwnPropertyNames(object).length === 0);
-    }
+    
 
     onFocus() {
         let {
@@ -175,7 +173,7 @@ export default class RegisterScreen extends Component {
     onSubmitRegister(token, userType, consignmentWeight, consignmentValue, modeofTransport, packingMode, consignmentType, contractType, policyType, invoiceNo, policyissuedate, policyenddate, voyagestartdate, voyageenddate, policyName, premiumAmount, sumInsured) {
 
         let errors = new Object;
-
+       
         let test = ['ConsigneeName', 'ConsigneePhone', 'ConsigneeEmail'];
 
         console.log("Test: " + test)
@@ -200,7 +198,7 @@ export default class RegisterScreen extends Component {
             }
 
         });
-
+       
         if (errors === null || errors === 'null' || errors === 'undefined' || !errors) {
             console.log("Failure");
 
@@ -231,8 +229,9 @@ export default class RegisterScreen extends Component {
                     premiumAmount: premiumAmount,
                     sumInsured: sumInsured
                 });
-
+                
         }
+       
         this.setState({errors});
 
     }
@@ -250,6 +249,9 @@ export default class RegisterScreen extends Component {
             color={TextField.defaultProps.baseColor}
             onPress={this.onAccessoryPress}
             suppressHighlighting/>);
+    }
+    isEmptyObject(object) {
+        return (Object.getOwnPropertyNames(object).length === 0);
     }
     static navigationOptions = {
         header: null
@@ -360,6 +362,7 @@ export default class RegisterScreen extends Component {
                     </View>
 
                 </ScrollView>
+                
             </KeyboardAvoidingView>
         );
     }

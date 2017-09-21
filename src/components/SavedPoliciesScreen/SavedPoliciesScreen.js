@@ -35,7 +35,8 @@ const {
     loginscreenCreateAccountWrapper,
     loginscreenCreateAccountText,
     loginscreenCreateAccountLinkText,
-    loginscreenLoginContainer
+    loginscreenLoginContainer,
+    SavedPoliciesContainer
 } = customstyles;
 const {white, turquoise, red} = colors;
 
@@ -59,18 +60,16 @@ export default class SavedPoliciesScreen extends Component {
 
                 <ScrollView>
                     <View style={loginscreenInputContainer}>
-                        <Text>Saved Policy
-                        </Text>
-
+                       
                         {policyList.map((item, index) => (
-                            <View key={item._id} style={styles.item}>
-                                <Text>ConsignmentWeight: {item.consignmentWeight}</Text>
-                                <Text>ConsignmentValue: {item.consignmentValue}</Text>
-                                <Text>ModeofTransport: {item.modeofTransport}</Text>
-                                <Text>PackingMode: {item.packingMode}</Text>
-                                <Text>ConsignmentType: {item.consignmentType}</Text>
-                                <Text>ContractType: {item.contractType}</Text>
-                                <Text>PolicyType: {item.policyType}</Text>
+                            <View key={item._id} style={SavedPoliciesContainer}>
+                                <Text>Consignment Weight: {item.consignmentWeight}</Text>
+                                <Text>Consignment Value: {item.consignmentValue}</Text>
+                                <Text>Mode of Transport: {item.modeofTransport}</Text>
+                                <Text>Packing Mode: {item.packingMode}</Text>
+                                <Text>Consignment Type: {item.consignmentType}</Text>
+                                <Text>Contract Type: {item.contractType}</Text>
+                                <Text>Policy Type: {item.policyType}</Text>
                             </View>
                         ))
 }
@@ -82,13 +81,4 @@ export default class SavedPoliciesScreen extends Component {
         );
     }
 }
-const styles = StyleSheet.create({
-    item: {
-        justifyContent: 'space-between',
-        padding: 10,
-        margin: 2,
-        borderColor: '#2a4944',
-        borderWidth: 1,
-        backgroundColor: '#d2f7f1'
-    }
-})
+

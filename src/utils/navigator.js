@@ -14,6 +14,8 @@ import HomeScreenAgents from '../components/HomeScreen/HomeScreenAgents';
 import PaymentScreen from '../components/PaymentScreen/PaymentScreen';
 import FetchissuedPolicyScreen from '../components/FetchissuedPolicyScreen/FetchissuedPolicyScreen';
 import ConsignmentDetailScreen from '../components/ConsignmentDetailScreen/ConsignmentDetailScreen';
+import OTPScreen from '../components/OTPScreen/OTPScreen';
+
 
 export const Navigator = StackNavigator({
   SplashPage: {
@@ -48,5 +50,8 @@ export const Navigator = StackNavigator({
   },
   ConsignmentDetailPage: {
     screen: ConsignmentDetailScreen
+  },
+  OTPPage: {
+    screen: OTPScreen
   }
 });

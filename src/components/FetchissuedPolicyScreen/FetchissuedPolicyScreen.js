@@ -6,7 +6,8 @@ import {
     ActivityIndicator,
     Image,
     KeyboardAvoidingView,
-    TouchableOpacity
+    TouchableOpacity,
+    ScrollView
 } from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import customstyles from '../../../assets/styles/customstyles';
@@ -41,7 +42,8 @@ const {
     loginscreenCreateAccountWrapper,
     loginscreenCreateAccountText,
     loginscreenCreateAccountLinkText,
-    loginscreenLoginContainer
+    loginscreenLoginContainer,
+    FetchpolicyContainer
 } = customstyles;
 const {white, turquoise, red} = colors;
 const { base_url } = environment;
@@ -89,19 +91,20 @@ export default class FetchissuedPolicyPage extends Component {
 
         return (
             <KeyboardAvoidingView behavior="padding" style={loginscreenContainer}>
-
+              <ScrollView>
+                    <View style={loginscreenInputContainer}>
                 {this.state.showComponent && <View style={loginscreenContainer}>
 
                     {issuedPolicies.map((item, index) => (
-                        <View key={item.policyName} style={styles.item}>
+                        <View key={item.policyName} style={FetchpolicyContainer}>
 
-                            <Text>PolicyName: {item.policyName}</Text>
-                            <Text>IssuedDate: {item.issuedDate}</Text>
-                            <Text>PremiumAmount: Rs. {item.premiumAmount}</Text>
-                            <Text>IssuedAmount: Rs. {item.issuedAmount}</Text>
-                            <Text>PolicyHolderName:{item.policyHolderName}</Text>
-                            <Text>PolicyNumber: {item.policyNumber}</Text>
-                            <Text>AgentName: {item.agentName}</Text>
+                            <Text>Policy Name: {item.policyName}</Text>
+                            <Text>Issued Date: {item.issuedDate}</Text>
+                            <Text>Premium Amount: Rs. {item.premiumAmount}</Text>
+                            <Text>Issued Amount: Rs. {item.issuedAmount}</Text>
+                            <Text>PolicyHolder Name:{item.policyHolderName}</Text>
+                            <Text>Policy Number: {item.policyNumber}</Text>
+                            <Text>Agent Name: {item.agentName}</Text>
 
                         </View>
                     ))
@@ -113,19 +116,11 @@ export default class FetchissuedPolicyPage extends Component {
                 {this.state.loading_blur && <View style={commonLoading}>
                     <ActivityIndicator size='large'/>
                 </View>
-}
+                }
+                </View>
+         </ScrollView>
             </KeyboardAvoidingView>
         )
     }
 }
 
-const styles = StyleSheet.create({
-    item: {
-        justifyContent: 'space-between',
-        padding: 10,
-        margin: 2,
-        borderColor: '#4CAF50',
-        borderWidth: 1,
-        backgroundColor: '#d2f7f1'
-    }
-})

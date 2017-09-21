@@ -11,6 +11,7 @@ const {
         scrollContainer,
         scrollViewContainer,
         scrollBox,
+        scrollBoxLogout,
         scrollBoxText,
         scrollImage,
         homeImageLayout,
@@ -152,7 +153,7 @@ export default class HomeScreenClients extends Component {
                                         <TouchableOpacity
                                                 activeOpacity={.5}
                                                 onPress={() => this.onSubmitLogout(token, userType, policyHolderName, email)}>
-                                                <View style={scrollBox}>
+                                                <View style={scrollBoxLogout}>
                                                         <Image
                                                                 style={homeScrollImageLogo}
                                                                 source={require('../../../assets/images/Logout_icon.png')}/>
