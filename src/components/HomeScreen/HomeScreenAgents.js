@@ -19,6 +19,20 @@ const {
     homeScrollImageLogo
 } = customstyles;
 const { base_url } = environment;
+var consignmentWeight;
+var consignmentValue;
+var modeofTransport; 
+var packingMode; 
+var consignmentType;
+var contractType;
+var policyType;
+var invoiceNo;
+var policyissuedate;
+var policyenddate;
+var voyagestartdate;
+var voyageenddate;
+
+
 export default class HomeScreenAgents extends Component {
     static navigationOptions = {
         header: null
@@ -40,7 +54,19 @@ export default class HomeScreenAgents extends Component {
                 token: token,
                 userType: userType,
                 policyHolderName: policyHolderName,
-                email: email
+                email: email,
+                consignmentWeight:'',
+                consignmentValue:'',
+                modeofTransport:'',
+                packingMode:'',
+                consignmentType:'',
+                contractType:'',
+                policyType:'',
+                invoiceNo:'',
+                policyissuedate:'',
+                policyenddate:'',
+                voyagestartdate:'',
+                voyageenddate:''
             });
     }
     onSubmitLogout() {
@@ -64,7 +90,7 @@ export default class HomeScreenAgents extends Component {
             .navigation
             .navigate('FetchissuedPolicyPage', {token: token});
     }
-    onSubmitSavedPolicy(token) {
+    onSubmitSavedPolicy(token, userType, policyHolderName, email) {
         var policyList;
 
         return fetch(base_url + '/fetchSavePolicy', {
@@ -83,6 +109,9 @@ export default class HomeScreenAgents extends Component {
                 .navigation
                 .navigate('SavedPoliciesPage', {
                     token: token,
+                    userType: userType,
+                    policyHolderName: policyHolderName,
+                    email: email,
                     policyList: policyList
                 });
 
@@ -123,7 +152,7 @@ export default class HomeScreenAgents extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity
                         activeOpacity={.5}
-                        onPress={() => this.onSubmitSavedPolicy(token)}>
+                        onPress={() => this.onSubmitSavedPolicy(token, userType, policyHolderName, email)}>
                         <View style={scrollBox}>
                             <Image
                                 style={homeScrollImageLogo}

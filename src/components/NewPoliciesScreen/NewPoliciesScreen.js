@@ -382,8 +382,9 @@ export default class NewPoliciesScreen extends Component {
     header: null
   }
   render() {
+   
     var {params} = this.props.navigation.state;
-
+    
     var token = params.token
 
     var userType = params.userType;
@@ -391,6 +392,7 @@ export default class NewPoliciesScreen extends Component {
     var policyHolderName = params.policyHolderName;
 
     var email = params.email;
+    console.log("params.consignmentWeight"+params.consignmentWeight)
 
     let {
       errors = {},
@@ -399,22 +401,22 @@ export default class NewPoliciesScreen extends Component {
     } = this.state;
     let {
       ConsignmentWeight = 'ConsignmentWeight'
-    } = data;
+    } = params.consignmentWeight;
     let {
       ConsignmentType = 'ConsignmentType'
-    } = data;
+    } = params.consignmentType;
     let {
       ConsignmentValue = 'ConsignmentValue'
-    } = data;
+    } = params.consignmentValue;
     let {
       policytype = 'policytype'
-    } = this.state;
+    } = params.policyType;
     let {
       contracttype = 'contracttype'
-    } = this.state;
+    } = params.contractType;
     let {
       PackingMode = 'PackingMode'
-    } = this.state;
+    } = params.packingMode;
     let {
       InvoiceNo = 'InvoiceNo'
     } = this.state;
@@ -439,7 +441,7 @@ export default class NewPoliciesScreen extends Component {
 
             <TextField
               ref={this.ConsignmentWeightRef}
-              value={data.ConsignmentWeigh}
+              value={params.consignmentWeight.ConsignmentWeight}
               keyboardType='numeric'
               autoCapitalize='none'
               autoCorrect={false}
@@ -455,7 +457,7 @@ export default class NewPoliciesScreen extends Component {
               onBlur={this.onBlur}/>
             <TextField
               ref={this.ConsignmentValueRef}
-              value={data.ConsignmentValue}
+              value={params.consignmentValue.ConsignmentValue}
               keyboardType='numeric'
               autoCapitalize='none'
               autoCorrect={false}
@@ -472,7 +474,7 @@ export default class NewPoliciesScreen extends Component {
 
             <Dropdown
               ref={this.policytypeRef}
-              value={data.policytype}
+              value={params.policyType.policytype}
               data={policytypeData}
               autoCapitalize='none'
               autoCorrect={false}
@@ -488,7 +490,7 @@ export default class NewPoliciesScreen extends Component {
 
             <Dropdown
               ref={this.contracttypeRef}
-              value={data.contracttype}
+              value={params.contractType.contracttype}
               data={contracttypeData}
               autoCapitalize='none'
               autoCorrect={false}
@@ -534,7 +536,7 @@ export default class NewPoliciesScreen extends Component {
 
             <TextField
               ref={this.ConsignmentTypeRef}
-              value={data.ConsignmentType}
+              value={params.consignmentType.ConsignmentType}
               keyboardType='default'
               autoCapitalize='none'
               autoCorrect={false}
@@ -550,7 +552,7 @@ export default class NewPoliciesScreen extends Component {
               onBlur={this.onBlur}/>
             <TextField
               ref={this.PackingModeRef}
-              value={data.PackingMode}
+              value={params.packingMode.PackingMode}
               keyboardType='default'
               autoCapitalize='none'
               autoCorrect={false}
