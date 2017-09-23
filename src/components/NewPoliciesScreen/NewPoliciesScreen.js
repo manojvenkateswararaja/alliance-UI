@@ -43,8 +43,78 @@ const {
 } = customstyles;
 const {white, turquoise, red} = colors;
 const { base_url } = environment;
+var railways = false;
+var roadways = false;
+var seaways = false;
+var airways = false;
 
 export default class NewPoliciesScreen extends Component {
+  componentWillMount() {
+    railways = false;
+    roadways = false;
+    seaways = false;
+    airways = false;
+    var {params} = this.props.navigation.state;
+    if (params) {
+      console.log("From Saved Policy");
+      this.state = {
+        ConsignmentWeight: params.consignmentWeight.toString(),
+        ConsignmentValue: params.consignmentValue.toString(),
+        ConsignmentType: params.consignmentType.toString(),
+        policytype: params.policyType.toString(),
+        contracttype: params.contractType.toString(),
+        PackingMode: params.packingMode.toString(),
+        InvoiceNo: params.invoiceNo.toString(),
+        PolicyissueDate: params.policyissuedate.toString(),
+        PolicyendDate: params.policyenddate.toString(),
+        VoyagestartDate: params.voyagestartdate.toString(),
+        VoyageendDate: params.voyageenddate.toString(),
+        secureTextEntry: true,
+        isChecked: false,
+        selectedvalue: params.modeofTransport.toString(),
+        loading_blur: false
+      };
+
+      let modeOfTransport = params.modeofTransport;
+      let splitTransport = [];
+      splitTransport = modeOfTransport.split(",");
+      for (let counter = 0; counter < splitTransport.length; counter++) {
+        if (splitTransport[counter] === "Railways") {
+          railways = true;
+        } else if (splitTransport[counter] === "Roadways") {
+          roadways = true;
+        } else if (splitTransport[counter] === "Seaways") {
+          seaways = true;
+        } else if (splitTransport[counter] === "Airways") {
+          airways = true;
+        }
+      }
+    } else {
+      console.log("From New Policy");
+      this.state = {
+        ConsignmentWeight: '',
+        ConsignmentValue: '',
+        ConsignmentType: '',
+        policytype: '',
+        contracttype: '',
+        PackingMode: '',
+        InvoiceNo: '',
+        PolicyissueDate: '',
+        PolicyendDate: '',
+        VoyagestartDate: '',
+        VoyageendDate: '',
+        secureTextEntry: true,
+        isChecked: false,
+        selectedvalue: '',
+        loading_blur: false
+      }
+      railways = false;
+      roadways = false;
+      seaways = false;
+      airways = false;
+    }
+  }
+  
   constructor() {
     super();
 
@@ -117,24 +187,7 @@ export default class NewPoliciesScreen extends Component {
     this.renderPasswordAccessory = this
       .renderPasswordAccessory
       .bind(this);
-    this.state = {
-      ConsignmentWeight: '',
-      ConsignmentValue: '',
-      ConsignmentType: '',
-      policytype: '',
-      contracttype: '',
-      PackingMode: '',
-      InvoiceNo: '',
-      PolicyissueDate: '',
-      PolicyendDate: '',
-      VoyagestartDate: '',
-      VoyageendDate: '',
-      secureTextEntry: true,
-      isChecked: false,
-      selectedvalue: '',
-      loading_blur: false
-
-    };
+    
 
   }
   validateEmail(value) {
@@ -239,20 +292,20 @@ export default class NewPoliciesScreen extends Component {
 
     this.setState({selectedvalue: value});
   }
-  goToPolicyQoutesScreen(token, userType, policyHolderName, email, params) {
-    console.log("Params: " + JSON.stringify(params));
-    var consignmentWeight = this.state.ConsignmentWeight;
-    var consignmentValue = this.state.ConsignmentValue;
-    var modeofTransport = this.state.selectedvalue;
-    var packingMode = this.state.PackingMode;
-    var consignmentType = this.state.ConsignmentType;
-    var contractType = this.state.contracttype;
-    var policyType = this.state.policytype;
-    var invoiceNo = this.state.InvoiceNo;
-    var policyissuedate = this.state.PolicyissueDate;
-    var policyenddate = this.state.PolicyendDate;
-    var voyagestartdate = this.state.VoyagestartDate;
-    var voyageenddate = this.state.VoyageendDate;
+  goToPolicyQoutesScreen(token, userType, policyHolderName, email) {
+    //console.log("Params: " + JSON.stringify(params));
+    var consignmentWeight = this.state.ConsignmentWeight.toString();
+    var consignmentValue = this.state.ConsignmentValue.toString();
+    var modeofTransport = this.state.selectedvalue.toString();
+    var packingMode = this.state.PackingMode.toString();
+    var consignmentType = this.state.ConsignmentType.toString();
+    var contractType = this.state.contracttype.toString();
+    var policyType = this.state.policytype.toString();
+    var invoiceNo = this.state.InvoiceNo.toString();
+    var policyissuedate = this.state.PolicyissueDate.toString();
+    var policyenddate = this.state.PolicyendDate.toString();
+    var voyagestartdate = this.state.VoyagestartDate.toString();
+    var voyageenddate = this.state.VoyageendDate.toString();
 
     return fetch(base_url + '/fetchPolicyQuotes', {
       method: 'POST',
@@ -262,18 +315,18 @@ export default class NewPoliciesScreen extends Component {
         'x-access-token': token
       },
       body: JSON.stringify({
-        consignmentWeight: params.consignmentWeight.toString(),
-        consignmentValue: params.consignmentValue.toString(),
-        modeofTransport: params.modeofTransport.toString(),
-        packingMode: params.packingMode.toString(),
-        consignmentType: params.consignmentType.toString(),
-        contractType: params.contractType.toString(),
-        policyType: params.policyType.toString(),
-        invoiceNo: params.invoiceNo.toString(),
-        policyissuedate: params.policyissuedate.toString(),
-        policyenddate: params.policyenddate.toString(),
-        voyagestartdate: params.voyagestartdate.toString(),
-        voyageenddate: params.voyageenddate.toString()
+        consignmentWeight: consignmentWeight,
+        consignmentValue: consignmentValue,
+        modeofTransport: modeofTransport,
+        packingMode: packingMode,
+        consignmentType: consignmentType,
+        contractType: contractType,
+        policyType: policyType,
+        invoiceNo: invoiceNo,
+        policyissuedate: policyissuedate,
+        policyenddate: policyenddate,
+        voyagestartdate: voyagestartdate,
+        voyageenddate: voyageenddate
 
       })
     }).then((response) => response.json()).then((responseJson) => {
@@ -309,8 +362,7 @@ export default class NewPoliciesScreen extends Component {
     });
 
   }
-  onSubmitPolicyQuotes(token, userType, policyHolderName, email, params) {
-
+  onSubmitPolicyQuotes(token, userType, policyHolderName, email) {
     var policyList;
 
     let errors = new Object;
@@ -355,7 +407,7 @@ export default class NewPoliciesScreen extends Component {
 
     } else {
       console.log("Success");
-      this.goToPolicyQoutesScreen(token, userType, policyHolderName, email, params)
+      this.goToPolicyQoutesScreen(token, userType, policyHolderName, email)
     }
  
     this.setState({errors});
@@ -392,47 +444,46 @@ export default class NewPoliciesScreen extends Component {
     var policyHolderName = params.policyHolderName;
 
     var email = params.email;
-    console.log("params.consignmentWeight"+params.consignmentWeight)
 
     let {
       errors = {},
-      secureTextEntry
-      
+      secureTextEntry,
+      ...data
     } = this.state;
     let {
       ConsignmentWeight = 'ConsignmentWeight'
-    } = params.consignmentWeight;
+    } = this.state;
     let {
       ConsignmentType = 'ConsignmentType'
-    } = params.consignmentType;
+    } = this.state;
     let {
       ConsignmentValue = 'ConsignmentValue'
-    } = params.consignmentValue;
+    } = this.state;
     let {
       policytype = 'policytype'
-    } = params.policyType;
+    } = this.state;
     let {
       contracttype = 'contracttype'
-    } = params.contractType;
+    } = this.state;
     let {
       PackingMode = 'PackingMode'
-    } = params.packingMode;
+    } = this.state;
     let {
       InvoiceNo = 'InvoiceNo'
-    } = params.invoiceNo;
+    } = this.state;
     let {
       PolicyissueDate = 'PolicyissueDate'
-    } = params.policyissuedate;
+    } = this.state;
     let {
       PolicyendDate = 'PolicyendDate'
-    } = params.policyenddate;
+    } = this.state;
 
     let {
       VoyagestartDate = 'VoyagestartDate'
-    } = params.voyagestartdate;
+    } = this.state;
     let {
       VoyageendDate = 'VoyageendDate'
-    } = params.voyageenddate;
+    } = this.state;
 
     return (
       <KeyboardAvoidingView behavior="padding" style={loginscreenContainer}>
@@ -441,7 +492,7 @@ export default class NewPoliciesScreen extends Component {
 
             <TextField
               ref={this.ConsignmentWeightRef}
-              value={(params.consignmentWeight).toString()}
+              value={data.ConsignmentWeight}
               keyboardType='numeric'
               autoCapitalize='none'
               autoCorrect={false}
@@ -457,7 +508,7 @@ export default class NewPoliciesScreen extends Component {
               onBlur={this.onBlur}/>
             <TextField
               ref={this.ConsignmentValueRef}
-              value={(params.consignmentValue).toString()}
+              value={data.ConsignmentValue}
               keyboardType='numeric'
               autoCapitalize='none'
               autoCorrect={false}
@@ -514,16 +565,20 @@ export default class NewPoliciesScreen extends Component {
               checkboxes={[
               {
                 label: "Roadways",
-                value: 'Roadways'
+                value: 'Roadways',
+                selected: roadways
               }, {
                 label: "Airways",
-                value: 'Airways'
+                value: 'Airways',
+                selected: airways
               }, {
                 label: "Railways",
-                value: 'Railways'
+                value: 'Railways',
+                selected: railways
               }, {
                 label: "Seaways",
-                value: 'Seaways'
+                value: 'Seaways',
+                selected: seaways
               }
             ]}
               labelStyle={{
@@ -536,7 +591,7 @@ export default class NewPoliciesScreen extends Component {
 
             <TextField
               ref={this.ConsignmentTypeRef}
-              value={params.consignmentType}
+              value={data.ConsignmentType}
               keyboardType='default'
               autoCapitalize='none'
               autoCorrect={false}
@@ -552,7 +607,7 @@ export default class NewPoliciesScreen extends Component {
               onBlur={this.onBlur}/>
             <TextField
               ref={this.PackingModeRef}
-              value={params.packingMode}
+              value={data.PackingMode}
               keyboardType='default'
               autoCapitalize='none'
               autoCorrect={false}
@@ -568,7 +623,7 @@ export default class NewPoliciesScreen extends Component {
               onBlur={this.onBlur}/>
             <TextField
               ref={this.InvoiceNoRef}
-              value={(params.invoiceNo).toString()}
+              value={data.InvoiceNo}
               keyboardType='numeric'
               autoCapitalize='none'
               autoCorrect={false}
@@ -587,7 +642,7 @@ export default class NewPoliciesScreen extends Component {
               Policy Issue Date{'\n'}</Text>
             <View>
               <DatePicker
-                date={(params.policyissuedate).toString()}
+                date={data.PolicyissueDate}
                 mode="date"
                 placeholder="DD/MM/YYYY"
                 format="DD-MM-YYYY"
@@ -605,7 +660,7 @@ export default class NewPoliciesScreen extends Component {
               Policy End Date{'\n'}</Text>
             <View>
               <DatePicker
-                date={(params.policyenddate).toString()}
+                date={data.PolicyendDate}
                 mode="date"
                 placeholder="DD/MM/YYYY"
                 format="DD-MM-YYYY"
@@ -622,7 +677,7 @@ export default class NewPoliciesScreen extends Component {
               Voyage Start Date{'\n'}</Text>
             <View>            
               <DatePicker
-                date={(params.voyagestartdate).toString()}
+                date={data.VoyagestartDate}
                 mode="date"
                 placeholder="DD/MM/YYYY"
                 format="DD-MM-YYYY"
@@ -630,7 +685,7 @@ export default class NewPoliciesScreen extends Component {
                 showIcon={false}
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
-                onDateChange={(VoyagestartDate) => {da
+                onDateChange={(VoyagestartDate) => {
                 this.setState({VoyagestartDate: VoyagestartDate})
               }}/>
             </View>
@@ -639,7 +694,7 @@ export default class NewPoliciesScreen extends Component {
               Voyage End Date{'\n'}</Text>
             <View>
               <DatePicker
-                date={(params.voyageenddate).toString()}
+                date={data.VoyageendDate}
                 mode="date"
                 placeholder="DD/MM/YYYY"
                 format="DD-MM-YYYY"
@@ -654,7 +709,7 @@ export default class NewPoliciesScreen extends Component {
 
             <View style={loginscreenLoginContainer}>
               <RaisedTextButton
-                onPress={() => this.onSubmitPolicyQuotes(token, userType, policyHolderName, email, params)}
+                onPress={() => this.onSubmitPolicyQuotes(token, userType, policyHolderName, email)}
                 title="Policy Quotes"
                 color={turquoise}
                 titleColor={white}/>
