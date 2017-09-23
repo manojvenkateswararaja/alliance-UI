@@ -239,8 +239,8 @@ export default class NewPoliciesScreen extends Component {
 
     this.setState({selectedvalue: value});
   }
-  goToPolicyQoutesScreen(token, userType, policyHolderName, email) {
-
+  goToPolicyQoutesScreen(token, userType, policyHolderName, email, params) {
+    console.log("Params: " + JSON.stringify(params));
     var consignmentWeight = this.state.ConsignmentWeight;
     var consignmentValue = this.state.ConsignmentValue;
     var modeofTransport = this.state.selectedvalue;
@@ -262,18 +262,18 @@ export default class NewPoliciesScreen extends Component {
         'x-access-token': token
       },
       body: JSON.stringify({
-        consignmentWeight: this.state.ConsignmentWeight,
-        consignmentValue: this.state.ConsignmentValue,
-        modeofTransport: this.state.selectedvalue,
-        packingMode: this.state.PackingMode,
-        consignmentType: this.state.ConsignmentType,
-        contractType: this.state.contracttype,
-        policyType: this.state.policytype,
-        invoiceNo: this.state.InvoiceNo,
-        policyissuedate: this.state.PolicyissueDate,
-        policyenddate: this.state.PolicyendDate,
-        voyagestartdate: this.state.VoyagestartDate,
-        voyageenddate: this.state.VoyageendDate
+        consignmentWeight: params.consignmentWeight.toString(),
+        consignmentValue: params.consignmentValue.toString(),
+        modeofTransport: params.modeofTransport.toString(),
+        packingMode: params.packingMode.toString(),
+        consignmentType: params.consignmentType.toString(),
+        contractType: params.contractType.toString(),
+        policyType: params.policyType.toString(),
+        invoiceNo: params.invoiceNo.toString(),
+        policyissuedate: params.policyissuedate.toString(),
+        policyenddate: params.policyenddate.toString(),
+        voyagestartdate: params.voyagestartdate.toString(),
+        voyageenddate: params.voyageenddate.toString()
 
       })
     }).then((response) => response.json()).then((responseJson) => {
@@ -309,7 +309,7 @@ export default class NewPoliciesScreen extends Component {
     });
 
   }
-  onSubmitPolicyQuotes(token, userType, policyHolderName, email) {
+  onSubmitPolicyQuotes(token, userType, policyHolderName, email, params) {
 
     var policyList;
 
@@ -355,7 +355,7 @@ export default class NewPoliciesScreen extends Component {
 
     } else {
       console.log("Success");
-      this.goToPolicyQoutesScreen(token, userType, policyHolderName, email)
+      this.goToPolicyQoutesScreen(token, userType, policyHolderName, email, params)
     }
  
     this.setState({errors});
@@ -396,8 +396,8 @@ export default class NewPoliciesScreen extends Component {
 
     let {
       errors = {},
-      secureTextEntry,
-      ...data
+      secureTextEntry
+      
     } = this.state;
     let {
       ConsignmentWeight = 'ConsignmentWeight'
@@ -419,20 +419,20 @@ export default class NewPoliciesScreen extends Component {
     } = params.packingMode;
     let {
       InvoiceNo = 'InvoiceNo'
-    } = this.state;
+    } = params.invoiceNo;
     let {
       PolicyissueDate = 'PolicyissueDate'
-    } = this.state;
+    } = params.policyissuedate;
     let {
       PolicyendDate = 'PolicyendDate'
-    } = this.state;
+    } = params.policyenddate;
 
     let {
       VoyagestartDate = 'VoyagestartDate'
-    } = this.state;
+    } = params.voyagestartdate;
     let {
       VoyageendDate = 'VoyageendDate'
-    } = this.state;
+    } = params.voyageenddate;
 
     return (
       <KeyboardAvoidingView behavior="padding" style={loginscreenContainer}>
@@ -441,7 +441,7 @@ export default class NewPoliciesScreen extends Component {
 
             <TextField
               ref={this.ConsignmentWeightRef}
-              value={params.consignmentWeight.ConsignmentWeight}
+              value={(params.consignmentWeight).toString()}
               keyboardType='numeric'
               autoCapitalize='none'
               autoCorrect={false}
@@ -457,7 +457,7 @@ export default class NewPoliciesScreen extends Component {
               onBlur={this.onBlur}/>
             <TextField
               ref={this.ConsignmentValueRef}
-              value={params.consignmentValue.ConsignmentValue}
+              value={(params.consignmentValue).toString()}
               keyboardType='numeric'
               autoCapitalize='none'
               autoCorrect={false}
@@ -474,7 +474,7 @@ export default class NewPoliciesScreen extends Component {
 
             <Dropdown
               ref={this.policytypeRef}
-              value={params.policyType.policytype}
+              value={params.policyType}
               data={policytypeData}
               autoCapitalize='none'
               autoCorrect={false}
@@ -490,7 +490,7 @@ export default class NewPoliciesScreen extends Component {
 
             <Dropdown
               ref={this.contracttypeRef}
-              value={params.contractType.contracttype}
+              value={params.contractType}
               data={contracttypeData}
               autoCapitalize='none'
               autoCorrect={false}
@@ -536,7 +536,7 @@ export default class NewPoliciesScreen extends Component {
 
             <TextField
               ref={this.ConsignmentTypeRef}
-              value={params.consignmentType.ConsignmentType}
+              value={params.consignmentType}
               keyboardType='default'
               autoCapitalize='none'
               autoCorrect={false}
@@ -552,7 +552,7 @@ export default class NewPoliciesScreen extends Component {
               onBlur={this.onBlur}/>
             <TextField
               ref={this.PackingModeRef}
-              value={params.packingMode.PackingMode}
+              value={params.packingMode}
               keyboardType='default'
               autoCapitalize='none'
               autoCorrect={false}
@@ -568,7 +568,7 @@ export default class NewPoliciesScreen extends Component {
               onBlur={this.onBlur}/>
             <TextField
               ref={this.InvoiceNoRef}
-              value={data.InvoiceNo}
+              value={(params.invoiceNo).toString()}
               keyboardType='numeric'
               autoCapitalize='none'
               autoCorrect={false}
@@ -587,7 +587,7 @@ export default class NewPoliciesScreen extends Component {
               Policy Issue Date{'\n'}</Text>
             <View>
               <DatePicker
-                date={this.state.PolicyissueDate}
+                date={(params.policyissuedate).toString()}
                 mode="date"
                 placeholder="DD/MM/YYYY"
                 format="DD-MM-YYYY"
@@ -605,7 +605,7 @@ export default class NewPoliciesScreen extends Component {
               Policy End Date{'\n'}</Text>
             <View>
               <DatePicker
-                date={this.state.PolicyendDate}
+                date={(params.policyenddate).toString()}
                 mode="date"
                 placeholder="DD/MM/YYYY"
                 format="DD-MM-YYYY"
@@ -622,7 +622,7 @@ export default class NewPoliciesScreen extends Component {
               Voyage Start Date{'\n'}</Text>
             <View>            
               <DatePicker
-                date={this.state.VoyagestartDate}
+                date={(params.voyagestartdate).toString()}
                 mode="date"
                 placeholder="DD/MM/YYYY"
                 format="DD-MM-YYYY"
@@ -630,7 +630,7 @@ export default class NewPoliciesScreen extends Component {
                 showIcon={false}
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
-                onDateChange={(VoyagestartDate) => {
+                onDateChange={(VoyagestartDate) => {da
                 this.setState({VoyagestartDate: VoyagestartDate})
               }}/>
             </View>
@@ -639,7 +639,7 @@ export default class NewPoliciesScreen extends Component {
               Voyage End Date{'\n'}</Text>
             <View>
               <DatePicker
-                date={this.state.VoyageendDate}
+                date={(params.voyageenddate).toString()}
                 mode="date"
                 placeholder="DD/MM/YYYY"
                 format="DD-MM-YYYY"
@@ -654,7 +654,7 @@ export default class NewPoliciesScreen extends Component {
 
             <View style={loginscreenLoginContainer}>
               <RaisedTextButton
-                onPress={() => this.onSubmitPolicyQuotes(token, userType, policyHolderName, email)}
+                onPress={() => this.onSubmitPolicyQuotes(token, userType, policyHolderName, email, params)}
                 title="Policy Quotes"
                 color={turquoise}
                 titleColor={white}/>
