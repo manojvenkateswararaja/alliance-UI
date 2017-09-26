@@ -93,10 +93,11 @@ export default class FetchissuedPolicyPage extends Component {
             <KeyboardAvoidingView behavior="padding" style={loginscreenContainer}>
               <ScrollView>
                     <View style={loginscreenInputContainer}>
+                        <Text>Fetch Issued Policy</Text>
                 {this.state.showComponent && <View style={loginscreenContainer}>
 
                     {issuedPolicies.map((item, index) => (
-                        <View key={item.policyName} style={FetchpolicyContainer}>
+                        <View key={item.policyNumber} style={FetchpolicyContainer}>
 
                             <Text>Policy Name: {item.policyName}</Text>
                             <Text>Issued Date: {item.issuedDate}</Text>

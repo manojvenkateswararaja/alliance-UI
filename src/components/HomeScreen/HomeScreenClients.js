@@ -31,6 +31,7 @@ var policyissuedate;
 var policyenddate;
 var voyagestartdate;
 var voyageenddate;
+var statusnew;
 
 
 export default class HomeScreenClients extends Component {
@@ -55,6 +56,7 @@ export default class HomeScreenClients extends Component {
                                 userType: userType,
                                 policyHolderName: policyHolderName,
                                 email: email,
+                                statusnew:"new",
                                 consignmentWeight:'',
                                 consignmentValue:'',
                                 modeofTransport:'',

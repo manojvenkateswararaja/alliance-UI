@@ -52,8 +52,8 @@ this.state={
     static navigationOptions = {
         header: null
     }
-    onSubmitConsignmentDetails(token, userType, policyHolderName, email, consignmentWeight, consignmentValue, modeofTransport, packingMode, consignmentType, contractType, policyType, invoiceNo, policyissuedate, policyenddate, voyagestartdate, voyageenddate, policyName, premiumAmount, sumInsured) {
-        var _id="59c0aad50532cd13b493f352"
+    onSubmitConsignmentDetails(token, userType, policyHolderName, email, consignmentWeight, consignmentValue, modeofTransport, packingMode, consignmentType, contractType, policyType, invoiceNo, policyissuedate, policyenddate, voyagestartdate, voyageenddate, policyName, premiumAmount, sumInsured,_id) {
+       
         this.setState({loading_blur: true});
         return fetch(base_url + '/consignmentDetail', {
             method: 'POST',
@@ -114,6 +114,7 @@ this.state={
     render() {
         var {params} = this.props.navigation.state;
         var token = params.token;
+        var _id = params._id;
         var userType = params.userType;
         var policyHolderName = params.policyHolderName;
         var email = params.email;
@@ -139,7 +140,7 @@ this.state={
                 <View style={loginscreenInputContainer}>
                     <TouchableOpacity
                         activeOpacity={.5}
-                        onPress={() => this.onSubmitConsignmentDetails(token, userType, policyHolderName, email, consignmentWeight, consignmentValue, modeofTransport, packingMode, consignmentType, contractType, policyType, invoiceNo, policyissuedate, policyenddate, voyagestartdate, voyageenddate, policyName, premiumAmount, sumInsured)}>
+                        onPress={() => this.onSubmitConsignmentDetails(token, userType, policyHolderName, email, consignmentWeight, consignmentValue, modeofTransport, packingMode, consignmentType, contractType, policyType, invoiceNo, policyissuedate, policyenddate, voyagestartdate, voyageenddate, policyName, premiumAmount, sumInsured,_id)}>
 
                         <Image
                             style={PaymentImageLayout}

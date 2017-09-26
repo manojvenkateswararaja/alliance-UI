@@ -55,8 +55,10 @@ export default class NewPoliciesScreen extends Component {
     seaways = false;
     airways = false;
     var {params} = this.props.navigation.state;
-    if (params) {
-      console.log("From Saved Policy");
+    
+    
+     if (params.status==="update") {
+      
       this.state = {
         ConsignmentWeight: params.consignmentWeight.toString(),
         ConsignmentValue: params.consignmentValue.toString(),
@@ -69,6 +71,8 @@ export default class NewPoliciesScreen extends Component {
         PolicyendDate: params.policyenddate.toString(),
         VoyagestartDate: params.voyagestartdate.toString(),
         VoyageendDate: params.voyageenddate.toString(),
+        status : params.status,
+        _id:params._id,
         secureTextEntry: true,
         isChecked: false,
         selectedvalue: params.modeofTransport.toString(),
@@ -90,7 +94,8 @@ export default class NewPoliciesScreen extends Component {
         }
       }
     } else {
-      console.log("From New Policy");
+      var statusnew = "new"
+     
       this.state = {
         ConsignmentWeight: '',
         ConsignmentValue: '',
@@ -103,6 +108,8 @@ export default class NewPoliciesScreen extends Component {
         PolicyendDate: '',
         VoyagestartDate: '',
         VoyageendDate: '',
+        _id:'',
+        status:statusnew,
         secureTextEntry: true,
         isChecked: false,
         selectedvalue: '',
@@ -293,7 +300,6 @@ export default class NewPoliciesScreen extends Component {
     this.setState({selectedvalue: value});
   }
   goToPolicyQoutesScreen(token, userType, policyHolderName, email) {
-    //console.log("Params: " + JSON.stringify(params));
     var consignmentWeight = this.state.ConsignmentWeight.toString();
     var consignmentValue = this.state.ConsignmentValue.toString();
     var modeofTransport = this.state.selectedvalue.toString();
@@ -306,7 +312,9 @@ export default class NewPoliciesScreen extends Component {
     var policyenddate = this.state.PolicyendDate.toString();
     var voyagestartdate = this.state.VoyagestartDate.toString();
     var voyageenddate = this.state.VoyageendDate.toString();
-
+    var status = this.state.status
+    
+  
     return fetch(base_url + '/fetchPolicyQuotes', {
       method: 'POST',
       headers: {
@@ -314,6 +322,7 @@ export default class NewPoliciesScreen extends Component {
         'Content-Type': 'application/json',
         'x-access-token': token
       },
+      
       body: JSON.stringify({
         consignmentWeight: consignmentWeight,
         consignmentValue: consignmentValue,
@@ -326,11 +335,12 @@ export default class NewPoliciesScreen extends Component {
         policyissuedate: policyissuedate,
         policyenddate: policyenddate,
         voyagestartdate: voyagestartdate,
-        voyageenddate: voyageenddate
-
+        voyageenddate: voyageenddate,
+        status:status,
+        _id:this.state._id
       })
     }).then((response) => response.json()).then((responseJson) => {
-
+      _id = responseJson._id;
       policyList = responseJson.policyList
 
       this
@@ -338,6 +348,7 @@ export default class NewPoliciesScreen extends Component {
         .navigation
         .navigate('PolicyQuotesPage', {
           token: token,
+          _id:_id,
           userType: userType,
           policyHolderName: policyHolderName,
           email: email,
@@ -354,6 +365,7 @@ export default class NewPoliciesScreen extends Component {
           policyenddate: policyenddate,
           voyagestartdate: voyagestartdate,
           voyageenddate: voyageenddate
+   
 
         });
 
@@ -406,7 +418,7 @@ export default class NewPoliciesScreen extends Component {
       console.log("failure");
 
     } else {
-      console.log("Success");
+     
       this.goToPolicyQoutesScreen(token, userType, policyHolderName, email)
     }
  
@@ -443,7 +455,8 @@ export default class NewPoliciesScreen extends Component {
 
     var policyHolderName = params.policyHolderName;
 
-    var email = params.email;
+    var email = params.email; 
+    
 
     let {
       errors = {},
@@ -484,12 +497,13 @@ export default class NewPoliciesScreen extends Component {
     let {
       VoyageendDate = 'VoyageendDate'
     } = this.state;
+   
 
     return (
       <KeyboardAvoidingView behavior="padding" style={loginscreenContainer}>
         <ScrollView>
           <View style={loginscreenInputContainer}>
-
+          
             <TextField
               ref={this.ConsignmentWeightRef}
               value={data.ConsignmentWeight}

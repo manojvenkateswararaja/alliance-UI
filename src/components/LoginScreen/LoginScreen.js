@@ -226,6 +226,7 @@ export default class LoginScreen extends Component {
                             userType: userType,
                             policyHolderName: policyHolderName,
                             email: email
+                           
                         });
                 } else {
                     this
@@ -236,6 +237,7 @@ export default class LoginScreen extends Component {
                             userType: userType,
                             policyHolderName: policyHolderName,
                             email: email
+                           
                         });
 
                 }

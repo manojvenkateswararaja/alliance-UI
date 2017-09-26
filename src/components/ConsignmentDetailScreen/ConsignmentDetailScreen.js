@@ -170,7 +170,7 @@ export default class RegisterScreen extends Component {
         });
     }
 
-    onSubmitRegister(token, userType, consignmentWeight, consignmentValue, modeofTransport, packingMode, consignmentType, contractType, policyType, invoiceNo, policyissuedate, policyenddate, voyagestartdate, voyageenddate, policyName, premiumAmount, sumInsured) {
+    onSubmitRegister(token, userType, consignmentWeight, consignmentValue, modeofTransport, packingMode, consignmentType, contractType, policyType, invoiceNo, policyissuedate, policyenddate, voyagestartdate, voyageenddate, policyName, premiumAmount, sumInsured,_id) {
 
         let errors = new Object;
        
@@ -210,6 +210,7 @@ export default class RegisterScreen extends Component {
                 .navigation
                 .navigate('PaymentPage', {
                     token: token,
+                    _id:_id,
                     userType: userType,
                     policyHolderName: this.state.ConsigneeName,
                     email: this.state.ConsigneeEmail,
@@ -259,9 +260,8 @@ export default class RegisterScreen extends Component {
     render() {
         var {params} = this.props.navigation.state;
         var token = params.token;
-
+        var _id = params._id;
         var userType = params.userType;
-
         var consignmentWeight = params.consignmentWeight;
         var consignmentValue = params.consignmentValue;
         var modeofTransport = params.modeofTransport;
@@ -353,7 +353,7 @@ export default class RegisterScreen extends Component {
 
                         <View style={loginscreenLoginContainer}>
                             <RaisedTextButton
-                                onPress={() => this.onSubmitRegister(token, userType, consignmentWeight, consignmentValue, modeofTransport, packingMode, consignmentType, contractType, policyType, invoiceNo, policyissuedate, policyenddate, voyagestartdate, voyageenddate, policyName, premiumAmount, sumInsured)}
+                                onPress={() => this.onSubmitRegister(token, userType, consignmentWeight, consignmentValue, modeofTransport, packingMode, consignmentType, contractType, policyType, invoiceNo, policyissuedate, policyenddate, voyagestartdate, voyageenddate, policyName, premiumAmount, sumInsured,_id)}
                                 title="Register"
                                 color={turquoise}
                                 titleColor={white}/>

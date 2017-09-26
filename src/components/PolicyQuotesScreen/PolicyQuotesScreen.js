@@ -65,6 +65,7 @@ export default class PolicyQuotesScreen extends Component {
 
     var {params} = this.props.navigation.state;
     var token = params.token;
+    var _id = params._id;
     var userType = params.userType;
     var policyHolderName = params.policyHolderName;
     var email = params.email;
@@ -81,12 +82,13 @@ export default class PolicyQuotesScreen extends Component {
     var policyenddate = params.policyenddate;
     var voyagestartdate = params.voyagestartdate;
     var voyageenddate = params.voyageenddate;
+    
 
     return (
       <KeyboardAvoidingView behavior="padding" style={loginscreenContainer}>
 
         <View style={loginscreenInputContainer}>
-
+        <Text>Policy Quotes</Text>
           {policyList.map((item, index) => (
             <View key={item.policyName} style={PolicyQuotescontainer}>
               <TouchableOpacity onPress={() => this.getItem(item)}>
@@ -112,6 +114,7 @@ export default class PolicyQuotesScreen extends Component {
               .navigation
               .navigate('PaymentPage', {
                 token: token,
+                _id:_id,
                 userType: userType,
                 policyHolderName: policyHolderName,
                 email: email,
@@ -137,6 +140,7 @@ export default class PolicyQuotesScreen extends Component {
               .navigation
               .navigate('ConsignmentDetailPage', {
                 token: token,
+                _id:_id,
                 userType: userType,
                 consignmentWeight: consignmentWeight,
                 consignmentValue: consignmentValue,

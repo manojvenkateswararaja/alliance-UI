@@ -51,6 +51,7 @@ var policyissuedate;
 var policyenddate;
 var voyagestartdate;
 var voyageenddate;
+var _id;
 
 export default class SavedPoliciesScreen extends Component {
     constructor() {
@@ -67,7 +68,7 @@ export default class SavedPoliciesScreen extends Component {
     getItem = (item) => {
         this.setState({basicNoTitleVisible: true});
         consignmentWeight = item.consignmentWeight;
-       
+        _id=item._id;
         consignmentValue = item.consignmentValue;
         modeofTransport = item.modeofTransport;
         packingMode =item.packingMode;
@@ -90,14 +91,14 @@ export default class SavedPoliciesScreen extends Component {
         
         var email = params.email;
         var policyList = params.policyList;
-        console.log("policyList"+policyList);
+       
 
         return (
             <KeyboardAvoidingView behavior="padding" style={loginscreenContainer}>
 
                 <ScrollView>
                     <View style={loginscreenInputContainer}>
-                       
+                       <Text>Saved Policies</Text>
                         {policyList.map((item, index) => (
                             <View key={item._id} style={SavedPoliciesContainer}>
                             <TouchableOpacity onPress={() => this.getItem(item)}>
@@ -130,6 +131,8 @@ export default class SavedPoliciesScreen extends Component {
               .navigation
               .navigate('NewPoliciesPage', {
                 token: token,
+                _id:_id,
+                status:"update",
                 userType: userType,
                 policyHolderName: policyHolderName,
                 email: email,
