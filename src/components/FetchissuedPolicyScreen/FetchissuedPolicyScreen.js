@@ -17,6 +17,8 @@ import {TextField} from 'react-native-material-textfield';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {RaisedTextButton} from 'react-native-material-buttons';
 import environment from '../../utils/environment';
+import {MaterialDialog} from 'react-native-material-dialog';
+
 
 const {
     loginscreenLogoContainer,
@@ -50,14 +52,20 @@ const { base_url } = environment;
 
 var token;
 var issuedPolicies;
-
+var policyNumber;
 export default class FetchissuedPolicyPage extends Component {
     static navigationOptions = {
         header: null
     }
-
+    getItem = (item) => {
+        this.setState({basicNoTitleVisible: true});
+        policyNumber = item.policyNumber;
+      }
     constructor() {
         super();
+        this.state = {
+            basicNoTitleVisible: false
+          }
 
     }
 
@@ -88,17 +96,18 @@ export default class FetchissuedPolicyPage extends Component {
     }
 
     render() {
-
+        
         return (
             <KeyboardAvoidingView behavior="padding" style={loginscreenContainer}>
               <ScrollView>
                     <View style={loginscreenInputContainer}>
                         <Text>Fetch Issued Policy</Text>
+                        
                 {this.state.showComponent && <View style={loginscreenContainer}>
 
                     {issuedPolicies.map((item, index) => (
                         <View key={item.policyNumber} style={FetchpolicyContainer}>
-
+                        <TouchableOpacity onPress={() => this.getItem(item)}>
                             <Text>Policy Name: {item.policyName}</Text>
                             <Text>Issued Date: {item.issuedDate}</Text>
                             <Text>Premium Amount: Rs. {item.premiumAmount}</Text>
@@ -106,7 +115,7 @@ export default class FetchissuedPolicyPage extends Component {
                             <Text>PolicyHolder Name:{item.policyHolderName}</Text>
                             <Text>Policy Number: {item.policyNumber}</Text>
                             <Text>Agent Name: {item.agentName}</Text>
-
+                        </TouchableOpacity>
                         </View>
                     ))
 }
@@ -119,6 +128,24 @@ export default class FetchissuedPolicyPage extends Component {
                 </View>
                 }
                 </View>
+                <MaterialDialog
+          visible={this.state.basicNoTitleVisible}
+          okLabel="Yes"
+          onOk={() => {
+          this.setState({basicNoTitleVisible: false});
+          this
+           .props
+            .navigation
+            .navigate('InsuredDashboardPage',{policyNumber:policyNumber,token:token});
+        }}
+          cancelLabel="No"
+          onCancel={() => {
+          this.setState({basicNoTitleVisible: false});
+        }}>
+          <Text>
+            Are you sure you want to claim this policy!!
+          </Text>
+        </MaterialDialog>
          </ScrollView>
             </KeyboardAvoidingView>
         )

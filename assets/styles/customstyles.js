@@ -3,7 +3,7 @@ import {Constants} from 'expo';
 import {Dimensions} from 'react-native';
 import colors from '../../src/utils/colors';
 
-const {turquoise, white, emerald, clouds, nephritis} = colors;
+const {turquoise, white, emerald, clouds, nephritis,red} = colors;
 
 module.exports = StyleSheet.create({
     container: {
@@ -226,5 +226,21 @@ module.exports = StyleSheet.create({
         borderColor: '#2a4944',
         borderWidth: 1,
         backgroundColor: '#d2f7f1'
-    }
+    },
+    InsuredDashboardform:{
+        padding: 6,
+        margin: 2,
+        borderColor: '#2a4944',
+        borderWidth: 1,
+        backgroundColor: '#95a5a6'
+    },
+    NotificationsText:{
+        color:red,
+        fontSize:25
+    },
+    InsurerDetailsText:{
+        color:red,
+        fontSize:20
+    },
+  
 });

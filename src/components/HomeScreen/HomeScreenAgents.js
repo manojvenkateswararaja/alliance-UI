@@ -4,6 +4,7 @@ import customtext from '../../utils/customtext';
 import customstyles from '../../../assets/styles/customstyles';
 import environment from '../../utils/environment';
 import {NavigationActions} from 'react-navigation';
+import Toast from 'react-native-root-toast';
 
 const {home_client_cnfAgents, home_client_directClients} = customtext;
 
@@ -85,7 +86,14 @@ export default class HomeScreenAgents extends Component {
         }, 1000)
     }
     onSubmitIssuedPolicy(token) {
-
+        var message = 'You can claim by selecting any policy any time';
+        let toast = Toast.show(message, {
+            duration: Toast.durations.LONG,
+            position: Toast.positions.CENTER
+          }, 1000);
+          setTimeout(function () {
+            Toast.hide(toast);
+          }, 10000);
         this
             .props
             .navigation
@@ -142,7 +150,7 @@ export default class HomeScreenAgents extends Component {
                     <TouchableOpacity
                         activeOpacity={.5}
                         onPress={() => this.onSubmitIssuedPolicy(token)}>
-
+                    
                         <View style={scrollBox}>
 
                             <Image

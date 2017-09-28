@@ -15,7 +15,8 @@ import PaymentScreen from '../components/PaymentScreen/PaymentScreen';
 import FetchissuedPolicyScreen from '../components/FetchissuedPolicyScreen/FetchissuedPolicyScreen';
 import ConsignmentDetailScreen from '../components/ConsignmentDetailScreen/ConsignmentDetailScreen';
 import OTPScreen from '../components/OTPScreen/OTPScreen';
-
+import InsuredDashboardScreen from '../components/InsuredDashboardScreen/InsuredDashboardScreen';
+import FetchClaimScreen from '../components/FetchClaimScreen/FetchClaimScreen';
 
 export const Navigator = StackNavigator({
   SplashPage: {
@@ -53,5 +54,11 @@ export const Navigator = StackNavigator({
   },
   OTPPage: {
     screen: OTPScreen
+  },
+  InsuredDashboardPage: {
+    screen: InsuredDashboardScreen
+  },
+  FetchClaimPage: {
+    screen: FetchClaimScreen
   }
 });

@@ -58,6 +58,7 @@ export default class NewPoliciesScreen extends Component {
     
     
      if (params.status==="update") {
+       console.log(params.policyissuedate)
       
       this.state = {
         ConsignmentWeight: params.consignmentWeight.toString(),
