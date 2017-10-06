@@ -16,6 +16,7 @@ import {TextField} from 'react-native-material-textfield';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {RaisedTextButton} from 'react-native-material-buttons';
 import {MaterialDialog} from 'react-native-material-dialog';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const {loginscreenLogoContainer, loginscreenLogo, loginTitle, container1} = customstyles;
 const {login_welcome} = customtext;
@@ -60,7 +61,56 @@ export default class PolicyQuotesScreen extends Component {
     sumInsured = item.sumInsured;
 
   }
-
+  onSubmitUser(){
+    this.setState({Logout: true});
+  }
+  onSubmitDashboard(userType,token){
+    
+      if (userType === 'CNF Agents') {
+          this
+              .props
+              .navigation
+              .navigate('HomePageAgents',{userType:userType,token:token});
+      }
+      else if(userType === 'Direct Clients'){
+          this
+              .props
+              .navigation
+              .navigate('HomePageClients',{userType:userType,token:token})
+      }
+      else if(userType === 'Examiner'){
+          this
+              .props
+              .navigation
+              .navigate('HomePageExaminer',{userType:userType,token:token})
+      }
+      else if(userType === 'Claims Adjuster'){
+          this
+              .props
+              .navigation
+              .navigate('HomePageClaimAdjuster',{userType:userType,token:token})
+      }
+      else if(userType === 'Public Adjuster'){
+          this
+              .props
+              .navigation
+              .navigate('HomePagePublicAdjuster',{userType:userType,token:token});
+      }
+    }
+  onSubmitLogout() {
+    
+            const resetAction = NavigationActions.reset({
+                index: 0,
+                actions: [NavigationActions.navigate({routeName: 'LoginPage'})]
+            })
+    
+            setTimeout(() => {
+                this
+                    .props
+                    .navigation
+                    .dispatch(resetAction)
+            }, 1000)
+        }
   render() {
 
     var {params} = this.props.navigation.state;
@@ -88,6 +138,22 @@ export default class PolicyQuotesScreen extends Component {
       <KeyboardAvoidingView behavior="padding" style={loginscreenContainer}>
 
         <View style={loginscreenInputContainer}>
+        <TouchableOpacity
+        activeOpacity={.5}
+        onPress={() => this.onSubmitUser()}>
+<Text style={{textAlign: 'right', color:'navy'}}>
+            <Icon name="ios-person" size={40} color="#ffffff"/> 
+        {userType}</Text>
+        </TouchableOpacity>
+        {this.state.Logout && 
+          <TouchableOpacity
+          activeOpacity={.5}>
+          <Text style={{textAlign: 'right', fontSize:20, color:'navy',textDecorationLine:'underline'}}
+          onPress={() => this.onSubmitLogout()}>Logout</Text>
+          <Text style={{textAlign: 'right', fontSize:20, color:'navy',textDecorationLine:'underline'}}
+          onPress={() => this.onSubmitDashboard(userType,token)}>Go To Dashboard</Text>
+          </TouchableOpacity>
+        }
         <Text>Policy Quotes</Text>
           {policyList.map((item, index) => (
             <View key={item.policyName} style={PolicyQuotescontainer}>

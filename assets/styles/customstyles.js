@@ -3,7 +3,7 @@ import {Constants} from 'expo';
 import {Dimensions} from 'react-native';
 import colors from '../../src/utils/colors';
 
-const {turquoise, white, emerald, clouds, nephritis,red} = colors;
+const {turquoise, white, emerald, clouds, nephritis,red,DarkRed} = colors;
 
 module.exports = StyleSheet.create({
     container: {
@@ -165,6 +165,16 @@ module.exports = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: nephritis
     },
+    scrollBoxLogout1:{
+        margin: 2,
+        width: Dimensions
+            .get('window')
+            .width / 1,
+        height: 100,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: nephritis
+    },
     scrollBoxText: {
         justifyContent: 'center',
         alignItems: 'center'
@@ -186,7 +196,7 @@ module.exports = StyleSheet.create({
         padding: 2
     },
     PaymentImageLayout: {
-        height: 310,
+        height: 600,
         width: Dimensions
             .get('window')
             .width / 1,
@@ -234,6 +244,7 @@ module.exports = StyleSheet.create({
         borderWidth: 1,
         backgroundColor: '#95a5a6'
     },
+ 
     NotificationsText:{
         color:red,
         fontSize:25
@@ -242,5 +253,13 @@ module.exports = StyleSheet.create({
         color:red,
         fontSize:20
     },
-  
+    AgreeNegButton:{
+        padding: 20,
+        marginTop: 10,
+        borderColor: '#2a4944',
+        borderWidth: 1,
+        backgroundColor: '#34495e',
+        alignItems:'center',
+        justifyContent:'center'
+    }
 });

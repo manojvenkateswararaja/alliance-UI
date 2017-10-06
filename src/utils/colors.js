@@ -10,5 +10,6 @@ export default {
     clouds : '#ecf0f1',
     emerald : '#95a5a6',
     loading_blur : '#F5FCFF88',
-    nephritis : '#ecf0f1'
+    nephritis : '#ecf0f1',
+    DarkRed :'#8B0000'
 }

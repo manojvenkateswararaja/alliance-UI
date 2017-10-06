@@ -92,7 +92,7 @@ this.state={
                 this
                     .props
                     .navigation
-                    .navigate('FetchissuedPolicyPage', {token: token});
+                    .navigate('FetchissuedPolicyPage', {token: token,userType:userType});
 
             }
         });
@@ -144,7 +144,7 @@ this.state={
 
                         <Image
                             style={PaymentImageLayout}
-                            source={require('../../../assets/images/paymentgateway.png')}/>
+                            source={require('../../../assets/images/paymentpage.gif')}/>
                     </TouchableOpacity>
 
                 </View>

@@ -203,12 +203,15 @@ export default class LoginScreen extends Component {
 
                 var userdetails = responseJson.userdetails;
                 var userType = userdetails.usertype;
-
+                console.log("userType"+userType)
                 var userObject = userdetails.userObject;
 
                 var policyHolderName = userObject.fname;
 
                 var email = userdetails.email;
+
+               
+                
 
                 let toast = Toast.show(message, {
                     duration: Toast.durations.LONG,
@@ -228,7 +231,7 @@ export default class LoginScreen extends Component {
                             email: email
                            
                         });
-                } else {
+                } else if(userType === 'Direct Clients'){
                     this
                         .props
                         .navigation
@@ -237,6 +240,45 @@ export default class LoginScreen extends Component {
                             userType: userType,
                             policyHolderName: policyHolderName,
                             email: email
+                           
+                        });
+
+                }
+                
+                else if(userType === 'Examiner'){
+                    this
+                        .props
+                        .navigation
+                        .navigate('HomePageExaminer', {
+                            token: token,
+                            userType: userType,
+                            email: email
+                           
+                        });
+
+                }
+                else if(userType === 'Claims Adjuster'){
+                    this
+                        .props
+                        .navigation
+                        .navigate('HomePageClaimAdjuster', {
+                            token: token,
+                            userType: userType,
+                            email: email
+                          
+                           
+                        });
+
+                }
+                else if(userType === 'Public Adjuster'){
+                    this
+                        .props
+                        .navigation
+                        .navigate('HomePagePublicAdjuster', {
+                            token: token,
+                            userType: userType,
+                            email: email
+                            
                            
                         });
 

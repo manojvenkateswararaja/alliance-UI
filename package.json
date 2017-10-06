@@ -10,6 +10,7 @@
     "react": "16.0.0-alpha.12",
     "react-native": "https://github.com/expo/react-native/archive/sdk-20.0.0.tar.gz",
     "react-native-alert-view": "0.1.0-alpha.15",
+    "react-native-button": "^2.1.0",
     "react-native-calendar-datepicker": "^1.2.2",
     "react-native-checkbox-group": "^1.0.3",
     "react-native-datepicker": "^1.6.0",

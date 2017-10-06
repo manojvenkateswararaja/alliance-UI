@@ -17,6 +17,7 @@ import {TextField} from 'react-native-material-textfield';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {RaisedTextButton} from 'react-native-material-buttons';
 import {MaterialDialog} from 'react-native-material-dialog';
+import environment from '../../utils/environment';
 
 
 const {loginscreenLogoContainer, loginscreenLogo, loginTitle, container1} = customstyles;
@@ -36,9 +37,11 @@ const {
     loginscreenCreateAccountText,
     loginscreenCreateAccountLinkText,
     loginscreenLoginContainer,
-    SavedPoliciesContainer
+    SavedPoliciesContainer,
+    commonLoading
 } = customstyles;
 const {white, turquoise, red} = colors;
+const { base_url } = environment;
 var consignmentWeight;
 var consignmentValue;
 var modeofTransport; 
@@ -52,6 +55,7 @@ var policyenddate;
 var voyagestartdate;
 var voyageenddate;
 var _id;
+var token,userType,policyHolderName,email,policyList;
 
 export default class SavedPoliciesScreen extends Component {
     constructor() {
@@ -61,7 +65,38 @@ export default class SavedPoliciesScreen extends Component {
           }
 
     }
+    componentWillMount() {
+        this.setState({loading_blur: true});
+        this.setState({showComponent: false});
+        var {params} = this.props.navigation.state;
+        token = params.token;
+        userType = params.userType;
+        
+        policyHolderName = params.policyHolderName;
+        
+        email = params.email;
+        return fetch(base_url + '/fetchSavePolicy', {
+            method: 'GET',
+            headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'x-access-token': token
+            }
+    }).then((response) => response.json()).then((responseJson) => {
 
+            policyList = responseJson.policylist;
+            this.setState({loading_blur: false});
+            this.setState({showComponent: true});
+
+          
+
+    }).catch((error) => {
+            console.error(error);
+    });
+        
+        
+
+    }
     static navigationOptions = {
         header: null
     }
@@ -83,22 +118,18 @@ export default class SavedPoliciesScreen extends Component {
       }
     
     render() {
-        var {params} = this.props.navigation.state;
-        var token = params.token;
-        var userType = params.userType;
         
-        var policyHolderName = params.policyHolderName;
         
-        var email = params.email;
-        var policyList = params.policyList;
        
 
         return (
             <KeyboardAvoidingView behavior="padding" style={loginscreenContainer}>
 
                 <ScrollView>
-                    <View style={loginscreenInputContainer}>
-                       <Text>Saved Policies</Text>
+                <Text>Saved Policies</Text>
+                {this.state.showComponent && <View style={loginscreenContainer}>
+                        
+                       
                         {policyList.map((item, index) => (
                             <View key={item._id} style={SavedPoliciesContainer}>
                             <TouchableOpacity onPress={() => this.getItem(item)}>
@@ -119,7 +150,12 @@ export default class SavedPoliciesScreen extends Component {
                         ))
 }
                     </View>
-                </ScrollView>
+                }
+                {this.state.loading_blur && <View style={commonLoading}>
+                    <ActivityIndicator size='large'/>
+                </View>
+                }
+                
                 <MaterialDialog
           visible={this.state.basicNoTitleVisible}
           okLabel="Yes"
@@ -160,7 +196,7 @@ export default class SavedPoliciesScreen extends Component {
             Are you sure you want to proceed to do the changes..
           </Text>
         </MaterialDialog>
-
+        </ScrollView>
             </KeyboardAvoidingView>
         );
     }

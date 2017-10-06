@@ -12,7 +12,6 @@ const {
     scrollContainer,
     scrollViewContainer,
     scrollBox,
-    scrollBoxLogout,
     scrollBoxText,
     scrollImage,
     homeImageLayout,
@@ -71,6 +70,13 @@ export default class HomeScreenAgents extends Component {
                 voyageenddate:''
             });
     }
+    onSubmitMyClaims(token,userType) {
+        
+            this
+                .props
+                .navigation
+                .navigate('FetchClaimPage', {token: token,userType:userType});
+                }
     onSubmitLogout() {
 
         const resetAction = NavigationActions.reset({
@@ -85,19 +91,12 @@ export default class HomeScreenAgents extends Component {
                 .dispatch(resetAction)
         }, 1000)
     }
-    onSubmitIssuedPolicy(token) {
-        var message = 'You can claim by selecting any policy any time';
-        let toast = Toast.show(message, {
-            duration: Toast.durations.LONG,
-            position: Toast.positions.CENTER
-          }, 1000);
-          setTimeout(function () {
-            Toast.hide(toast);
-          }, 10000);
+    onSubmitIssuedPolicy(token,userType) {
+       
         this
             .props
             .navigation
-            .navigate('FetchissuedPolicyPage', {token: token});
+            .navigate('FetchissuedPolicyPage', {token:token,userType:userType});
     }
     onSubmitSavedPolicy(token, userType, policyHolderName, email) {
         var policyList;
@@ -128,7 +127,12 @@ export default class HomeScreenAgents extends Component {
             console.error(error);
         });
     }
-
+    onSubmitClaimStatus(token,userType){
+        this
+        .props
+        .navigation
+        .navigate('ClaimStatusPage', {token:token,userType:userType});
+    }
     render() {
         var {params} = this.props.navigation.state;
         var token = params.token
@@ -149,7 +153,7 @@ export default class HomeScreenAgents extends Component {
                     </View>
                     <TouchableOpacity
                         activeOpacity={.5}
-                        onPress={() => this.onSubmitIssuedPolicy(token)}>
+                        onPress={() => this.onSubmitIssuedPolicy(token,userType)}>
                     
                         <View style={scrollBox}>
 
@@ -180,20 +184,34 @@ export default class HomeScreenAgents extends Component {
                             <Text style={scrollBoxText}>New Policy</Text>
                         </View>
                     </TouchableOpacity>
+                    <TouchableOpacity 
+                    activeOpacity={.5}
+                    onPress={() => this.onSubmitMyClaims(token,userType)}>
                     <View style={scrollBox}>
                         <Image
                             style={homeScrollImageLogo}
                             source={require('../../../assets/images/claims_icon.png')}/>
-                        <Text style={scrollBoxText}>Claims</Text>
+                        <Text style={scrollBoxText}>My Claims</Text>
                     </View>
+                    </TouchableOpacity>
                     <TouchableOpacity
                         activeOpacity={.5}
                         onPress={() => this.onSubmitLogout(token, userType, policyHolderName, email)}>
-                        <View style={scrollBoxLogout}>
+                        <View style={scrollBox}>
                             <Image
                                 style={homeScrollImageLogo}
                                 source={require('../../../assets/images/Logout_icon.png')}/>
                             <Text style={scrollBoxText}>Logout</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        activeOpacity={.5}
+                        onPress={() => this.onSubmitClaimStatus(token, userType)}>
+                        <View style={scrollBox}>
+                            <Image
+                                style={homeScrollImageLogo}
+                                source={require('../../../assets/images/claimstatus.png')}/>
+                            <Text style={scrollBoxText}>Claim Status</Text>
                         </View>
                     </TouchableOpacity>
                 </View>

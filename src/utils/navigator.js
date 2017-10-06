@@ -11,12 +11,16 @@ import NewPoliciesScreen from '../components/NewPoliciesScreen/NewPoliciesScreen
 import PolicyQuotesScreen from '../components/PolicyQuotesScreen/PolicyQuotesScreen';
 import SavedPoliciesScreen from '../components/SavedPoliciesScreen/SavedPoliciesScreen';
 import HomeScreenAgents from '../components/HomeScreen/HomeScreenAgents';
+import HomeScreenExaminer from '../components/HomeScreen/HomeScreenExaminer';
+import HomeScreenClaimAdjuster from '../components/HomeScreen/HomeScreenClaimAdjuster';
+import HomeScreenPublicAdjuster from '../components/HomeScreen/HomeScreenPublicAdjuster';
 import PaymentScreen from '../components/PaymentScreen/PaymentScreen';
 import FetchissuedPolicyScreen from '../components/FetchissuedPolicyScreen/FetchissuedPolicyScreen';
 import ConsignmentDetailScreen from '../components/ConsignmentDetailScreen/ConsignmentDetailScreen';
 import OTPScreen from '../components/OTPScreen/OTPScreen';
 import InsuredDashboardScreen from '../components/InsuredDashboardScreen/InsuredDashboardScreen';
 import FetchClaimScreen from '../components/FetchClaimScreen/FetchClaimScreen';
+import ClaimStatusScreen from '../components/ClaimStatusScreen/ClaimStatusScreen';
 
 export const Navigator = StackNavigator({
   SplashPage: {
@@ -33,6 +37,15 @@ export const Navigator = StackNavigator({
   },
   HomePageAgents: {
     screen: HomeScreenAgents
+  },
+  HomePageExaminer: {
+    screen: HomeScreenExaminer
+  },
+  HomePageClaimAdjuster: {
+    screen: HomeScreenClaimAdjuster
+  },
+  HomePagePublicAdjuster: {
+    screen: HomeScreenPublicAdjuster
   },
   NewPoliciesPage: {
     screen: NewPoliciesScreen
@@ -60,5 +73,8 @@ export const Navigator = StackNavigator({
   },
   FetchClaimPage: {
     screen: FetchClaimScreen
+  },
+  ClaimStatusPage: {
+    screen: ClaimStatusScreen
   }
 });
