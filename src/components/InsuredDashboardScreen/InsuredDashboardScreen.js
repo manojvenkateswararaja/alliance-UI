@@ -1134,7 +1134,7 @@ export default class InsuredDashboardScreen extends Component {
                             onChangeText={this.onChangeText}
                             onSubmitEditing={this.onSubmitDamegeDetails}
                             returnKeyType='next'
-                            label="Damege Details"
+                            label="Damage Details"
                             error={errors.DamegeDetails}
                             tintColor={white}
                             textColor={white}
@@ -1181,7 +1181,7 @@ export default class InsuredDashboardScreen extends Component {
                             onChangeText={this.onChangeText}
                             onSubmitEditing={this.onSubmitDamegeDetails}
                             returnKeyType='next'
-                            label="Damege Details"
+                            label="Damage Details"
                             error={errors.DamegeDetails}
                             tintColor={white}
                             textColor={white}
@@ -1354,7 +1354,7 @@ export default class InsuredDashboardScreen extends Component {
                             onChangeText={this.onChangeText2}
                             onSubmitEditing={this.onSubmitAssessedDamegeValue}
                             returnKeyType='next'
-                            label="Assessed Damege Value"
+                            label="Assessed Damage Value"
                             error={errors.AssessedDamegeValue}
                             tintColor={white}
                             textColor={white}
@@ -1423,7 +1423,7 @@ export default class InsuredDashboardScreen extends Component {
                             onChangeText={this.onChangeText2}
                             onSubmitEditing={this.onSubmitAssessedDamegeValue}
                             returnKeyType='next'
-                            label="Assessed Damege Value"
+                            label="Assessed Damage Value"
                             error={errors.AssessedDamegeValue}
                             tintColor={white}
                             textColor={white}

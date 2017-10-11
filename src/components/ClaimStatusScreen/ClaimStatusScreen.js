@@ -129,7 +129,9 @@ componentWillMount() {
           statuscount = responseJson.statuscount;
       
             this.setState({loading_blur: false});
+            if(statuscount !== undefined){
             this.setState({showComponent: true});
+            }
         }).catch((error) => {
             console.error(error);
         });
@@ -146,14 +148,16 @@ componentWillMount() {
         statuscount = responseJson.statuscount;
       
           this.setState({loading_blur: false});
-          this.setState({showComponent: true});
+          if(statuscount !== undefined){
+            this.setState({showComponent: true});
+            }
           
       }).catch((error) => {
           console.error(error);
       });
       }
       else if(userType === 'Claims Adjuster'){
-        this.setState({loading_blur: true});
+        
         return fetch(base_url + '/claim/ClaimAdjusterClaims', {
           method: 'GET',
           headers: {
@@ -165,9 +169,12 @@ componentWillMount() {
       }).then((response) => response.json()).then((responseJson) => {
       
         statuscount = responseJson.statuscount;
-      
+      console.log("statuscount"+statuscount);
            this.setState({loading_blur: false});
-          this.setState({showComponent: true});
+           if(statuscount !== undefined){
+            this.setState({showComponent: true});
+            }
+          
       }).catch((error) => {
           console.error(error);
       });
@@ -188,7 +195,9 @@ componentWillMount() {
         console.log("statuscount1"+statuscount1);
       
           this.setState({loading_blur: false});
-          this.setState({showComponent: true});
+          if(statuscount !== undefined){
+            this.setState({showComponent: true});
+            }
           if(statuscount1 === undefined){
             this.setState({showComponent1:false});
           }

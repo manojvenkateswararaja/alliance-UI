@@ -55,6 +55,15 @@ export default class RegisterScreen extends Component {
     this.onChangeText = this
       .onChangeText
       .bind(this);
+    this.onChangeText1 = this
+      .onChangeText1
+      .bind(this);
+    this.onChangeText2 = this
+      .onChangeText2
+      .bind(this);
+    this.onChangeText3 = this
+      .onChangeText3
+      .bind(this);
     this.onSubmitEmail = this
       .onSubmitEmail
       .bind(this);
@@ -70,6 +79,15 @@ export default class RegisterScreen extends Component {
     
     this.onBlur = this
       .onBlur
+      .bind(this);
+    this.onBlur1 = this
+      .onBlur1
+      .bind(this);
+    this.onBlur2 = this
+      .onBlur2
+      .bind(this);
+    this.onBlur3 = this
+      .onBlur3
       .bind(this);
     this.onAccessoryPress = this
       .onAccessoryPress
@@ -186,7 +204,7 @@ export default class RegisterScreen extends Component {
       .focus();
   }
   onSubmitRpassword() {
-    this
+    this10
       .rpassword
       .focus();
   }
@@ -246,13 +264,65 @@ export default class RegisterScreen extends Component {
         if (name === 'rpassword' && !this.validateRpassword(value)) {
           errors[name] = 'Password Must Match';
         }
-       
       }
     });
     
     this.setState({errors});
   }
+  onBlur1() {
+    let errors = {};
 
+    ['LicenseId'].forEach((name) => {
+
+      let value = this[name].value();
+
+      if (!value) {
+        errors[name] = 'Should not be empty';
+      } else {
+        if (name === 'LicenseId' && value.length < 2) {
+          errors[name] = 'Incorrect LicenseId';
+        }
+      }
+    });
+    
+    this.setState({errors});
+  }
+  onBlur2() {
+    let errors = {};
+
+    ['ClaimsId'].forEach((name) => {
+
+      let value = this[name].value();
+
+      if (!value) {
+        errors[name] = 'Should not be empty';
+      } else {
+        if (name === 'ClaimsId' && value.length < 2) {
+          errors[name] = 'Incorrect ClaimsId';
+        }
+      }
+    });
+    
+    this.setState({errors});
+  }
+  onBlur3() {
+    let errors = {};
+
+    ['ExaminerId'].forEach((name) => {
+
+      let value = this[name].value();
+
+      if (!value) {
+        errors[name] = 'Should not be empty';
+      } else {
+        if (name === 'ExaminerId' && value.length < 2) {
+          errors[name] = 'Incorrect ExaminerId';
+        }
+      }
+    });
+    
+    this.setState({errors});
+  }
   isEmptyObject(object) {
     return (Object.getOwnPropertyNames(object).length === 0);
   }
@@ -271,35 +341,46 @@ export default class RegisterScreen extends Component {
   }
 
   onChangeText(text) {
-    [
-      'fname',
-      'lname',
-      'phone',
-      'email',
-      'password',
-      'rpassword',
-      'usertype'
-     
-    ].map((name) => ({name, ref: this[name]})).forEach(({name, ref}) => {
+    ['fname', 'lname', 'phone','email','password','rpassword','usertype'].map((name) => ({name, ref: this[name]})).forEach(({name, ref}) => {
       if (ref.isFocused()) {
         this.setState({[name]: text});
       }
     });
   }
-
+  onChangeText1(text) {
+    ['LicenseId'].map((name) => ({name, ref: this[name]})).forEach(({name, ref}) => {
+      if (ref.isFocused()) {
+        this.setState({[name]: text});
+      }
+    });
+  }
+  onChangeText2(text) {
+    ['ClaimsId'].map((name) => ({name, ref: this[name]})).forEach(({name, ref}) => {
+      if (ref.isFocused()) {
+        this.setState({[name]: text});
+      }
+    });
+  }
+  onChangeText3(text) {
+    ['ExaminerId'].map((name) => ({name, ref: this[name]})).forEach(({name, ref}) => {
+      if (ref.isFocused()) {
+        this.setState({[name]: text});
+      }
+    });
+  }
   onDropdownChange(text1) {
 
-    if (text1 === "Public Adjuster") {
+    if (text1 === 'Public Adjuster') {
       this.setState({value_LicenseId: true});
     } else {
       this.setState({value_LicenseId: false});
     }
-    if (text1 === "Claims Adjuster") {
+    if (text1 === 'Claims Adjuster') {
       this.setState({value_ClaimsId: true});
     } else {
       this.setState({value_ClaimsId: false});
     }
-    if (text1 === "Examiner") {
+    if (text1 === 'Examiner') {
       this.setState({value_ExaminerId: true});
     } else {
       this.setState({value_ExaminerId: false});
@@ -323,7 +404,7 @@ export default class RegisterScreen extends Component {
         'rpassword',
         'LicenseId'
       ];
-    } else if (this.state.value_ExaminerId) {
+    } if (this.state.value_ExaminerId) {
       test = [
         'fname',
         'lname',
@@ -333,7 +414,7 @@ export default class RegisterScreen extends Component {
         'rpassword',
         'ExaminerId'
       ];
-    } else if (this.state.value_ClaimsId) {
+    } if (this.state.value_ClaimsId) {
       test = [
         'fname',
         'lname',
@@ -359,6 +440,7 @@ console.log("rgitest"+test);
 
       let value = this[name].value();
       console.log("rgivalue"+value);
+    
 
       if (!value) {
         errors[name] = 'Should not be empty';
@@ -395,10 +477,7 @@ console.log("rgitest"+test);
 
     });
 
-    if (errors === null || errors === 'null' || errors === 'undefined' || !errors) {
-      console.log("Failure");
-
-    } 
+    
     if (this.isEmptyObject(errors)) {
       
                   setTimeout(() => {
@@ -679,13 +758,14 @@ console.log("rgitest"+test);
                 autoCorrect={false}
                 enablesReturnKeyAutomatically={true}
                 onFocus={this.onFocus}
-                onChangeText={this.onChangeText}
+                onChangeText={this.onChangeText1}
                 onSubmitEditing={this.onSubmitLicenseId}
                 returnKeyType='next'
                 label="License Id"
                 error={errors.LicenseId}
                 tintColor={white}
-                textColor={white}/>
+                textColor={white}
+                onBlur={this.onBlur1}/>
 }
             </View>
             <View>
@@ -697,13 +777,14 @@ console.log("rgitest"+test);
                 autoCorrect={false}
                 enablesReturnKeyAutomatically={true}
                 onFocus={this.onFocus}
-                onChangeText={this.onChangeText}
+                onChangeText={this.onChangeText2}
                 onSubmitEditing={this.onSubmitClaimsId}
                 returnKeyType='next'
                 label="Claims Id"
                 error={errors.ClaimsId}
                 tintColor={white}
-                textColor={white}/>
+                textColor={white}
+                onBlur={this.onBlur2}/>
 }
             </View>
             <View>
@@ -715,13 +796,14 @@ console.log("rgitest"+test);
                 autoCorrect={false}
                 enablesReturnKeyAutomatically={true}
                 onFocus={this.onFocus}
-                onChangeText={this.onChangeText}
+                onChangeText={this.onChangeText3}
                 onSubmitEditing={this.onSubmitExaminerId}
                 returnKeyType='next'
                 label="Examiner Id"
                 error={errors.ExaminerId}
                 tintColor={white}
-                textColor={white}/>
+                textColor={white}
+                onBlur={this.onBlur3}/>
 }
             </View>
             <View style={loginscreenLoginContainer}>
