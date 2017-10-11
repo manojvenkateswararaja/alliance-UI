@@ -46,7 +46,6 @@ export default class ClaimStatusScreen extends Component {
    this.state = {
       basicNoTitleVisible: false,
       loading_blur: false
-      
     }
   }
 
@@ -58,6 +57,7 @@ export default class ClaimStatusScreen extends Component {
 onSubmitUser(){
   this.setState({Logout: true});
 }
+
 onSubmitDashboard(userType,token){
   console.log("insubmitdadsusertype"+userType);
     if (userType === 'CNF Agents') {
@@ -91,13 +91,13 @@ onSubmitDashboard(userType,token){
             .navigate('HomePagePublicAdjuster',{userType:userType,token:token});
     }
   }
+
 onSubmitLogout() {
   
           const resetAction = NavigationActions.reset({
               index: 0,
               actions: [NavigationActions.navigate({routeName: 'LoginPage'})]
           })
-  
           setTimeout(() => {
               this
                   .props
@@ -105,8 +105,8 @@ onSubmitLogout() {
                   .dispatch(resetAction)
           }, 1000)
       }
-      componentWillMount() {
-        
+
+componentWillMount() {
         this.setState({loading_blur: true});
         this.setState({showComponent: false});
         this.setState({showComponent1: false});
@@ -161,6 +161,7 @@ onSubmitLogout() {
               'Content-Type': 'application/json',
               'x-access-token': token
           }
+
       }).then((response) => response.json()).then((responseJson) => {
       
         statuscount = responseJson.statuscount;
@@ -184,29 +185,36 @@ onSubmitLogout() {
       
         statuscount = responseJson.statuscount;
         statuscount1 = responseJson.statuscount1;
-        console.log("stcount"+responseJson);
+        console.log("statuscount1"+statuscount1);
       
           this.setState({loading_blur: false});
           this.setState({showComponent: true});
-          this.setState({showComponent1: true});
+          if(statuscount1 === undefined){
+            this.setState({showComponent1:false});
+          }
+         else if(statuscount1[0].statusname === 'Validated'){
+            this.setState({showComponent1: true});
+         }
       }).catch((error) => {
           console.error(error);
       });
       }
       }
+
  render() {
  
    return (
       <KeyboardAvoidingView behavior="padding" style={loginscreenContainer}>
         <ScrollView>
           <View style={loginscreenInputContainer}>
-          <TouchableOpacity
-          activeOpacity={.5}
-          onPress={() => this.onSubmitUser()}>
-<Text style={{textAlign: 'right', color:'navy'}}>
-              <Icon name="ios-person" size={40} color="#ffffff"/> 
-          {userType}</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+                activeOpacity={.5} 
+                onPress={() => this.onSubmitUser()}>
+            <Text style={{textAlign: 'right', color:'navy'}}>
+            <Icon name="ios-person" size={40} color="#ffffff"/> 
+              {userType}</Text>
+           </TouchableOpacity>
+
           {this.state.Logout && 
             <TouchableOpacity
             activeOpacity={.5}>

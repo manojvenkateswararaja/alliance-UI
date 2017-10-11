@@ -21,15 +21,6 @@ import {MaterialDialog} from 'react-native-material-dialog';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Toast from 'react-native-root-toast';
 
-const {
-    loginscreenLogoContainer,
-    loginscreenLogo,
-    loginTitle,
-    container1,
-    splashscreenLoading,
-    splashscreenLoadingWrapper,
-    commonLoading
-} = customstyles;
 const {login_welcome} = customtext;
 const {
     username_label,
@@ -46,7 +37,14 @@ const {
     loginscreenCreateAccountText,
     loginscreenCreateAccountLinkText,
     loginscreenLoginContainer,
-    FetchpolicyContainer
+    FetchpolicyContainer,
+    loginscreenLogoContainer,
+    loginscreenLogo,
+    loginTitle,
+    container1,
+    splashscreenLoading,
+    splashscreenLoadingWrapper,
+    commonLoading
 } = customstyles;
 const {white, turquoise, red} = colors;
 const { base_url } = environment;
@@ -63,14 +61,13 @@ export default class FetchissuedPolicyPage extends Component {
     getItem = (item) => {
         this.setState({basicNoTitleVisible: true});
         policyNumber = item.policyNumber;
-        
       }
+
     constructor() {
         super();
         this.state = {
             basicNoTitleVisible: false
           }
-
     }
 
     componentWillMount() {
@@ -111,9 +108,11 @@ export default class FetchissuedPolicyPage extends Component {
         });
 
     }
+
     onSubmitUser(){
         this.setState({Logout: true});
       }
+
       onSubmitDashboard(userType,token){
         
           if (userType === 'CNF Agents') {
@@ -166,14 +165,15 @@ export default class FetchissuedPolicyPage extends Component {
         return (
             <KeyboardAvoidingView behavior="padding" style={loginscreenContainer}>
               <ScrollView>
-                    <View style={loginscreenInputContainer}>
-                    <TouchableOpacity
+                <View style={loginscreenInputContainer}>
+                  <TouchableOpacity
                     activeOpacity={.5}
                     onPress={() => this.onSubmitUser()}>
-      <Text style={{textAlign: 'right', color:'navy'}}>
-                        <Icon name="ios-person" size={40} color="#ffffff"/> 
+                  <Text style={{textAlign: 'right', color:'navy'}}>
+                  <Icon name="ios-person" size={40} color="#ffffff"/> 
                     {userType}</Text>
                     </TouchableOpacity>
+
                     {this.state.Logout && 
                         <TouchableOpacity
                         activeOpacity={.5}>

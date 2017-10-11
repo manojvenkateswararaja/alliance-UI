@@ -25,8 +25,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 const {loginscreenLogoContainer, loginscreenLogo, loginTitle, 
        container1,NotificationsText,InsurerDetailsText,
-       InsuredDashboardform,commonLoading,AgreeNegButton
-       } = customstyles;
+       InsuredDashboardform,commonLoading,AgreeNegButton,
+       InsuredDashboardformBlur } = customstyles;
+      
 const {login_welcome} = customtext;
 const {
     username_label,
@@ -59,7 +60,34 @@ export default class InsuredDashboardScreen extends Component {
         
         var {params} = this.props.navigation.state;
         var userType =params.userType
+
+        if(userType === 'Direct Clients' || userType === 'CNF Agents'){
+            this.setState({examiner: true});
+            this.setState({examiner1: false});
+            this.setState({Insurer: true});
+            this.setState({Insurer1: false});
+            this.setState({Negotiation: false});
+            this.setState({Negotiation1: true});
+        }
         
+        if(userType === 'Examiner'){
+            this.setState({examiner: false});
+            this.setState({examiner1: true});
+            this.setState({Insurer: false});
+            this.setState({Insurer1: true});
+            this.setState({Negotiation: false});
+            this.setState({Negotiation1: true});
+        }
+
+        if(userType === 'Claims Adjuster' || userType === 'Public Adjuster'){
+            this.setState({examiner: true});
+            this.setState({examiner1: false});
+            this.setState({Insurer: false});
+            this.setState({Insurer1: true});
+            this.setState({Negotiation: true});
+            this.setState({Negotiation1: false});
+        }
+
         negotiation=params.negotiationlist;
         console.log("in ids"+params.approvedclaim);
         
@@ -1075,7 +1103,7 @@ export default class InsuredDashboardScreen extends Component {
                       
                         <Text style={InsurerDetailsText}>Insurer Details{'\n'}</Text>
                        
-                       <View style={InsuredDashboardform}>
+                        {this.state.Insurer && <View style={InsuredDashboardform}>
                         <TextField
                             ref={this.TitleRef}
                             value={data.Title}
@@ -1120,8 +1148,57 @@ export default class InsuredDashboardScreen extends Component {
                             color={turquoise}onSubmitMyPolicy
                             titleColor={white}/>
                        </View>
-                       
-                       <View style={InsuredDashboardform}>
+                        }
+                        {this.state.Insurer1 && <View style={InsuredDashboardformBlur}>
+                        <TextField
+                            ref={this.TitleRef}
+                            value={data.Title}
+                            keyboardType='default'
+                            autoCapitalize='none'
+                            autoCorrect={false}
+                            enablesReturnKeyAutomatically={true}
+                            onFocus={this.onFocus}
+                            onChangeText={this.onChangeText}
+                            onSubmitEditing={this.onSubmitTitle}
+                            returnKeyType='next'
+                            label="Title"
+                            error={errors.Title}
+                            tintColor={white}
+                            textColor={white}
+                            onBlur={this.onBlur}
+                            editable={false}/>
+
+                        <TextField
+                            ref={this.DamegeDetailsRef}
+                            value={data.DamegeDetails}
+                            keyboardType='default'
+                            autoCapitalize='none'
+                            autoCorrect={false}
+                            multiline = {true}
+                            numberOfLines = {4}
+                            enablesReturnKeyAutomatically={true}
+                            onFocus={this.onFocus}
+                            onChangeText={this.onChangeText}
+                            onSubmitEditing={this.onSubmitDamegeDetails}
+                            returnKeyType='next'
+                            label="Damege Details"
+                            error={errors.DamegeDetails}
+                            tintColor={white}
+                            textColor={white}
+                            onBlur={this.onBlur}
+                            editable = {true}
+                            maxLength = {40}
+                            editable={false}/>
+
+                            <RaisedTextButton
+                            onPress={()=>this.onSubmitNotifyClaims(policyno,token,userType)}
+                            title="Notify Claims"
+                            color={turquoise}onSubmitMyPolicy
+                            titleColor={white}
+                            disabled={true}/>
+                       </View>
+                        }
+                        {this.state.Insurer && <View style={InsuredDashboardform}>
                             <TextField
                             ref={this.DamageValueRef}
                             value={data.DamageValue}
@@ -1159,7 +1236,7 @@ export default class InsuredDashboardScreen extends Component {
                             <TextField
                             ref={this.PublicAdjusterRef}
                             value={data.PublicAdjuster}
-                            keyboardType='numeric'
+                            keyboardType='default'
                             autoCapitalize='none'
                             autoCorrect={false}
                             enablesReturnKeyAutomatically={true}
@@ -1180,9 +1257,143 @@ export default class InsuredDashboardScreen extends Component {
                             color={turquoise}
                             titleColor={white}/>
                             </View>
-                            
+                        }
+                        {this.state.Insurer1 && <View style={InsuredDashboardformBlur}>
+                            <TextField
+                            ref={this.DamageValueRef}
+                            value={data.DamageValue}
+                            keyboardType='numeric'
+                            autoCapitalize='none'
+                            autoCorrect={false}
+                            enablesReturnKeyAutomatically={true}
+                            onFocus={this.onFocus}
+                            onChangeText={this.onChangeText1}
+                            onSubmitEditing={this.onSubmitDamageValue}
+                            returnKeyType='next'
+                            label="Total Damage Value"
+                            error={errors.DamageValue}
+                            tintColor={white}
+                            textColor={white}
+                            onBlur={this.onBlur1}
+                            editable={false}/>
+
+                            <TextField
+                            ref={this.TotalClaimRef}
+                            value={data.TotalClaim}
+                            keyboardType='numeric'
+                            autoCapitalize='none'
+                            autoCorrect={false}
+                            enablesReturnKeyAutomatically={true}
+                            onFocus={this.onFocus}
+                            onChangeText={this.onChangeText1}
+                            onSubmitEditing={this.onSubmitTotalClaim}
+                            returnKeyType='next'
+                            label="Total Claim"
+                            error={errors.TotalClaim}
+                            tintColor={white}
+                            textColor={white}
+                            onBlur={this.onBlur1}
+                            editable={false}/>
+
+                            <TextField
+                            ref={this.PublicAdjusterRef}
+                            value={data.PublicAdjuster}
+                            keyboardType='default'
+                            autoCapitalize='none'
+                            autoCorrect={false}
+                            enablesReturnKeyAutomatically={true}
+                            onFocus={this.onFocus}
+                            onChangeText={this.onChangeText1}
+                            onSubmitEditing={this.onSubmitPublicAdjuster}
+                            returnKeyType='next'
+                            label="Public Adjuster Id"
+                            error={errors.PublicAdjuster}
+                            tintColor={white}
+                            textColor={white}
+                            onBlur={this.onBlur1}
+                            editable={false}/>
+
+
+                            <RaisedTextButton
+                            onPress={()=>this.onSubmitDetails(token,userType)}
+                            title="Submit Details"
+                            color={turquoise}
+                            titleColor={white}
+                            disabled={true}/>
+                            </View>
+                        }
                         <Text style={InsurerDetailsText}>Examiner Details{'\n'}</Text>
-                        <View style={InsuredDashboardform}>
+                        {this.state.examiner && <View style={InsuredDashboardformBlur}>
+                        <TextField
+                            ref={this.RejectionMarkRef}
+                            value={data.RejectionMark}
+                            keyboardType='default'
+                            autoCapitalize='none'
+                            autoCorrect={false}
+                            enablesReturnKeyAutomatically={true}
+                            onFocus={this.onFocus}
+                            onChangeText={this.onChangeText2}
+                            onSubmitEditing={this.onSubmitRejectionMark}
+                            returnKeyType='next'
+                            label="Rejection Mark"
+                            tintColor={white}
+                            textColor={white}
+                            onBlur={this.onBlur2}
+                            editable={false}/>
+
+                        <TextField
+                            ref={this.AssessedDamegeValueRef}
+                            value={data.AssessedDamegeValue}
+                            keyboardType='numeric'
+                            autoCapitalize='none'
+                            autoCorrect={false}
+                            multiline = {true}
+                            numberOfLines = {4}
+                            enablesReturnKeyAutomatically={true}
+                            onFocus={this.onFocus}
+                            onChangeText={this.onChangeText2}
+                            onSubmitEditing={this.onSubmitAssessedDamegeValue}
+                            returnKeyType='next'
+                            label="Assessed Damege Value"
+                            error={errors.AssessedDamegeValue}
+                            tintColor={white}
+                            textColor={white}
+                            onBlur={this.onBlur2}
+                            editable = {true}
+                            maxLength = {40}
+                            editable={false}/>
+
+                            <TextField
+                            ref={this.AssessedClaimValueRef}
+                            value={data.AssessedClaimValue}
+                            keyboardType='numeric'
+                            autoCapitalize='none'
+                            autoCorrect={false}
+                            multiline = {true}
+                            numberOfLines = {4}
+                            enablesReturnKeyAutomatically={true}
+                            onFocus={this.onFocus}
+                            onChangeText={this.onChangeText2}
+                            onSubmitEditing={this.onSubmitAssessedClaimValue}
+                            returnKeyType='next'
+                            label="Assessed Claim Value"
+                            error={errors.AssessedClaimValue}
+                            tintColor={white}
+                            textColor={white}
+                            onBlur={this.onBlur2}
+                            editable = {true}
+                            maxLength = {40}
+                            editable={false}/>
+
+                            <RaisedTextButton
+                            onPress={()=>this.onExamine(token,userType)}
+                            title="Examine"
+                            color={turquoise}
+                            titleColor={white}
+                            disabled={true}/>
+                       </View>
+                        }
+                        {this.state.examiner1 && <View style={InsuredDashboardform}>
                         <TextField
                             ref={this.RejectionMarkRef}
                             value={data.RejectionMark}
@@ -1247,9 +1458,12 @@ export default class InsuredDashboardScreen extends Component {
                             color={turquoise}
                             titleColor={white}/>
                        </View>
+                        }
                        <Text style={InsurerDetailsText}>Negotiation Details{'\n'}</Text>
-                       <View style={InsuredDashboardform}>
+                      
+                       {this.state.Negotiation && <View style={InsuredDashboardform}>
                        <Text>Rejection Remark From Claim Claim-Adjuster</Text>
+                       
                        <TextField
                             ref={this.RejectionClaimRef}
                             value={data.RejectionClaim}
@@ -1386,7 +1600,156 @@ export default class InsuredDashboardScreen extends Component {
                             }
                                 </View>
                       </View>
-                     
+                       }
+                       {this.state.Negotiation1 && <View style={InsuredDashboardformBlur}>
+                       <Text>Rejection Remark From Claim Claim-Adjuster</Text>
+                       
+                       <TextField
+                            ref={this.RejectionClaimRef}
+                            value={data.RejectionClaim}
+                            keyboardType='default'
+                            autoCapitalize='none'
+                            autoCorrect={false}
+                            enablesReturnKeyAutomatically={true}
+                            onFocus={this.onFocus}
+                            onChangeTPublicext={this.onChangeText3}
+                            onSubmitEditing={this.onSubmitRejectionClaim}
+                            returnKeyType='next'
+                            label="Add remark of Rejection of Claim"
+                            tintColor={white}
+                            textColor={white}
+                            onBlur={this.onBlur3}
+                            editable={false}/>
+
+                            <RaisedTextButton
+                            onPress={()=>this.onSubmitAddRemark(token,userType)}
+                            title="Add Remark"
+                            color={turquoise}
+                            titleColor={white}
+                            disabled={true}/>
+
+                            <View style={InsuredDashboardformBlur}>
+                            <Text style={{color:'navy'}}>{this.state.claimadjusternegotiation}</ Text>
+                            <Text style={{color:'navy'}}>{this.state.publicadjusternegotiation}</ Text>
+                            <Text style={{color:'navy'}}>{this.state.negotiationvalue}{'\n'}</Text>
+                            <Text style={{color:'navy'}}>{this.state.asperterm}{'\n'}</Text>
+                            </View>
+                            
+
+                            <Text>Negotiation for Claim-Adjuster:</Text>
+                            <Text>Negotiated 1:</Text>
+                            <TextField
+                            ref={this.ClaimNegotiationValueRef}
+                            value={data.ClaimNegotiationValue}
+                            keyboardType='numeric'
+                            autoCapitalize='none'
+                            autoCorrect={false}
+                            enablesReturnKeyAutomatically={true}
+                            onFocus={this.onFocus}
+                            onChangeText={this.onChangeText4}
+                            onSubmitEditing={this.onSubmitClaimNegotiationValue}
+                            returnKeyType='next'
+                            label="Negotiation Value"
+                            tintColor={white}
+                            textColor={white}
+                            onBlur={this.onBlur4}
+                            editable={false}/>
+
+                            <Text>As Per Term:</Text>
+                            <TextField
+                            ref={this.ClaimBaseValueRef}
+                            value={data.ClaimBaseValue}
+                            keyboardType='default'
+                            autoCapitalize='none'
+                            autoCorrect={false}
+                            enablesReturnKeyAutomatically={true}
+                            onFocus={this.onFocus}
+                            onChangeText={this.onChangeText4}
+                            onSubmitEditing={this.onSubmitClaimBaseValue}
+                            returnKeyType='next'
+                            label="As Per Term"
+                            tintColor={white}
+                            textColor={white}
+                            onBlur={this.onBlur4}
+                            editable={false}/>
+
+                            <Text>Negotiation for Public-Adjuster:</Text>
+                            <Text>Negotiated 2:</Text>
+                            <TextField
+                            ref={this.PublicNegotiationValueRef}
+                            value={data.PublicNegotiationValue}
+                            keyboardType='numeric'
+                            autoCapitalize='none'
+                            autoCorrect={false}
+                            enablesReturnKeyAutomatically={true}
+                            onFocus={this.onFocus}
+                            onChangeText={this.onChangeText4}
+                            onSubmitEditing={this.onSubmitPublicNegotiationValue}
+                            returnKeyType='next'
+                            label="Negotiation Value"
+                            tintColor={white}
+                            textColor={white}
+                            onBlur={this.onBlur4}
+                            editable={false}/>
+
+                            <Text>As Per Term:</Text>
+                            <TextField
+                            ref={this.PublicBaseValueRef}
+                            value={data.PublicBaseValue}
+                            keyboardType='default'
+                            autoCapitalize='none'
+                            autoCorrect={false}
+                            enablesReturnKeyAutomatically={true}
+                            onFocus={this.onFocus}
+                            onChangeText={this.onChangeText4}
+                            onSubmitEditing={this.onSubmitPublicBaseValue}
+                            returnKeyType='next'
+                            label="As Per Term"
+                            tintColor={white}
+                            textColor={white}
+                            onBlur={this.onBlur4}
+                            editable={false}/>
+
+
+                            <RaisedTextButton style={AgreeNegButton}
+                            onPress={()=>this.onSubmitAgree(token,userType)}
+                            title="Agree" 
+                            titleColor={white}
+                            disabled={true}/>
+                            
+
+                            <RaisedTextButton style={AgreeNegButton}
+                            onPress={()=>this.onSubmitNegotiation(token,userType)}
+                            title="Negotiation"
+                            titleColor={white}
+                            disabled={true}/>
+
+                            <View style={InsuredDashboardformBlur}>
+                            <Text>Approved Claim:</Text>
+                            <TextField
+                            ref={this.ApprovedClaimValueRef}
+                            value={data.ApprovedClaimValue}
+                            keyboardType='numeric'
+                            autoCapitalize='none'
+                            autoCorrect={false}
+                            enablesReturnKeyAutomatically={true}
+                            onSubmitEditing={this.onSubmitApprovedClaimValue}
+                            returnKeyType='next'
+                            label="Approved Claim Value"
+                            tintColor={white}
+                            textColor={white}
+                            editable={false}/>
+
+                            {this.state.payment && 
+                            <RaisedTextButton
+                            onPress={()=>this.onSubmitPayment(token,userType)}
+                            title="Payment"
+                            color={turquoise}
+                            titleColor={white}/>
+                            }
+                                </View>
+                      </View>
+                       }
                     </View>
                       
                 </ScrollView>

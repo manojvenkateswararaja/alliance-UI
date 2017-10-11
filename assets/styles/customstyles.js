@@ -244,7 +244,13 @@ module.exports = StyleSheet.create({
         borderWidth: 1,
         backgroundColor: '#95a5a6'
     },
- 
+    InsuredDashboardformBlur:{
+        padding: 6,
+        margin: 2,
+        borderColor: '#2a4944',
+        borderWidth: 1,
+        backgroundColor: '#4682b4'
+    },
     NotificationsText:{
         color:red,
         fontSize:25

@@ -67,9 +67,7 @@ export default class RegisterScreen extends Component {
     this.onSubmitExaminerId = this
       .onSubmitExaminerId
       .bind(this);
-    this.onSubmitLicenseId = this
-      .onSubmitLicenseId
-      .bind(this);
+    
     this.onBlur = this
       .onBlur
       .bind(this);
@@ -248,12 +246,10 @@ export default class RegisterScreen extends Component {
         if (name === 'rpassword' && !this.validateRpassword(value)) {
           errors[name] = 'Password Must Match';
         }
-        if (name === 'usertype') {
-          errors[name] = 'Usertype must be selected';
-        }
+       
       }
     });
-
+    
     this.setState({errors});
   }
 
@@ -283,6 +279,7 @@ export default class RegisterScreen extends Component {
       'password',
       'rpassword',
       'usertype'
+     
     ].map((name) => ({name, ref: this[name]})).forEach(({name, ref}) => {
       if (ref.isFocused()) {
         this.setState({[name]: text});
@@ -357,10 +354,11 @@ export default class RegisterScreen extends Component {
       ];
 
     }
-
+console.log("rgitest"+test);
     test.forEach((name) => {
 
       let value = this[name].value();
+      console.log("rgivalue"+value);
 
       if (!value) {
         errors[name] = 'Should not be empty';

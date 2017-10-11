@@ -135,7 +135,7 @@ if(userType === 'CNF Agents' || userType === 'Direct Clients'){
 });
 }
 else if(userType === 'Claims Adjuster'){
-  this.setState({loading_blur: true});
+ 
   return fetch(base_url + '/claim/ClaimAdjusterClaims', {
     method: 'GET',
     headers: {
@@ -152,15 +152,7 @@ else if(userType === 'Claims Adjuster'){
 }).catch((error) => {
     console.error(error);
 });
-if (this.isEmptyObject()) {
-  
-              setTimeout(() => {
-                  this.setState({loading_blur: false});
-  
-              }, 3000)
-          } else {
-              this.setState({loading_blur: false});
-          }
+
 }
 else if(userType === 'Public Adjuster'){
   return fetch(base_url + '/claim/PublicAdjusterClaims', {
@@ -183,9 +175,7 @@ console.log("userclaims"+JSON.stringify(userClaims));
 });
 }
 }
-isEmptyObject(object) {
-  return (Object.getOwnPropertyNames(object).length === 0);
-}
+
 onSubmitUser(){
   this.setState({Logout: true});
 }
@@ -242,13 +232,14 @@ onSubmitLogout() {
       <KeyboardAvoidingView behavior="padding" style={loginscreenContainer}>
         <ScrollView>
           <View style={loginscreenInputContainer}>
-          <TouchableOpacity
-          activeOpacity={.5}
-          onPress={() => this.onSubmitUser()}>
-<Text style={{textAlign: 'right', color:'navy'}}>
-              <Icon name="ios-person" size={40} color="#ffffff"/> 
-          {userType}</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+            activeOpacity={.5}
+            onPress={() => this.onSubmitUser()}>
+            <Text style={{textAlign: 'right', color:'navy'}}>
+            <Icon name="ios-person" size={40} color="#ffffff"/> 
+            {userType}</Text>
+            </TouchableOpacity>
+
           {this.state.Logout && 
             <TouchableOpacity
             activeOpacity={.5}>
@@ -268,7 +259,7 @@ onSubmitLogout() {
                   </Text>
                   </Text>
                   <Text>Title: {item.title}</Text>
-                 <Text> Status:<Text style={{color: 'green'}}>
+                  <Text> Status:<Text style={{color: 'green'}}>
                    {item.status}</Text></Text>
                 </TouchableOpacity>
               </View>

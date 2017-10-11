@@ -353,10 +353,11 @@ export default class RegisterScreen extends Component {
                     <TouchableOpacity
                     activeOpacity={.5}
                     onPress={() => this.onSubmitUser()}>
-      <Text style={{textAlign: 'right', color:'navy'}}>
-                        <Icon name="ios-person" size={40} color="#ffffff"/> 
+                   <Text style={{textAlign: 'right', color:'navy'}}>
+                   <Icon name="ios-person" size={40} color="#ffffff"/> 
                     {userType}</Text>
                     </TouchableOpacity>
+
                     {this.state.Logout && 
                         <TouchableOpacity
                         activeOpacity={.5}>
