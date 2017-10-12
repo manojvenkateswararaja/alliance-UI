@@ -62,8 +62,8 @@ export default class FetchClaimScreen extends Component {
 
    this.state = {
       basicNoTitleVisible: false,
-      loading_blur: false
-      
+      loading_blur: false,
+      showComponent: false
     }
   }
 
@@ -90,10 +90,11 @@ export default class FetchClaimScreen extends Component {
  componentWillMount() {
   
   this.setState({showComponent: false});
-
+  this.setState({loading_blur: true});
   var {params} = this.props.navigation.state;
   token = params.token;
   userType = params.userType;
+  
   console.log("usertype"+userType);
   claimadjusternegotiation = params.claimadjusternegotiation;
   publicadjusternegotiation =params.publicadjusternegotiation;

@@ -65,7 +65,6 @@ module.exports = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-
     loginscreenLogo: {
         width: 100,
         height: 100
@@ -249,7 +248,7 @@ module.exports = StyleSheet.create({
         margin: 2,
         borderColor: '#2a4944',
         borderWidth: 1,
-        backgroundColor: '#4682b4'
+        backgroundColor: '#778899'
     },
     NotificationsText:{
         color:red,

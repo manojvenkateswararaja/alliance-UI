@@ -53,13 +53,12 @@ export default class ClaimStatusScreen extends Component {
     header: null
   }
 
-
 onSubmitUser(){
   this.setState({Logout: true});
 }
 
 onSubmitDashboard(userType,token){
-  console.log("insubmitdadsusertype"+userType);
+ 
     if (userType === 'CNF Agents') {
         this
             .props
@@ -114,8 +113,7 @@ componentWillMount() {
         var {params} = this.props.navigation.state;
         token = params.token;
         userType = params.userType;
-        console.log("usertype"+userType);
-        
+             
       if(userType === 'CNF Agents' || userType === 'Direct Clients'){
         return fetch(base_url + '/claim/UserClaims', {
             method: 'GET',
@@ -169,7 +167,7 @@ componentWillMount() {
       }).then((response) => response.json()).then((responseJson) => {
       
         statuscount = responseJson.statuscount;
-      console.log("statuscount"+statuscount);
+     
            this.setState({loading_blur: false});
            if(statuscount !== undefined){
             this.setState({showComponent: true});
@@ -192,8 +190,7 @@ componentWillMount() {
       
         statuscount = responseJson.statuscount;
         statuscount1 = responseJson.statuscount1;
-        console.log("statuscount1"+statuscount1);
-      
+       
           this.setState({loading_blur: false});
           if(statuscount !== undefined){
             this.setState({showComponent: true});

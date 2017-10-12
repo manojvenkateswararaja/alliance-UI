@@ -95,10 +95,9 @@ export default class RegisterScreen extends Component {
     this.onSubmitRegister = this
       .onSubmitRegister
       .bind(this);
-      this.onLogin = this
+    this.onLogin = this
       .onLogin
       .bind(this);
-
     this.usertypeRef = this
       .updateRef
       .bind(this, 'usertype');
@@ -136,6 +135,7 @@ export default class RegisterScreen extends Component {
     this.renderPasswordAccessory = this
       .renderPasswordAccessory
       .bind(this);
+
     this.state = {
       fname: '',
       lname: '',
@@ -435,13 +435,10 @@ export default class RegisterScreen extends Component {
       ];
 
     }
-console.log("rgitest"+test);
     test.forEach((name) => {
 
-      let value = this[name].value();
-      console.log("rgivalue"+value);
-    
-
+    let value = this[name].value();
+      
       if (!value) {
         errors[name] = 'Should not be empty';
       } else {
@@ -476,8 +473,7 @@ console.log("rgitest"+test);
       }
 
     });
-
-    
+ 
     if (this.isEmptyObject(errors)) {
       
                   setTimeout(() => {
