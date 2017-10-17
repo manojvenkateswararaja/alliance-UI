@@ -3,7 +3,7 @@ import {Constants} from 'expo';
 import {Dimensions} from 'react-native';
 import colors from '../../src/utils/colors';
 
-const {turquoise, white, emerald, clouds, nephritis,red,DarkRed} = colors;
+const {turquoise, white, emerald, clouds, nephritis,red,DarkRed,peachpuff} = colors;
 
 module.exports = StyleSheet.create({
     container: {
@@ -65,6 +65,7 @@ module.exports = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
+
     loginscreenLogo: {
         width: 100,
         height: 100
@@ -77,6 +78,7 @@ module.exports = StyleSheet.create({
         marginTop: 10,
         width: 160
     },
+
     loginTitle1:{
         color: white,
         textAlign: 'center',
@@ -152,8 +154,9 @@ module.exports = StyleSheet.create({
         height: 130,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: nephritis
+        backgroundColor:nephritis
     },
+
     scrollBoxLogout: {
         margin: 2,
         width: Dimensions
@@ -164,6 +167,7 @@ module.exports = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: nephritis
     },
+
     scrollBoxLogout1:{
         margin: 2,
         width: Dimensions
@@ -174,6 +178,7 @@ module.exports = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: nephritis
     },
+
     scrollBoxText: {
         justifyContent: 'center',
         alignItems: 'center'
@@ -194,6 +199,7 @@ module.exports = StyleSheet.create({
             .width / 1,
         padding: 2
     },
+
     PaymentImageLayout: {
         height: 600,
         width: Dimensions
@@ -215,6 +221,7 @@ module.exports = StyleSheet.create({
     containerDate: {
         width:335
     },
+
     FetchpolicyContainer:{
         padding: 10,
         margin: 2,
@@ -222,6 +229,7 @@ module.exports = StyleSheet.create({
         borderWidth: 1,
         backgroundColor: '#d2f7f1'
     },
+
     PolicyQuotescontainer:{
         padding: 10,
         margin: 2,
@@ -229,6 +237,7 @@ module.exports = StyleSheet.create({
         borderWidth: 1,
         backgroundColor: '#d2f7f1'
     },
+
     SavedPoliciesContainer:{
         padding: 10,
         margin: 2,
@@ -236,6 +245,7 @@ module.exports = StyleSheet.create({
         borderWidth: 1,
         backgroundColor: '#d2f7f1'
     },
+
     InsuredDashboardform:{
         padding: 6,
         margin: 2,
@@ -243,6 +253,7 @@ module.exports = StyleSheet.create({
         borderWidth: 1,
         backgroundColor: '#95a5a6'
     },
+
     InsuredDashboardformBlur:{
         padding: 6,
         margin: 2,
@@ -250,14 +261,17 @@ module.exports = StyleSheet.create({
         borderWidth: 1,
         backgroundColor: '#778899'
     },
+
     NotificationsText:{
         color:red,
         fontSize:25
     },
+
     InsurerDetailsText:{
         color:red,
         fontSize:20
     },
+    
     AgreeNegButton:{
         padding: 20,
         marginTop: 10,

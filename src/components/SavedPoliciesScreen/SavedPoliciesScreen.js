@@ -94,12 +94,11 @@ export default class SavedPoliciesScreen extends Component {
             console.error(error);
     });
         
-        
-
     }
     static navigationOptions = {
         header: null
     }
+
     getItem = (item) => {
         this.setState({basicNoTitleVisible: true});
         consignmentWeight = item.consignmentWeight;
@@ -119,53 +118,46 @@ export default class SavedPoliciesScreen extends Component {
     
     render() {
         
-        
-       
-
         return (
             <KeyboardAvoidingView behavior="padding" style={loginscreenContainer}>
-
                 <ScrollView>
                 <Text>Saved Policies</Text>
                 {this.state.showComponent && <View style={loginscreenContainer}>
-                        
-                       
-                        {policyList.map((item, index) => (
-                            <View key={item._id} style={SavedPoliciesContainer}>
-                            <TouchableOpacity onPress={() => this.getItem(item)}>
-                                <Text>Consignment Weight: {item.consignmentWeight}</Text>
-                                <Text>Consignment Value: {item.consignmentValue}</Text>
-                                <Text>Mode of Transport: {item.modeofTransport}</Text>
-                                <Text>Packing Mode: {item.packingMode}</Text>
-                                <Text>Consignment Type: {item.consignmentType}</Text>
-                                <Text>Contract Type: {item.contractType}</Text>
-                                <Text>Policy Type: {item.policyType}</Text>
-                                <Text>Invoice No : {item.invoiceNo}</Text>
-                                <Text>Policy Issue Date: {item.policyIssueDate}</Text>
-                                <Text>Policy End Date: {item.policyEndDate}</Text>
-                                <Text>Voyage Start Date: {item.voyageStartDate}</Text>
-                                <Text>Voyage End Date: {item.voyageEndDate}</Text>
-                                </TouchableOpacity>
-                            </View>
+                    {policyList.map((item, index) => (
+                        <View key={item._id} style={SavedPoliciesContainer}>
+                        <TouchableOpacity onPress={() => this.getItem(item)}>
+                            <Text>Consignment Weight: {item.consignmentWeight}</Text>
+                            <Text>Consignment Value: {item.consignmentValue}</Text>
+                            <Text>Mode of Transport: {item.modeofTransport}</Text>
+                            <Text>Packing Mode: {item.packingMode}</Text>
+                            <Text>Consignment Type: {item.consignmentType}</Text>
+                            <Text>Contract Type: {item.contractType}</Text>
+                            <Text>Policy Type: {item.policyType}</Text>
+                            <Text>Invoice No : {item.invoiceNo}</Text>
+                            <Text>Policy Issue Date: {item.policyIssueDate}</Text>
+                            <Text>Policy End Date: {item.policyEndDate}</Text>
+                            <Text>Voyage Start Date: {item.voyageStartDate}</Text>
+                            <Text>Voyage End Date: {item.voyageEndDate}</Text>
+                        </TouchableOpacity>
+                        </View>
                         ))
-}
+                    }
                     </View>
                 }
-                {this.state.loading_blur && <View style={commonLoading}>
-                    <ActivityIndicator size='large'/>
+            {this.state.loading_blur && <View style={commonLoading}>
+                <ActivityIndicator size='large'/>
                 </View>
-                }
+            }
                 
-                <MaterialDialog
-          visible={this.state.basicNoTitleVisible}
-          okLabel="Yes"
-          onOk={() => {
-          this.setState({basicNoTitleVisible: false});
-          
-            this
-              .props
-              .navigation
-              .navigate('NewPoliciesPage', {
+            <MaterialDialog
+                visible={this.state.basicNoTitleVisible}
+                okLabel="Yes"
+                onOk={() => {
+                this.setState({basicNoTitleVisible: false});
+                this
+                .props
+                .navigation
+                .navigate('NewPoliciesPage', {
                 token: token,
                 _id:_id,
                 status:"update",
@@ -197,7 +189,7 @@ export default class SavedPoliciesScreen extends Component {
           </Text>
         </MaterialDialog>
         </ScrollView>
-            </KeyboardAvoidingView>
+     </KeyboardAvoidingView>
         );
     }
 }

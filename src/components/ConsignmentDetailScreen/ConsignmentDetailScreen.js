@@ -37,7 +37,6 @@ const {
     loginscreenCreateAccountText,
     loginscreenCreateAccountLinkText,
     loginscreenLoginContainer,
-   
 } = customstyles;
 const {white, turquoise, red} = colors;
 

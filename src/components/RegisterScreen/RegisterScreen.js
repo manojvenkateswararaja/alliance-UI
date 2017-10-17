@@ -825,7 +825,8 @@ export default class RegisterScreen extends Component {
 
         </ScrollView>
         {this.state.loading_blur && <View style={commonLoading}>
-                    <ActivityIndicator size='large'/>
+                    <ActivityIndicator color = '#ffffff' size='large'/>
+                    <Text style={{color:'navy',fontSize:18}}>Redirecting to Digital Identity..Please wait!!</Text>
                 </View>
 }
       </KeyboardAvoidingView>

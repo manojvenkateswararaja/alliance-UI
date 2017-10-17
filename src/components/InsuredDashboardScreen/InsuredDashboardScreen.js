@@ -52,14 +52,15 @@ const { base_url } = environment;
  var evenarray =[];
  var oddarray =[];
  var publicadjusterid,evenlastindex,oddlastindex,approvedclaimvalue,claimadjusternegotiation,publicadjusternegotiation;
-
+ var token,rapidID,fullname,userlist;
 
 
 export default class InsuredDashboardScreen extends Component {
     componentWillMount() {
         
         var {params} = this.props.navigation.state;
-        var userType =params.userType
+        var userType =params.userType;
+        var token = params.token;
 
         if(userType === 'Direct Clients' || userType === 'CNF Agents'){
             this.setState({examiner: true});
@@ -67,7 +68,7 @@ export default class InsuredDashboardScreen extends Component {
             this.setState({Insurer: true});
             this.setState({Insurer1: false});
             this.setState({Negotiation: false});
-            this.setState({Negotiation1: true});
+            this.setState({Negotiation1: true});   
         }
         
         if(userType === 'Examiner'){
@@ -90,7 +91,7 @@ export default class InsuredDashboardScreen extends Component {
 
         negotiation=params.negotiationlist;
         console.log("in ids"+params.approvedclaim);
-        
+     
         if(params.approvedclaim === undefined){
         approvedclaimvalue=params.approvedclaim;
         }else{
@@ -111,16 +112,12 @@ export default class InsuredDashboardScreen extends Component {
 
         }
     
-  
   evenlastindex=evenarray[evenarray.length-1]
   
-
   oddlastindex =oddarray[oddarray.length-1]
  
-
          if (params.claimno !== null && (params.userType==='Examiner' || params.userType === 'CNF Agents' || params.userType === 'Direct Clients' )) {
-          
-            
+                     
           this.state = {
             ClaimNo: params.claimno.toString(),
             Title: params.title.toString(),
@@ -130,6 +127,8 @@ export default class InsuredDashboardScreen extends Component {
             PublicAdjuster:params.publicadjusterid.toString(),
             AssessedDamegeValue:params.assesseddamagevalue.toString(),
             AssessedClaimValue:params.assessedclaimvalue.toString(),
+            ApprovedClaimValue:approvedclaimvalue,
+            rapidID:params.rapidID,
             secureTextEntry: true,
             loading_blur: false,
             payment:false
@@ -249,8 +248,7 @@ export default class InsuredDashboardScreen extends Component {
             }
 
         } else {
-         
-         
+          
           this.state = {
             ClaimNo: '',
             asperterm:'',
@@ -259,7 +257,9 @@ export default class InsuredDashboardScreen extends Component {
             DamegeDetails: '',
             DamageValue:'',
             TotalClaim:'',
+            fullname:'',
             PublicAdjuster:'',
+            RejectionClaim:'',
             AssessedDamegeValue:'',
             AssessedClaimValue:'',
             PublicNegotiationValue:'',
@@ -271,8 +271,37 @@ export default class InsuredDashboardScreen extends Component {
             loading_blur: false,
             payment:false
           }
-          
         }
+        return fetch(base_url + '/publicadjusterlist', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'x-access-token': token
+            },
+        }).then((response) => response.json()).then((responseJson) => {
+        
+        userlist = responseJson.message;
+        console.log("userlist"+ JSON.stringify(userlist));
+
+        // for (var i = 0; i < userlist.length; i++) {
+        //     fullname.push(userlist[i].fullname)
+        //     console.log(fullname);
+        //   }
+
+        fullname = userlist[0].fullname;
+        console.log("fullname"+ JSON.stringify(fullname));
+
+        rapidID = userlist[0].rapidID;
+        console.log("rapidID"+ JSON.stringify(rapidID));
+                 
+        this.setState({fullname});
+        this.setState({rapidID});
+               
+        }).catch((error) => {
+         console.error(error);
+        });
+                    
       }
     constructor() {
         super();
@@ -280,40 +309,53 @@ export default class InsuredDashboardScreen extends Component {
         this.onFocus = this
             .onFocus
             .bind(this);
-        this.onChangeText = this
-            .onChangeText
+        this.onChangeTextInsurerNotifyClaim = this
+            .onChangeTextInsurerNotifyClaim
             .bind(this);
  
-        this.onChangeText1 = this
-            .onChangeText1
+        this.onChangeTextInsurerSubmitClaim = this
+            .onChangeTextInsurerSubmitClaim
             .bind(this);
 
-        this.onChangeText2 = this
-            .onChangeText2
+        this.onChangeTextExamineClaim = this
+            .onChangeTextExamineClaim
             .bind(this);
 
-        this.onChangeText3 = this
-            .onChangeText3
+        this.onChangeTextNegotiationRejection = this
+            .onChangeTextNegotiationRejection
             .bind(this);
 
-        this.onChangeText4 = this
-            .onChangeText4
+        this.onChangeTextNegotiation = this
+            .onChangeTextNegotiation
+            .bind(this);
+
+        this.onChangeTextExaminerRejection = this
+            .onChangeTextExaminerRejection
             .bind(this);
  
-        this.onBlur = this
-            .onBlur
+ 
+        this.onBlurInsurerNotifyClaim = this
+            .onBlurInsurerNotifyClaim
             .bind(this);
 
-        this.onBlur1 = this
-            .onBlur1
+        this.onBlurInsurerSubmitClaim = this
+            .onBlurInsurerSubmitClaim
             .bind(this);
 
-        this.onBlur2 = this
-            .onBlur2
+        this.onBlurExamineClaim = this
+            .onBlurExamineClaim
             .bind(this);
 
-        this.onBlur4 = this
-            .onBlur4
+        this.onBlurNegotiation = this
+            .onBlurNegotiation
+            .bind(this);
+
+        this.onBlurExaminerRejection = this
+            .onBlurExaminerRejection
+            .bind(this);
+
+        this.onBlurNegotiationRejection = this
+            .onBlurNegotiationRejection
             .bind(this);
 
         this.onAccessoryPress = this
@@ -356,7 +398,11 @@ export default class InsuredDashboardScreen extends Component {
         
         this.RejectionClaimRef = this
             .updateRef
-            .bind(this, 'RejectionClaim'); 
+            .bind(this, 'RejectionClaim');
+                 
+        this.RejectionClaimExaminerRef = this
+            .updateRef
+            .bind(this, 'RejectionClaimExaminer'); 
 
         this.PublicNegotiationValueRef = this
             .updateRef
@@ -377,13 +423,11 @@ export default class InsuredDashboardScreen extends Component {
         this.PublicAdjusterRef = this
             .updateRef
             .bind(this, 'PublicAdjuster');
-         
-            
+             
         this.renderPasswordAccessory = this
             .renderPasswordAccessory
             .bind(this);
      
-       
         this.state = {
             Title: '',
             DamegeDetails: '',
@@ -394,17 +438,20 @@ export default class InsuredDashboardScreen extends Component {
             AssessedDamegeValue:'',
             AssessedClaimValue:'',
             RejectionClaim:'',
+            RejectionClaimExaminer:'',
             PublicNegotiationValue:'',
             PublicBaseValue:'',
             ClaimNegotiationValue:'',
             ClaimBaseValue:'',
+            fullname:'',
             ApprovedClaimValue:'',
             secureTextEntry: true,
-            basicNoTitleVisible: false
+            basicNoTitleVisible: false,
         };
 
     }
-   
+
+        
     onAccessoryPress() {
         this.setState(({secureTextEntry}) => ({
             secureTextEntry: !secureTextEntry
@@ -415,7 +462,6 @@ export default class InsuredDashboardScreen extends Component {
             .Title
             .focus();
     }
-
     onSubmitDamegeDetails() {
         this
             .DamegeDetails
@@ -456,6 +502,11 @@ export default class InsuredDashboardScreen extends Component {
             .RejectionClaim
             .focus();
     }
+    onSubmitRejectionClaimExaminer() {
+        this
+            .RejectionClaimExaminer
+            .focus();
+    }
     onSubmitPublicNegotiationValue() {
         this
             .PublicNegotiationValue
@@ -476,7 +527,7 @@ export default class InsuredDashboardScreen extends Component {
             .ClaimBaseValue
             .focus();
     }
-    onBlur() {
+    onBlurInsurerNotifyClaim() {
         let errors = {};
 
         ['Title', 'DamegeDetails'].forEach((name) => {
@@ -509,10 +560,10 @@ export default class InsuredDashboardScreen extends Component {
             
         this.setState({errors});
     }
-    onBlur1() {
+    onBlurInsurerSubmitClaim() {
         let errors = {};
 
-        ['DamageValue','TotalClaim','PublicAdjuster'].forEach((name) => {
+        ['DamageValue','TotalClaim'].forEach((name) => {
 
             let value = this[name].value();
 
@@ -543,7 +594,7 @@ export default class InsuredDashboardScreen extends Component {
             
         this.setState({errors});
     }
-    onBlur2() {
+    onBlurExamineClaim() {
         let errors = {};
 
         ['AssessedDamegeValue','AssessedClaimValue'].forEach((name) => {
@@ -577,7 +628,27 @@ export default class InsuredDashboardScreen extends Component {
             
         this.setState({errors});
     }
-    onBlur4() {
+    onBlurNegotiationRejection() {
+        let errors = {};
+
+        ['RejectionClaim'].forEach((name) => {
+
+            let value = this[name].value();
+
+            if (!value) {
+                errors[name] = 'Should not be empty';
+            } else {
+                if (name === 'RejectionClaim' && value.length < 2) {
+                    errors[name] = 'Invalid Rejection Claim';
+                }
+               
+            }
+        });
+            
+        this.setState({errors});
+    }
+
+    onBlurNegotiation() {
         let errors = {};
 
         ['PublicNegotiationValue','PublicBaseValue','ClaimNegotiationValue','ClaimBaseValue'].forEach((name) => {
@@ -606,7 +677,25 @@ export default class InsuredDashboardScreen extends Component {
         this.setState({errors});
     }
 
+    onBlurExaminerRejection() {
+        let errors = {};
 
+        ['RejectionClaimExaminer'].forEach((name) => {
+
+            let value = this[name].value();
+
+            if (!value) {
+                errors[name] = 'Should not be empty';
+            } else {
+                if (name === 'RejectionClaimExaminer' && value.length < 2) {
+                    errors[name] = 'Invalid Rejection Claim';
+                }
+               
+            }
+        });
+            
+        this.setState({errors});
+    }
 
     onSubmitNotifyClaims = (policyno,token,userType) => {
         this.setState({loading_blur: true});
@@ -660,7 +749,7 @@ export default class InsuredDashboardScreen extends Component {
                 claimno:this.state.ClaimNo,
                 totaldamagevalue:this.state.DamageValue,
                 totalclaimvalue:this.state.TotalClaim,
-                publicadjusterid:this.state.PublicAdjuster
+                publicadjusterid:this.state.rapidID
              })
         }).then((response) => response.json()).then((responseJson) => {
           
@@ -717,6 +806,80 @@ export default class InsuredDashboardScreen extends Component {
             .props
             .navigation
             .navigate('FetchClaimPage', {token:token,userType:userType});
+        }
+       
+     
+        }).catch((error) => {
+            console.error(error);
+        });              
+    }
+    onSubmitAddRemark(token,userType){
+        this.setState({loading_blur: true});
+        this.setState({basicNoTitleVisible: true});
+        return fetch(base_url + '/rejectClaim', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'x-access-token': token
+            },
+            body: JSON.stringify({
+                claimno:this.state.ClaimNo,
+                remarks:this.state.RejectionClaim,
+             })
+        }).then((response) => response.json()).then((responseJson) => {
+          
+        var message = responseJson.message;
+        console.log("insureddashboard"+message);
+        if (message === 'claim  rejected  !' || message === 'Internal Server Error !'){
+            let toast = Toast.show(message, {
+                duration: Toast.durations.LONG,
+                position: Toast.positions.CENTER
+            });
+            setTimeout(function () {
+                Toast.hide(toast);
+            }, 1000);
+            this
+            .props
+            .navigation
+            .navigate('FetchClaimPage', {token:token,userType:userType});
+        }
+       
+        }).catch((error) => {
+            console.error(error);
+        });              
+    }
+    onSubmitRemarkExaminer(token,userType){
+        this.setState({loading_blur: true});
+        this.setState({basicNoTitleVisible: true});
+        return fetch(base_url + '/rejectClaim', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'x-access-token': token
+            },
+            body: JSON.stringify({
+                claimno:this.state.ClaimNo,
+                remarks:this.state.RejectionClaimExaminer,
+             })
+        }).then((response) => response.json()).then((responseJson) => {
+          
+        var message = responseJson.message;
+        console.log("insureddashboard"+message);
+        if (message === 'claim  rejected  !' || message === 'Internal Server Error !'){
+            let toast = Toast.show(message, {
+                duration: Toast.durations.LONG,
+                position: Toast.positions.CENTER
+            });
+            setTimeout(function () {
+                Toast.hide(toast);
+            }, 1000);
+            this
+            .props
+            .navigation
+            .navigate('FetchClaimPage', {token:token,userType:userType});
+
         }
        
      
@@ -907,36 +1070,43 @@ export default class InsuredDashboardScreen extends Component {
         this.setState({errors});
     }
    
-    onChangeText(text) {
+    onChangeTextInsurerNotifyClaim(text) {
         ['Title', 'DamegeDetails'].map((name) => ({name, ref: this[name]})).forEach(({name, ref}) => {
             if (ref.isFocused()) {
                 this.setState({[name]: text});
             }
         });
     }
-    onChangeText1(text) {
-        ['DamageValue','TotalClaim','PublicAdjuster'].map((name) => ({name, ref: this[name]})).forEach(({name, ref}) => {
+    onChangeTextInsurerSubmitClaim(text) {
+        ['DamageValue','TotalClaim'].map((name) => ({name, ref: this[name]})).forEach(({name, ref}) => {
             if (ref.isFocused()) {
                 this.setState({[name]: text});
             }
         });
     }
-    onChangeText2(text) {
-        ['RejectionMark','AssessedDamegeValue','AssessedClaimValue'].map((name) => ({name, ref: this[name]})).forEach(({name, ref}) => {
+    onChangeTextExamineClaim(text) {
+        ['AssessedDamegeValue','AssessedClaimValue'].map((name) => ({name, ref: this[name]})).forEach(({name, ref}) => {
             if (ref.isFocused()) {
                 this.setState({[name]: text});
             }
         });
     }
-    onChangeText3(text) {
+    onChangeTextNegotiationRejection(text) {
         ['RejectionClaim'].map((name) => ({name, ref: this[name]})).forEach(({name, ref}) => {
             if (ref.isFocused()) {
                 this.setState({[name]: text});
             }
         });
     }
-    onChangeText4(text) {
+    onChangeTextNegotiation(text) {
         ['PublicNegotiationValue','PublicBaseValue','ClaimNegotiationValue','ClaimBaseValue'].map((name) => ({name, ref: this[name]})).forEach(({name, ref}) => {
+            if (ref.isFocused()) {
+                this.setState({[name]: text});
+            }
+        });
+    }
+    onChangeTextExaminerRejection(text) {
+        ['RejectionClaimExaminer'].map((name) => ({name, ref: this[name]})).forEach(({name, ref}) => {
             if (ref.isFocused()) {
                 this.setState({[name]: text});
             }
@@ -1020,8 +1190,7 @@ export default class InsuredDashboardScreen extends Component {
         console.log("policyno"+policyno);
         var token = params.token;
         var userType = params.userType;
-        
-        console.log("usertype in render"+userType)
+         
 
         let {
             errors = {},
@@ -1057,6 +1226,9 @@ export default class InsuredDashboardScreen extends Component {
             RejectionClaim = 'RejectionClaim'
         } = data;
         let {
+            RejectionClaimExaminer = 'RejectionClaimExaminer'
+        } = data;
+        let {
             PublicNegotiationValue = 'PublicNegotiationValue'
         } = data;
         let {
@@ -1071,7 +1243,10 @@ export default class InsuredDashboardScreen extends Component {
         let {
             ApprovedClaimValue = 'ApprovedClaimValue'
         } = data;
-      
+        let user = [{
+            value:fullname
+          }];
+
         return (
             <KeyboardAvoidingView behavior="padding" style={loginscreenContainer}>
                 <ScrollView>
@@ -1112,14 +1287,14 @@ export default class InsuredDashboardScreen extends Component {
                             autoCorrect={false}
                             enablesReturnKeyAutomatically={true}
                             onFocus={this.onFocus}
-                            onChangeText={this.onChangeText}
+                            onChangeText={this.onChangeTextInsurerNotifyClaim}
                             onSubmitEditing={this.onSubmitTitle}
                             returnKeyType='next'
                             label="Title"
                             error={errors.Title}
                             tintColor={white}
                             textColor={white}
-                            onBlur={this.onBlur}/>
+                            onBlur={this.onBlurInsurerNotifyClaim}/>
 
                         <TextField
                             ref={this.DamegeDetailsRef}
@@ -1131,14 +1306,14 @@ export default class InsuredDashboardScreen extends Component {
                             numberOfLines = {4}
                             enablesReturnKeyAutomatically={true}
                             onFocus={this.onFocus}
-                            onChangeText={this.onChangeText}
+                            onChangeText={this.onChangeTextInsurerNotifyClaim}
                             onSubmitEditing={this.onSubmitDamegeDetails}
                             returnKeyType='next'
                             label="Damage Details"
                             error={errors.DamegeDetails}
                             tintColor={white}
                             textColor={white}
-                            onBlur={this.onBlur}
+                            onBlur={this.onBlurInsurerNotifyClaim}
                             editable = {true}
                             maxLength = {40}/>
 
@@ -1158,14 +1333,14 @@ export default class InsuredDashboardScreen extends Component {
                             autoCorrect={false}
                             enablesReturnKeyAutomatically={true}
                             onFocus={this.onFocus}
-                            onChangeText={this.onChangeText}
+                            onChangeText={this.onChangeTextInsurerNotifyClaim}
                             onSubmitEditing={this.onSubmitTitle}
                             returnKeyType='next'
                             label="Title"
                             error={errors.Title}
                             tintColor={white}
                             textColor={white}
-                            onBlur={this.onBlur}
+                            onBlur={this.onBlurInsurerNotifyClaim}
                             editable={false}/>
 
                         <TextField
@@ -1178,14 +1353,14 @@ export default class InsuredDashboardScreen extends Component {
                             numberOfLines = {4}
                             enablesReturnKeyAutomatically={true}
                             onFocus={this.onFocus}
-                            onChangeText={this.onChangeText}
+                            onChangeText={this.onChangeTextInsurerNotifyClaim}
                             onSubmitEditing={this.onSubmitDamegeDetails}
                             returnKeyType='next'
                             label="Damage Details"
                             error={errors.DamegeDetails}
                             tintColor={white}
                             textColor={white}
-                            onBlur={this.onBlur}
+                            onBlur={this.onBlurInsurerNotifyClaim}
                             editable = {true}
                             maxLength = {40}
                             editable={false}/>
@@ -1207,14 +1382,14 @@ export default class InsuredDashboardScreen extends Component {
                             autoCorrect={false}
                             enablesReturnKeyAutomatically={true}
                             onFocus={this.onFocus}
-                            onChangeText={this.onChangeText1}
+                            onChangeText={this.onChangeTextInsurerSubmitClaim}
                             onSubmitEditing={this.onSubmitDamageValue}
                             returnKeyType='next'
                             label="Total Damage Value"
                             error={errors.DamageValue}
                             tintColor={white}
                             textColor={white}
-                            onBlur={this.onBlur1}/>
+                            onBlur={this.onBlurInsurerSubmitClaim}/>
 
                             <TextField
                             ref={this.TotalClaimRef}
@@ -1224,31 +1399,22 @@ export default class InsuredDashboardScreen extends Component {
                             autoCorrect={false}
                             enablesReturnKeyAutomatically={true}
                             onFocus={this.onFocus}
-                            onChangeText={this.onChangeText1}
+                            onChangeText={this.onChangeTextInsurerSubmitClaim}
                             onSubmitEditing={this.onSubmitTotalClaim}
                             returnKeyType='next'
                             label="Total Claim"
                             error={errors.TotalClaim}
                             tintColor={white}
                             textColor={white}
-                            onBlur={this.onBlur1}/>
+                            onBlur={this.onBlurInsurerSubmitClaim}/>
 
-                            <TextField
-                            ref={this.PublicAdjusterRef}
-                            value={data.PublicAdjuster}
-                            keyboardType='default'
-                            autoCapitalize='none'
-                            autoCorrect={false}
-                            enablesReturnKeyAutomatically={true}
-                            onFocus={this.onFocus}
-                            onChangeText={this.onChangeText1}
-                            onSubmitEditing={this.onSubmitPublicAdjuster}
-                            returnKeyType='next'
-                            label="Public Adjuster Id"
-                            error={errors.PublicAdjuster}
+                            <Dropdown
+                            label='Select User'
+                            value={data.fullname}
+                            data={user}
                             tintColor={white}
-                            textColor={white}
-                            onBlur={this.onBlur1}/>
+                            textColor={red}
+                            style={container1}/>
 
 
                             <RaisedTextButton
@@ -1267,14 +1433,14 @@ export default class InsuredDashboardScreen extends Component {
                             autoCorrect={false}
                             enablesReturnKeyAutomatically={true}
                             onFocus={this.onFocus}
-                            onChangeText={this.onChangeText1}
+                            onChangeText={this.onChangeTextInsurerSubmitClaim}
                             onSubmitEditing={this.onSubmitDamageValue}
                             returnKeyType='next'
                             label="Total Damage Value"
                             error={errors.DamageValue}
                             tintColor={white}
                             textColor={white}
-                            onBlur={this.onBlur1}
+                            onBlur={this.onBlurInsurerSubmitClaim}
                             editable={false}/>
 
                             <TextField
@@ -1285,34 +1451,24 @@ export default class InsuredDashboardScreen extends Component {
                             autoCorrect={false}
                             enablesReturnKeyAutomatically={true}
                             onFocus={this.onFocus}
-                            onChangeText={this.onChangeText1}
+                            onChangeText={this.onChangeTextInsurerSubmitClaim}
                             onSubmitEditing={this.onSubmitTotalClaim}
                             returnKeyType='next'
                             label="Total Claim"
                             error={errors.TotalClaim}
                             tintColor={white}
                             textColor={white}
-                            onBlur={this.onBlur1}
+                            onBlur={this.onBlurInsurerSubmitClaim}
                             editable={false}/>
 
-                            <TextField
-                            ref={this.PublicAdjusterRef}
-                            value={data.PublicAdjuster}
-                            keyboardType='default'
-                            autoCapitalize='none'
-                            autoCorrect={false}
-                            enablesReturnKeyAutomatically={true}
-                            onFocus={this.onFocus}
-                            onChangeText={this.onChangeText1}
-                            onSubmitEditing={this.onSubmitPublicAdjuster}
-                            returnKeyType='next'
-                            label="Public Adjuster Id"
-                            error={errors.PublicAdjuster}
+                            <Dropdown
+                            label='Select User'
+                            value={data.fullname}
+                            data={user}
                             tintColor={white}
-                            textColor={white}
-                            onBlur={this.onBlur1}
-                            editable={false}/>
-
+                            textColor={red}
+                            disabled={true}
+                            style={container1}/>
 
                             <RaisedTextButton
                             onPress={()=>this.onSubmitDetails(token,userType)}
@@ -1324,22 +1480,34 @@ export default class InsuredDashboardScreen extends Component {
                         }
                         <Text style={InsurerDetailsText}>Examiner Details{'\n'}</Text>
                         {this.state.examiner && <View style={InsuredDashboardformBlur}>
+                        
                         <TextField
-                            ref={this.RejectionMarkRef}
-                            value={data.RejectionMark}
-                            keyboardType='default'
-                            autoCapitalize='none'
-                            autoCorrect={false}
-                            enablesReturnKeyAutomatically={true}
-                            onFocus={this.onFocus}
-                            onChangeText={this.onChangeText2}
-                            onSubmitEditing={this.onSubmitRejectionMark}
-                            returnKeyType='next'
-                            label="Rejection Mark"
-                            tintColor={white}
-                            textColor={white}
-                            onBlur={this.onBlur2}
-                            editable={false}/>
+                        ref={this.RejectionClaimExaminerRef}
+                        value={data.RejectionClaimExaminer}
+                        keyboardType='default'
+                        autoCapitalize='none'
+                        autoCorrect={false}
+                        multiline = {true}
+                        numberOfLines = {4}
+                        enablesReturnKeyAutomatically={true}
+                        onFocus={this.onFocus}
+                        onChangeText={this.onChangeTextExaminerRejection}
+                        onSubmitEditing={this.onSubmitRejectionClaimExaminer}
+                        returnKeyType='next'
+                        label="Add remark of Rejection of Claim"
+                        error={errors.RejectionClaimExaminer}
+                        tintColor={white}
+                        textColor={white}
+                        onBlur={this.onBlurExaminerRejection}
+                        maxLength = {40}
+                        editable={false}/>
+
+                        <RaisedTextButton
+                        onPress={()=>this.onSubmitRemarkExaminer(token,userType)}
+                        title="Add Remark"
+                        color={turquoise}
+                        titleColor={white}
+                        disabled={true}/>
 
                         <TextField
                             ref={this.AssessedDamegeValueRef}
@@ -1351,14 +1519,14 @@ export default class InsuredDashboardScreen extends Component {
                             numberOfLines = {4}
                             enablesReturnKeyAutomatically={true}
                             onFocus={this.onFocus}
-                            onChangeText={this.onChangeText2}
+                            onChangeText={this.onChangeTextExamineClaim}
                             onSubmitEditing={this.onSubmitAssessedDamegeValue}
                             returnKeyType='next'
                             label="Assessed Damage Value"
                             error={errors.AssessedDamegeValue}
                             tintColor={white}
                             textColor={white}
-                            onBlur={this.onBlur2}
+                            onBlur={this.onBlurExamineClaim}
                             editable = {true}
                             maxLength = {40}
                             editable={false}/>
@@ -1373,14 +1541,14 @@ export default class InsuredDashboardScreen extends Component {
                             numberOfLines = {4}
                             enablesReturnKeyAutomatically={true}
                             onFocus={this.onFocus}
-                            onChangeText={this.onChangeText2}
+                            onChangeText={this.onChangeTextExamineClaim}
                             onSubmitEditing={this.onSubmitAssessedClaimValue}
                             returnKeyType='next'
                             label="Assessed Claim Value"
                             error={errors.AssessedClaimValue}
                             tintColor={white}
                             textColor={white}
-                            onBlur={this.onBlur2}
+                            onBlur={this.onBlurExamineClaim}
                             editable = {true}
                             maxLength = {40}
                             editable={false}/>
@@ -1395,20 +1563,30 @@ export default class InsuredDashboardScreen extends Component {
                         }
                         {this.state.examiner1 && <View style={InsuredDashboardform}>
                         <TextField
-                            ref={this.RejectionMarkRef}
-                            value={data.RejectionMark}
-                            keyboardType='default'
-                            autoCapitalize='none'
-                            autoCorrect={false}
-                            enablesReturnKeyAutomatically={true}
-                            onFocus={this.onFocus}
-                            onChangeText={this.onChangeText2}
-                            onSubmitEditing={this.onSubmitRejectionMark}
-                            returnKeyType='next'
-                            label="Rejection Mark"
-                            tintColor={white}
-                            textColor={white}
-                            onBlur={this.onBlur2}/>
+                        ref={this.RejectionClaimExaminerRef}
+                        value={data.RejectionClaimExaminer}
+                        keyboardType='default'
+                        autoCapitalize='none'
+                        autoCorrect={false}
+                        multiline = {true}
+                        numberOfLines = {4}
+                        enablesReturnKeyAutomatically={true}
+                        onFocus={this.onFocus}
+                        onChangeText={this.onChangeTextExaminerRejection}
+                        onSubmitEditing={this.onSubmitRejectionClaimExaminer}
+                        returnKeyType='next'
+                        label="Add remark of Rejection of Claim"
+                        error={errors.RejectionClaimExaminer}
+                        tintColor={white}
+                        textColor={white}
+                        onBlur={this.onBlurExaminerRejection}
+                        maxLength = {40}/>
+
+                        <RaisedTextButton
+                        onPress={()=>this.onSubmitRemarkExaminer(token,userType)}
+                        title="Add Remark"
+                        color={turquoise}
+                        titleColor={white}/>
 
                         <TextField
                             ref={this.AssessedDamegeValueRef}
@@ -1420,14 +1598,14 @@ export default class InsuredDashboardScreen extends Component {
                             numberOfLines = {4}
                             enablesReturnKeyAutomatically={true}
                             onFocus={this.onFocus}
-                            onChangeText={this.onChangeText2}
+                            onChangeText={this.onChangeTextExamineClaim}
                             onSubmitEditing={this.onSubmitAssessedDamegeValue}
                             returnKeyType='next'
                             label="Assessed Damage Value"
                             error={errors.AssessedDamegeValue}
                             tintColor={white}
                             textColor={white}
-                            onBlur={this.onBlur2}
+                            onBlur={this.onBlurExamineClaim}
                             editable = {true}
                             maxLength = {40}/>
 
@@ -1441,14 +1619,14 @@ export default class InsuredDashboardScreen extends Component {
                             numberOfLines = {4}
                             enablesReturnKeyAutomatically={true}
                             onFocus={this.onFocus}
-                            onChangeText={this.onChangeText2}
+                            onChangeText={this.onChangeTextExamineClaim}
                             onSubmitEditing={this.onSubmitAssessedClaimValue}
                             returnKeyType='next'
                             label="Assessed Claim Value"
                             error={errors.AssessedClaimValue}
                             tintColor={white}
                             textColor={white}
-                            onBlur={this.onBlur2}
+                            onBlur={this.onBlurExamineClaim}
                             editable = {true}
                             maxLength = {40}/>
 
@@ -1470,15 +1648,19 @@ export default class InsuredDashboardScreen extends Component {
                             keyboardType='default'
                             autoCapitalize='none'
                             autoCorrect={false}
+                            multiline = {true}
+                            numberOfLines = {4}
                             enablesReturnKeyAutomatically={true}
                             onFocus={this.onFocus}
-                            onChangeTPublicext={this.onChangeText3}
+                            onChangeText={this.onChangeTextNegotiationRejection}
                             onSubmitEditing={this.onSubmitRejectionClaim}
                             returnKeyType='next'
                             label="Add remark of Rejection of Claim"
+                            error={errors.RejectionClaim}
                             tintColor={white}
                             textColor={white}
-                            onBlur={this.onBlur3}/>
+                            onBlur={this.onBlurNegotiationRejection}
+                            maxLength = {40}/>
 
                             <RaisedTextButton
                             onPress={()=>this.onSubmitAddRemark(token,userType)}
@@ -1504,13 +1686,13 @@ export default class InsuredDashboardScreen extends Component {
                             autoCorrect={false}
                             enablesReturnKeyAutomatically={true}
                             onFocus={this.onFocus}
-                            onChangeText={this.onChangeText4}
+                            onChangeText={this.onChangeTextNegotiation}
                             onSubmitEditing={this.onSubmitClaimNegotiationValue}
                             returnKeyType='next'
                             label="Negotiation Value"
                             tintColor={white}
                             textColor={white}
-                            onBlur={this.onBlur4}/>
+                            onBlur={this.onBlurNegotiation}/>
 
                             <Text>As Per Term:</Text>
                             <TextField
@@ -1521,13 +1703,13 @@ export default class InsuredDashboardScreen extends Component {
                             autoCorrect={false}
                             enablesReturnKeyAutomatically={true}
                             onFocus={this.onFocus}
-                            onChangeText={this.onChangeText4}
+                            onChangeText={this.onChangeTextNegotiation}
                             onSubmitEditing={this.onSubmitClaimBaseValue}
                             returnKeyType='next'
                             label="As Per Term"
                             tintColor={white}
                             textColor={white}
-                            onBlur={this.onBlur4}/>
+                            onBlur={this.onBlurNegotiation}/>
 
                             <Text>Negotiation for Public-Adjuster:</Text>
                             <Text>Negotiated 2:</Text>
@@ -1539,13 +1721,13 @@ export default class InsuredDashboardScreen extends Component {
                             autoCorrect={false}
                             enablesReturnKeyAutomatically={true}
                             onFocus={this.onFocus}
-                            onChangeText={this.onChangeText4}
+                            onChangeText={this.onChangeTextNegotiation}
                             onSubmitEditing={this.onSubmitPublicNegotiationValue}
                             returnKeyType='next'
                             label="Negotiation Value"
                             tintColor={white}
                             textColor={white}
-                            onBlur={this.onBlur4}/>
+                            onBlur={this.onBlurNegotiation}/>
 
                             <Text>As Per Term:</Text>
                             <TextField
@@ -1556,13 +1738,13 @@ export default class InsuredDashboardScreen extends Component {
                             autoCorrect={false}
                             enablesReturnKeyAutomatically={true}
                             onFocus={this.onFocus}
-                            onChangeText={this.onChangeText4}
+                            onChangeText={this.onChangeTextNegotiation}
                             onSubmitEditing={this.onSubmitPublicBaseValue}
                             returnKeyType='next'
                             label="As Per Term"
                             tintColor={white}
                             textColor={white}
-                            onBlur={this.onBlur4}/>
+                            onBlur={this.onBlurNegotiation}/>
 
 
                             <RaisedTextButton style={AgreeNegButton}
@@ -1605,21 +1787,25 @@ export default class InsuredDashboardScreen extends Component {
                        <Text>Rejection Remark From Claim Claim-Adjuster</Text>
                        
                        <TextField
-                            ref={this.RejectionClaimRef}
-                            value={data.RejectionClaim}
-                            keyboardType='default'
-                            autoCapitalize='none'
-                            autoCorrect={false}
-                            enablesReturnKeyAutomatically={true}
-                            onFocus={this.onFocus}
-                            onChangeTPublicext={this.onChangeText3}
-                            onSubmitEditing={this.onSubmitRejectionClaim}
-                            returnKeyType='next'
-                            label="Add remark of Rejection of Claim"
-                            tintColor={white}
-                            textColor={white}
-                            onBlur={this.onBlur3}
-                            editable={false}/>
+                       ref={this.RejectionClaimRef}
+                       value={data.RejectionClaim}
+                       keyboardType='default'
+                       autoCapitalize='none'
+                       autoCorrect={false}
+                       multiline = {true}
+                       numberOfLines = {4}
+                       enablesReturnKeyAutomatically={true}
+                       onFocus={this.onFocus}
+                       onChangeText={this.onChangeTextNegotiationRejection}
+                       onSubmitEditing={this.onSubmitRejectionClaim}
+                       returnKeyType='next'
+                       label="Add remark of Rejection of Claim"
+                       error={errors.RejectionClaim}
+                       tintColor={white}
+                       textColor={white}
+                       onBlur={this.onBlurNegotiationRejection}
+                       maxLength = {40}
+                       editable={false}/>
 
                             <RaisedTextButton
                             onPress={()=>this.onSubmitAddRemark(token,userType)}
@@ -1646,13 +1832,13 @@ export default class InsuredDashboardScreen extends Component {
                             autoCorrect={false}
                             enablesReturnKeyAutomatically={true}
                             onFocus={this.onFocus}
-                            onChangeText={this.onChangeText4}
+                            onChangeText={this.onChangeTextNegotiation}
                             onSubmitEditing={this.onSubmitClaimNegotiationValue}
                             returnKeyType='next'
                             label="Negotiation Value"
                             tintColor={white}
                             textColor={white}
-                            onBlur={this.onBlur4}
+                            onBlur={this.onBlurNegotiation}
                             editable={false}/>
 
                             <Text>As Per Term:</Text>
@@ -1664,13 +1850,13 @@ export default class InsuredDashboardScreen extends Component {
                             autoCorrect={false}
                             enablesReturnKeyAutomatically={true}
                             onFocus={this.onFocus}
-                            onChangeText={this.onChangeText4}
+                            onChangeText={this.onChangeTextNegotiation}
                             onSubmitEditing={this.onSubmitClaimBaseValue}
                             returnKeyType='next'
                             label="As Per Term"
                             tintColor={white}
                             textColor={white}
-                            onBlur={this.onBlur4}
+                            onBlur={this.onBlurNegotiation}
                             editable={false}/>
 
                             <Text>Negotiation for Public-Adjuster:</Text>
@@ -1683,13 +1869,13 @@ export default class InsuredDashboardScreen extends Component {
                             autoCorrect={false}
                             enablesReturnKeyAutomatically={true}
                             onFocus={this.onFocus}
-                            onChangeText={this.onChangeText4}
+                            onChangeText={this.onChangeTextNegotiation}
                             onSubmitEditing={this.onSubmitPublicNegotiationValue}
                             returnKeyType='next'
                             label="Negotiation Value"
                             tintColor={white}
                             textColor={white}
-                            onBlur={this.onBlur4}
+                            onBlur={this.onBlurNegotiation}
                             editable={false}/>
 
                             <Text>As Per Term:</Text>
@@ -1701,13 +1887,13 @@ export default class InsuredDashboardScreen extends Component {
                             autoCorrect={false}
                             enablesReturnKeyAutomatically={true}
                             onFocus={this.onFocus}
-                            onChangeText={this.onChangeText4}
+                            onChangeText={this.onChangeTextNegotiation}
                             onSubmitEditing={this.onSubmitPublicBaseValue}
                             returnKeyType='next'
                             label="As Per Term"
                             tintColor={white}
                             textColor={white}
-                            onBlur={this.onBlur4}
+                            onBlur={this.onBlurNegotiation}
                             editable={false}/>
 
 

@@ -79,6 +79,7 @@ export default class LoginScreen extends Component {
             token: '',
             secureTextEntry: true,
             loading_blur: false
+            
         };
     }
 
@@ -159,6 +160,7 @@ export default class LoginScreen extends Component {
         var token;
         let errors = {};
         this.setState({loading_blur: true});
+        
 
         ['username', 'password'].forEach((name) => {
             let value = this[name].value();
@@ -179,11 +181,13 @@ export default class LoginScreen extends Component {
 
             setTimeout(() => {
                 this.setState({loading_blur: false});
+                
                 this.setState({userType: 'Direct Clients'});
 
             }, 3000)
         } else {
-            this.setState({loading_blur: false});
+             this.setState({loading_blur: false});
+            
         }
 
         this.setState({errors});
@@ -203,15 +207,9 @@ export default class LoginScreen extends Component {
 
                 var userdetails = responseJson.userdetails;
                 var userType = userdetails.usertype;
-                console.log("userType"+userType)
                 var userObject = userdetails.userObject;
-
                 var policyHolderName = userObject.fname;
-
                 var email = userdetails.email;
-
-               
-                
 
                 let toast = Toast.show(message, {
                     duration: Toast.durations.LONG,
@@ -417,8 +415,10 @@ export default class LoginScreen extends Component {
                  page is not navigating from LoginScreen to RegisterScreen */}
                 {/* <LoginForm /> */}
                 {this.state.loading_blur && <View style={commonLoading}>
-                    <ActivityIndicator size='large'/>
+                    <ActivityIndicator color = '#ffffff' size='large'/>
+                <Text style={{color:'navy',fontSize:18}}>Redirecting to Digital Identity..Please wait!!</Text>
                 </View>
+               
 }
             </KeyboardAvoidingView>
         );
